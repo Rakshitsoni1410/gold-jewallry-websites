@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>feed back</title>
+</head>
+<body>
+    <!-- Feedback Form -->
+<div class="container">
+    <h2>Share Your Thoughts</h2>
+    <p>We value your opinion and would love to hear about your experience with our jewelry website.</p>
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+  
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+  
+      <label for="feedback">Feedback:</label>
+      <textarea id="feedback" name="feedback" required></textarea>
+  
+      <label for="rating">Rating:</label>
+      <div class="rating">
+        <input type="radio" id="5" name="rating" value="5">
+        <label for="5">5/5</label>
+        <input type="radio" id="4" name="rating" value="4">
+        <label for="4">4/5</label>
+        <input type="radio" id="3" name="rating" value="3">
+        <label for="3">3/5</label>
+        <input type="radio" id="2" name="rating" value="2">
+        <label for="2">2/5</label>
+        <input type="radio" id="1" name="rating" value="1">
+        <label for="1">1/5</label>
+      </div>
+  
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+  
+  <!-- CSS Styles -->
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+  
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+    }
+  
+    .rating {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .rating input[type="radio"] {
+      display: none;
+    }
+  
+    .rating label {
+      display: inline-block;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+  
+    .rating label:before {
+      content: "\2605";
+      font-size: 24px;
+      color: #ccc;
+    }
+  
+    .rating input[type="radio"]:checked + label:before {
+      color: #ffd700;
+    }
+  
+    button[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    button[type="submit"]:hover {
+      background-color: #444;
+    }
+  </style>
+</body>
+</html>

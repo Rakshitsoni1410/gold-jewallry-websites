@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kada man</title>
+    <link rel="stylesheet"  href="RINGT.CSS">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script type="text/javascript" src="workforwishlist.js" async></script>
+  <script src="addbutton.js"async></script>
+</head><!---kada for man  -->
+<body>
+  <div class="head">
+    <h2>Gold Rings</h2>
+    <!-- Button trigger modal -->
+    <!-- Button trigger modal -->
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <h2 style="justify-items: auto;"class="work"><i class="fa-solid fa-heart " style="color: #e60abe;" > </i>
+
+</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-black-50" id="exampleModalLabel">Wishlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex gap-5" id="wishlist-container">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#cartModal">
+
+  <i class="fa-solid fa-cart-shopping"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-black-50" id="cartModalLabel">Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="cart-container" class="modal-body d-flex gap-5"id="cart-container"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+  
+    <div class="box">
+    <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link">  <!---1st-->
+          <img src="data:image/jpeg;base64,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" alt="">
+            <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada man</span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---2--->
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9VQtahzRMChSvl7Ocnf-eejyJIXuhWNklgg&s" alt="">
+            <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada man</span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---3-->
+         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmOOmvl7TcXTAk9rQd4q0Q7rNyTN2YqTy8dQ&s">
+          <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada man </span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---4-->
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjF7YzxnG28eof_g1lixQzqFDdvu0SmknMDA&s" alt="">
+            <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada for man</span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---5-->
+           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPWibXpkCo7atueeM0VK30SDjS6NA9GP3wg&s">
+            <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada for man
+              </span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---6-->
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQfAAfOoqmIxR5FehbyaSa8KBiH8xMBHuOyA&s" >
+            <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada man </span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---7-->
+           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRzJHesD6Ex1IR7K0Kjhbxt3YOYROEL2uX7g&s" alt="">
+            <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada man </span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="product-card">
+          <a href="#" class="product-link"><!---8-->
+           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUk9Njky3hQutyHNEyQeej7-j6qVQkvlcNIQ&s" alt="">  
+                     <span class="overlay"></span>
+            <span class="info">
+              <span class="title">kada for man</span>
+              <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
+            </span>      
+          </a>
+          
+          <div class="button-wrap">
+            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

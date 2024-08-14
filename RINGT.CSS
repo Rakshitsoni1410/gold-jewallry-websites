@@ -1,0 +1,461 @@
+body {
+  background: #f5f5f5;
+}
+
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+}
+#rcorners2{
+  justify-content:space-between ;
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 20px; 
+  width: 1500px;
+  height: 600px; 
+}
+.work{
+ margin-top: auto;
+}
+
+.product-info {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.product-info span {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+}
+
+.ring-type {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.size-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.size-text {
+  display: block;
+  text-align: center; /* center the text */
+}
+
+.size-box {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  white-space: nowrap;  
+}
+
+.size-box span {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: start;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.size-box span:hover {
+  background-color: #eee;
+}
+
+.product-type {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 10px;
+}
+
+.product-direction {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 10px;
+}
+
+.wishlist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.wishlist-card h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.wishlist-card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.wishlist-card button {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.wishlist-card button:hover {
+  background-color: #ccc;
+}
+
+.wishlist-card .fas {
+  margin-right: 10px;
+}
+
+.wishlist-card .fa-shopping-cart {
+  color: #008000;
+}
+
+.wishlist-
+card .fa-trash-alt {
+  color: #ff0000;
+}
+
+.wrapper {
+  width: 300px;
+  margin: 0 auto;
+  padding-top: 5rem;
+}
+
+.product-card {
+  position: relative;
+  background: #ffffff;
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 7px 25px -10px rgba(0, 0, 0, 0.33);
+  transition: all 0.5s ease;
+  padding: 20px;
+}
+
+.product-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.product-link img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.product-link:hover .overlay {
+  opacity: 1;
+}
+
+.info {
+  padding: 20px;
+}
+
+.ring-type {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+
+
+.button-wrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.button {
+  background-color: #333;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #444;
+}
+
+.fa-solid, .fa {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.box {
+  text-decoration: white;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  column-gap: 35px;
+  justify-content: space-between;
+}
+
+.product-card * {
+  transition: all 0.5s ease;
+}
+
+.product-card .product-link {
+  display: block;
+}
+
+.product-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
+}
+
+.product-card:hover .product-link,
+.product-card .product-link:focus {
+  text-decoration: none;
+}
+
+.product-card .product-link img {
+  background: #eee;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.product-card:hover .product-link img {
+  height: 240px;
+}
+
+.product-card .overlay {
+  display: block;
+  width: 100%;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 0;
+  opacity: 0;
+}
+
+.product-card:hover .overlay {
+  height: 240px;
+  opacity: 1;
+}
+
+.product-card .info {
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.025), transparent);
+}
+
+.product-card:hover .info {
+  padding-bottom: 85px;
+}
+
+.product-card .info .title {
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  color: #555555;
+  padding-right: 10px;
+}
+
+.product-card .info .price {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  float: right;
+  color: #2ecc71;
+}
+
+.product-card .info .price .woocommerce-Price-currencySymbol {
+  font-size: 16px;
+  vertical-align: top;
+}
+
+.product-card .button-wrap {
+  position: absolute;
+  bottom: -50px;
+  right: 0;
+  left: 0;
+  width: 100;
+  display: none;
+}
+
+.product-card:hover .button-wrap {
+  top: 300px;
+  bottom: 2rem;
+  padding: 5px;
+  display: block;
+}
+
+.product-card .button-wrap .button:hover {
+  transform: none;
+}
+
+.product-card .button-wrap .button.cart {
+  float: right;
+  border-radius: 30px 0 0 30px !important;
+  padding: 1rem 6.5rem;
+  margin: 1.2rem 0rem 2rem auto;
+}
+
+.product-card .button-wrap .button.wish {
+  float: left;
+  margin-left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem;
+  background-color: transparent;
+  color: #bbbbbb;
+  box-shadow: none;
+}
+
+
+.product-card .button-wrap .button.wish:hover {
+  background-color: transparent;
+}
+
+.product-card .button-wrap .button.wish i {
+  font-size: 24px;
+  align-items: center;
+  justify-content: center;
+  margin: 3px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+
+.product-card .button-wrap .button.wish:hover i {
+  color: #f44336;
+  font-size: 26px;
+}
+
+a.button {
+  background: #2ecc71;
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800 !important;
+  font-size: 16px;
+  border-radius: 100px !important;
+  transition: all 0.3s ease;
+  color: #ffffff;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.133);
+}
+
+a.button:hover {
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+a.button:active {
+  background: #45e487;
+  border-color: #45e487;
+}
+
+a.button.more {
+  margin-top: 2rem;
+}
+.icon-container {
+  position: absolute;
+  right: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-icon {
+  width: 25px;
+  height: 25px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+.product-card .button-wrap .button.cart {
+  float: right;
+  border-radius: 30px 0 0 30px !important;
+  padding: 0.5rem 3rem;
+  font-size: 14px;
+}
+
+.product-card .button-wrap .button.wish {
+  float: left;
+  margin-left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem;
+  background-color: transparent;
+  color: #bbbbbb;
+  box-shadow: none;
+}
+
+.product-card .button-wrap .button.wish:hover {
+  background-color: transparent;
+}
+
+.product-card .button-wrap .button.wish i {
+  font-size: 24px;
+}
+
+.product-card .button-wrap .button.wish:hover i {
+  color: #f70090;
+}
+#services-content {
+  display: none;
+}

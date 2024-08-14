@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register Panel</title>
+    <script src="login.js"async></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        /* Panel Styles */
+        .panel {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+        }
+
+        /* Button Styles */
+        .toggle-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #337ab7;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-button:hover {
+            background-color: #23527c;
+        }
+
+        .toggle-button.active {
+            background-color: #23527c;
+        }
+
+        /* Form Styles */
+        .login,
+        .register {
+            display: none;
+            padding: 20px;
+        }
+
+        .login.show-login,
+        .register.show-register {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #337ab7;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #23527c;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="panel-header">
+            <h2>Login/Register Panel</h2>
+        </div>
+        <div class="panel-body">
+            <button class="toggle-button" id="login-btn">Login</button>
+            <button class="toggle-button" id="register-btn">Register</button>
+            <div class="login" id="login-form">
+                <form>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username"><br><br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password"><br><br>
+                    <input type="submit" value="Login">
+                    <p>
+                        <a href="#" id="forgot-password">Forgot Password?</a>
+                    </p>
+                    <p>
+                        Don't have an account? <a href="#" id="register-link">Sign up</a>
+                    </p>
+                </form>
+            </div>
+            <div class="register" id="register-form">
+                <form>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username"><br><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email"><br><br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password"><br><br>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password"><br><br>
+                    <input type="submit" value="Register">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    
+</script>
+</body>
+</html>
