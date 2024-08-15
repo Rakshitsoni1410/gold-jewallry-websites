@@ -66,7 +66,22 @@
       </div>
     
     </div>
-  </div>
+  </div> <!-----js for button -->
+  <script>
+ 
+ document.addEventListener("DOMContentLoaded", function() {
+  const sizeList = document.querySelectorAll('.size_wrap li');
+
+  sizeList.forEach((item) => {
+    item.addEventListener('click', function() {
+      // Remove active class from all items
+      sizeList.forEach((i) => i.classList.remove('active'));
+      // Add active class to the clicked item
+      this.classList.add('active');
+    });
+  });
+});
+</script>
   <div class="box">
     
     <!-- Product card -->
@@ -79,9 +94,16 @@
           <span class="info">
             <span class="title">men ring</span>
             <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-          </span>      
-        </a>
-        
+          </span> 
+    
+          <div class="size_wrap">
+            <ul>
+              <li><span>36</span></li>
+              <li><span>38</span></li>
+              <li><span>40</span></li>
+              <li><span>42</span></li>
+            </ul>
+          </div>
         <div class="button-wrap">
           <a href="#" class="cart button" id="add-to-cart-1">
             <i class="fa-solid fa-cart-shopping"></i>

@@ -190,7 +190,41 @@ card .fa-trash-alt {
   opacity: 0;
   transition: all 0.5s ease;
 }
+/* size button*/
+.size_wrap ul{
+  display: flex;
+  justify-content: center;
+}
 
+.size_wrap li{
+  list-style: none;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 50%;
+  border: 1px solid #7f8db0;
+  margin: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  background-color: #fff;
+  padding: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.size_wrap li span{
+  font-size: 14px;
+}
+
+.size_wrap li:hover{
+  background: #7f8db0;
+  color: #fff;
+}
+
+.size_wrap li.active{
+  background: #7f8db0;
+  color: #fff;
+}
 .product-link:hover .overlay {
   opacity: 1;
 }
