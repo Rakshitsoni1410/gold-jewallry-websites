@@ -67,26 +67,12 @@
     
     </div>
   </div> <!-----js for button -->
-  <script>
- 
- document.addEventListener("DOMContentLoaded", function() {
-  const sizeList = document.querySelectorAll('.size_wrap li');
-
-  sizeList.forEach((item) => {
-    item.addEventListener('click', function() {
-      // Remove active class from all items
-      sizeList.forEach((i) => i.classList.remove('active'));
-      // Add active class to the clicked item
-      this.classList.add('active');
-    });
-  });
-});
-</script>
+  
   <div class="box">
     
     <!-- Product card -->
     <div class="wrapper">
-      <div class="product-card">
+      <div class="product-card"id="1">
         <a href="#" class="product-link">
  
           <img src="https://th.bing.com/th/id/OIP.qWAvs6Aw7qLs5vOfAn98WAHaHa?w=187&h=187&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Product Image">
@@ -104,6 +90,13 @@
               <li><span>42</span></li>
             </ul>
           </div>
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
         <div class="button-wrap">
           <a href="#" class="cart button" id="add-to-cart-1">
             <i class="fa-solid fa-cart-shopping"></i>
@@ -117,14 +110,29 @@
     </div>
       
 <div class="wrapper">
-  <div class="product-card">
+  <div class="product-card"id="3">
     <a href="#" class="product-link">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj204C2109rD03VpG4vFSBdXTVG32fq3rYOQ&s">
       <span class="overlay"></span>
       <span class="info">
         <span class="title">men ring</span>
         <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-      </span>      
+      </span> 
+      <div class="size_wrap">
+        <ul>
+          <li><span>36</span></li>
+          <li><span>38</span></li>
+          <li><span>40</span></li>
+          <li><span>42</span></li>
+        </ul>
+      </div>
+      <div class="size_wrap">
+        available carats
+        <ul>
+          <li><span>91.6</span></li>
+          <li><span>84 </span></li>
+        </ul>
+      </div>     
     </a>
     
     <div class="button-wrap">
@@ -146,7 +154,22 @@
       <span class="info">
         <span class="title">men ring</span>
         <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-      </span>      
+      </span>  
+      <div class="size_wrap">
+        <ul>
+          <li><span>36</span></li>
+          <li><span>38</span></li>
+          <li><span>40</span></li>
+          <li><span>42</span></li>
+        </ul>
+      </div>
+      <div class="size_wrap">
+        available carats
+        <ul>
+          <li><span>91.6</span></li>
+          <li><span>84 </span></li>
+        </ul>
+      </div>    
     </a>
     
     <div class="button-wrap">
@@ -165,7 +188,22 @@
       <span class="info">
         <span class="title">men ring</span>
         <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-      </span>      
+      </span>     
+      <div class="size_wrap">
+        <ul>
+          <li><span>36</span></li>
+          <li><span>38</span></li>
+          <li><span>40</span></li>
+          <li><span>42</span></li>
+        </ul>
+      </div>
+      <div class="size_wrap">
+        available carats
+        <ul>
+          <li><span>91.6</span></li>
+          <li><span>84 </span></li>
+        </ul>
+      </div> 
     </a>
     
     <div class="button-wrap">
@@ -184,7 +222,22 @@
       <span class="info">
         <span class="title">men ring</span>
         <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-      </span>      
+      </span>   
+      <div class="size_wrap">
+        <ul>
+          <li><span>36</span></li>
+          <li><span>38</span></li>
+          <li><span>40</span></li>
+          <li><span>42</span></li>
+        </ul>
+      </div>
+      <div class="size_wrap">
+        available carats
+        <ul>
+          <li><span>91.6</span></li>
+          <li><span>84 </span></li>
+        </ul>
+      </div>  
     </a>
     
     <div class="button-wrap">
@@ -196,14 +249,29 @@
   </div>
 </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card" id ="6">
           <a href="#" class="product-link"><!---6-->
             <img src="data:image/jpeg;base64,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">
             <span class="overlay"></span>
             <span class="info">
               <span class="title">men ring</span>
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-            </span>      
+            </span>
+            <div class="size_wrap">
+              <ul>
+                <li><span>36</span></li>
+                <li><span>38</span></li>
+                <li><span>40</span></li>
+                <li><span>42</span></li>
+              </ul>
+            </div>
+            <div class="size_wrap">
+              available carats
+              <ul>
+                <li><span>91.6</span></li>
+                <li><span>84 </span></li>
+              </ul>
+            </div>      
           </a>
           
           <div class="button-wrap">
@@ -215,14 +283,29 @@
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="7">
           <a href="#" class="product-link"><!---7-->
             <img src="https://images-na.ssl-images-amazon.com/images/I/61Lu%2BHmHfXL._UL1000_.jpg">
             <span class="overlay"></span>
             <span class="info">
               <span class="title">men ring</span>
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-            </span>      
+            </span>   
+            <div class="size_wrap">
+              <ul>
+                <li><span>36</span></li>
+                <li><span>38</span></li>
+                <li><span>40</span></li>
+                <li><span>42</span></li>
+              </ul>
+            </div>
+            <div class="size_wrap">
+              available carats
+              <ul>
+                <li><span>91.6</span></li>
+                <li><span>84 </span></li>
+              </ul>
+            </div>   
           </a>
           
           <div class="button-wrap">
@@ -234,14 +317,29 @@
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="8">
           <a href="#" class="product-link"><!---8-->
             <img src="https://i.pinimg.com/474x/36/14/04/361404a9b5f1812421d1e6e2cf213b71.jpg">
             <span class="overlay"></span>
             <span class="info">
               <span class="title">men ring</span>
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
-            </span>      
+            </span>  
+            <div class="size_wrap">
+              <ul>
+                <li><span>36</span></li>
+                <li><span>38</span></li>
+                <li><span>40</span></li>
+                <li><span>42</span></li>
+              </ul>
+            </div>
+            <div class="size_wrap">
+              available carats
+              <ul>
+                <li><span>91.6</span></li>
+                <li><span>84 </span></li>
+              </ul>
+            </div>    
           </a>
           
           <div class="button-wrap">

@@ -50,11 +50,19 @@ function addWishlistItemToWishlist(wishlistItem) {
   // Add the wishlist item element to the wishlist container
   wishlistContainer.appendChild(wishlistItemElement);
 
+  // Increase the width of the wishlist container
+  const containerWidth = wishlistContainer.offsetWidth;
+  wishlistContainer.style.width = `${containerWidth + 200}px`; // Increase the width by 200px
+
   // Add an event listener to the remove from wishlist button
   const removeFromWishlistButton = wishlistItemElement.querySelector('.remove-from-wishlist');
   removeFromWishlistButton.addEventListener('click', () => {
     // Remove the wishlist item from the wishlist
     wishlistItemElement.remove();
+
+    // Decrease the width of the wishlist container
+    const containerWidth = wishlistContainer.offsetWidth;
+    wishlistContainer.style.width = `${containerWidth - 200}px`; // Decrease the width by 200px
   });
 
   // Add an event listener to the add to cart button
