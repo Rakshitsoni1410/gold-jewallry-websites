@@ -15,6 +15,7 @@
     <h2>Gold earrings</h2>
     <!-- Button trigger modal -->
     <!-- Button trigger modal -->
+     <div class="icon">
 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
   <h2 style="justify-items: auto;"class="work"><i class="fa-solid fa-heart " style="color: #e60abe;" > </i>
 
@@ -41,7 +42,8 @@
 
   <i class="fa-solid fa-cart-shopping"></i>
 </button>
-
+<a href="homepage.html"><i class="fa-solid fa-house" style="color: #ffffff;"></i></a>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -59,7 +61,14 @@
 </div>
 
   </div>
-  
+  <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://www.candere.com/media/catalog/category/Earrings-For-Men.jpg" class="d-block w-100" width="100px">
+      </div>
+    
+    </div>
+  </div>
   <div class="box">
     <div class="wrapper">
         <div class="product-card"id="105">
@@ -71,16 +80,22 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-105"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-105"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id=106>
           <a href="#" class="product-link"><!---2--->
          <img src="data:image/jpeg;base64,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">
             <span class="overlay"></span>
@@ -89,16 +104,22 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-106"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-106"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="107">
           <a href="#" class="product-link"><!---3-->
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw8KwLR2-iNoAt1eMhaAbgWEg3DXyiJWVi6w&s">
             <span class="overlay"></span>
@@ -107,16 +128,22 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-107"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-107"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="108">
           <a href="#" class="product-link"><!---4-->
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_41ImLcLcrvI4ckrcGpSrqXBrl_MUlnfziw&s">
             <span class="overlay"></span>
@@ -125,16 +152,22 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-108"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-108"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="109">
           <a href="#" class="product-link"><!---5-->
            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaw9THV9tZxJv3A1mI1nAJF-GZKz1bbZa9nw&s">
             <span class="overlay"></span>
@@ -144,16 +177,22 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-109"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-109"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="110">
           <a href="#" class="product-link"><!---6-->
            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRztxTbjDyysK3mkxktbVk6q4ee5rmDm68_3A&s">
            <span class="overlay"></span>
@@ -162,16 +201,22 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-110"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-110"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="111">
           <a href="#" class="product-link"><!---7-->
            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFSee3_d85araTV0_PF_dfTPMBDiK8iLiRyA&s" alt="">
             <span class="overlay"></span>
@@ -180,15 +225,21 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-111"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-111"><i class="fa fa-heart"></i></a>
           </div>
         </div>
       </div>
       <div class="wrapper">
-        <div class="product-card">
+        <div class="product-card"id="112">
           <a href="#" class="product-link"><!---8-->
            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCELOFBJ9HroflW1pSeobZXh_0yaaYrSNysA&s">
             <span class="overlay"></span>
@@ -197,10 +248,16 @@
               <span class="price"><span class="woocommerce-Price-currencySymbol">₹</span>71,000</span>
             </span>      
           </a>
-          
+          <div class="size_wrap">
+            available carats
+            <ul>
+              <li><span>91.6</span></li>
+              <li><span>84 </span></li>
+            </ul>
+          </div>
           <div class="button-wrap">
-            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
-            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
+            <a href="#" class="cart button"id="add-to-cart-112"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wish button"id="wishlist-112"><i class="fa fa-heart"></i></a>
           </div>
       
         </div>
