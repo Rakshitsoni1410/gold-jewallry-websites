@@ -40,19 +40,24 @@ function addWishlistItemToWishlist(wishlistItem) {
   wishlistItemElement.classList.add('wishlist-item');
   wishlistItemElement.dataset.id = wishlistItem.id; // Store the unique ID
   wishlistItemElement.innerHTML = `
-    <img src="${wishlistItem.image}" alt="${wishlistItem.title}" style="width: 100px; height: auto;">
-    <h3 style="color:black;">${wishlistItem.title}</h3>
-    <p style="color:skyblue;text-size:8px">${wishlistItem.price}</p>
-    <button class="btn btn-danger btn-sm remove-from-wishlist">Remove from wishlist</button>
-    <button class="btn btn-primary btn-sm add-to-cart"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+    <div class="wishlist-item-image">
+      <img src="${wishlistItem.image}" alt="${wishlistItem.title}" style="width: 100px; height: auto;">
+    </div>
+    <div class="wishlist-item-details">
+      <h3 style="color:black;">${wishlistItem.title}</h3>
+      <p style="color:skyblue;text-size:8px">${wishlistItem.price}</p>
+    </div>
+    <div class="wishlist-item-actions">
+      <button class="btn btn-danger btn-sm remove-from-wishlist">Remove from wishlist</button>
+      <button class="btn btn-primary btn-sm add-to-cart"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+    </div>
   `;
 
   // Add the wishlist item element to the wishlist container
   wishlistContainer.appendChild(wishlistItemElement);
 
-  // Increase the width of the wishlist container
-  const containerWidth = wishlistContainer.offsetWidth;
-  wishlistContainer.style.width = `${containerWidth + 200}px`; // Increase the width by 200px
+  // Update the width of the wishlist container
+  updateWishlistContainerWidth();
 
   // Add an event listener to the remove from wishlist button
   const removeFromWishlistButton = wishlistItemElement.querySelector('.remove-from-wishlist');
@@ -60,9 +65,8 @@ function addWishlistItemToWishlist(wishlistItem) {
     // Remove the wishlist item from the wishlist
     wishlistItemElement.remove();
 
-    // Decrease the width of the wishlist container
-    const containerWidth = wishlistContainer.offsetWidth;
-    wishlistContainer.style.width = `${containerWidth - 200}px`; // Decrease the width by 200px
+    // Update the width of the wishlist container
+    updateWishlistContainerWidth();
   });
 
   // Add an event listener to the add to cart button
@@ -71,6 +75,14 @@ function addWishlistItemToWishlist(wishlistItem) {
     // Add the wishlist item to the cart
     addCartItemToCart(wishlistItem);
   });
+}
+
+// Function to update the width of the wishlist container
+function updateWishlistContainerWidth() {
+  const wishlistItems = wishlistContainer.children;
+  const itemWidth = wishlistItems[0].offsetWidth; // Get the width of a single item
+  const containerWidth = wishlistItems.length * itemWidth;
+  wishlistContainer.style.width = `${containerWidth}px`;
 }
 
 // Function to add a wishlist item to the cart
