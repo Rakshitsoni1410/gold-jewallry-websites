@@ -4,12 +4,16 @@ body {
 
 
 .head {
+  color: #333;
   display: flex;
   justify-content: space-between;
   padding: 30px;
   text-align: center;
-  background: #1abc9c;
+  background: #f5f5dc;
   color: white;
+}
+.head h2 {
+  color: rgb(151, 89, 89);
 }
 #rcorners2{
   justify-content:space-between ;
