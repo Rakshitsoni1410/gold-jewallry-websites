@@ -152,4 +152,3 @@ function makePayment(cartItem) {
   // Redirect to payment options page
   window.location.href = 'payment .html';
 }
-``
