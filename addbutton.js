@@ -150,6 +150,6 @@ function makePayment(cartItem) {
   cartItemElement.remove(); // Remove the element from the DOM
   
   // Redirect to payment options page
-  window.location.href = 'payment.html';
+  window.location.href = 'payment .html';
 }
 ``
