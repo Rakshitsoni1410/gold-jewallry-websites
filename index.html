@@ -18,7 +18,8 @@
             <a href="login.html">   <img src="./user-solid.svg" alt="Account" class="nav-icon"></a>
           
             <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon" onclick="toggleSearchBox()">
-            <input type="text" id="search-box" placeholder="Search..." style="display:none;" list="detail" onchange="redirectPage()">
+            <input type="text" id="search-box" placeholder="Search..." list="detail" onchange="redirectPage()">
+       
             <datalist id="detail">
                 <option value="RINGman.html">Ring Gold</option>
                 <option value="kadaformang.html">Kada for Man in Gold</option>
@@ -268,6 +269,18 @@
                 window.location.href = value;
             }
         }
+    </script>
+    <script>
+        const searchBox = document.getElementById('search-box');
+const dataList = document.getElementById('detail');
+
+searchBox.addEventListener('input', () => {
+  if (searchBox.value.length > 0) {
+    dataList.style.display = 'block';
+  } else {
+    dataList.style.display = 'none';
+  }
+});
     </script>
 </body>
 </html>

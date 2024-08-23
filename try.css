@@ -1,3 +1,44 @@
+/* search box*/
+#search-box {
+  width: 50%; /* adjust the width as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#search-box:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#detail {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 50%; /* adjust the width as needed */
+  max-height: 200px; /* adjust the height as needed */
+  overflow-y: auto;
+  display: none; /* hide the list initially */
+  top: 40px; /* adjust the top position as needed */
+  left: 0; /* adjust the left position as needed */
+}
+
+#detail option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#detail option:hover {
+  background-color: #f0f0f0;
+}
+
+#detail option[selected] {
+  background-color: #ddd;
+}
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
