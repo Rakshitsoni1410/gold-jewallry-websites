@@ -1,18 +1,85 @@
 /* search box*/
-#search-box {
-  width: 50%; /* adjust the width as needed */
+#search-input {
+  width: 0;
+  padding: 0;
+  border: none;
+  transition: width 0.3s ease;
+}
+.hidden {
+  display: none;
+}
+
+.search-box-open {
+  display: block; /* or flex, or inline-block, depending on your layout */
+}
+#search-input.search-box-open {
+  width: 200px; /* adjust the width as needed */
   padding: 10px;
-  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+#detail {
+  display: none;
+}
+.search-box {
+  position: relative; /* Add this to create a containing block */
+}
+
+.search-options {
+  position: absolute;
+  top: 100%; /* Position below the search box */
+  left: 0; /* Align with the left edge of the search box */
+  background-color: #fff; /* Add a background color to the options container */
+  border: 1px solid #ddd; /* Add a border to the options container */
+  padding: 10px; /* Add some padding to the options container */
+  display: none; /* Hide the options container by default */
+}
+
+.search-box-open .search-options {
+  display: block; /* Show the options container when the search box is open */
+}
+#search-input.search-box-open + #detail {
+  display: block;
+}
+/* Style the datalist options */
+datalist {
+  background-color: #fff; /* White background color */
+  border: none;
+  padding: 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Style the datalist options list */
+datalist option {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style the datalist options list on hover */
+datalist option:hover {
+  background-color: #f0f0f0; /* Light gray background color on hover */
+  cursor: pointer;
+}
+
+/* Style the search input field */
+#search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Style the search input field on focus */
+#search-input:focus {
+  border-color: #aaa;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-#search-box:focus {
-  border-color: #aaa;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
 #detail {
   position: absolute;
   background-color: #fff;
@@ -23,8 +90,6 @@
   max-height: 200px; /* adjust the height as needed */
   overflow-y: auto;
   display: none; /* hide the list initially */
-  top: 40px; /* adjust the top position as needed */
-  left: 0; /* adjust the left position as needed */
 }
 
 #detail option {

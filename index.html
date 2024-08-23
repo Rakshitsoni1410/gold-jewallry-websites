@@ -16,40 +16,68 @@
             <img src="./heart-solid.svg" alt="Whitelist" class="nav-icon">
             <img src="./cart-shopping-solid (1).svg" class="nav-icon">
             <a href="login.html">   <img src="./user-solid.svg" alt="Account" class="nav-icon"></a>
-          
             <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon" onclick="toggleSearchBox()">
-            <input type="text" id="search-box" placeholder="Search..." list="detail" onchange="redirectPage()">
-       
-            <datalist id="detail">
-                <option value="RINGman.html">Ring Gold</option>
-                <option value="kadaformang.html">Kada for Man in Gold</option>
-                <option value="silvermenring.html">Silver ring</option>
-                 <option value="ringsmanp.html">platinum ring man</option>
-                <option value="ringswoman.html">gold  ring woman</option>
-                <option value="ringwomans.html">Silver ring woman</option>
-                <option value="silvermenring.html">Silver ring</option>
-                <option value="ringwomanp.html">platinum ring woman</option>
-                <option value="couplegold.htm">couples gold ring</option>
-                <option value="couplesilver.html">coupl Silver ring</option>
-                <option value="silvermenring.html">Silver ring</option>
-                <option value="Couples platinum.html">couples platinum rings</option>
-                <option value="manchaing.html">man Gold chain</option>
-                <option value="manchaings.html">man Silver chain</option>
-                <option value="womanchaing.html">woman chain  gold</option>
-                <option value="womanchains.html">woman chaing Silver</option>
-                <option value="earrings.html">gold earrings for man</option>
-                <option value="earringss.html">Silver earrings for man</option>
-                <option value="earringswomang.html">gold earrings  for woman</option>
-                <option value="earringswomans.html">Silver earrings for woman</option>
-                <option value="earringswomand.html">Diamond  earrings  for woman</option>
-                <option value="neklesgoldwoman.html">gold necklace </option>
-                <option value="neklessilverwoman.html">silver necklace</option>
-                <option value="neklesdiamondwoman.html">Diamond necklace</option>
-                <option value="kadaformans.html">kada for silver</option>
-                <option value="bangelswomang.html">bangels for woman in gold </option>
-                <option value="bangelswomans.html">bangels for woman in silver </option>
-                <!-- Add more options here -->
-            </datalist>
+         <!-- Add the hidden class -->
+              <!-- Your search input field and other elements -->
+          
+            <input type="text" id="search-input" list="detail" onkeypress="if(event.key === 'Enter') redirectPage()">
+            <div id="search-input" class="search-box hidden">
+<datalist id="detail">
+    <option value="RINGman.html">Ring Gold</option>
+    <option value="kadaformang.html">Kada for Man in Gold</option>
+    <option value="silvermenring.html">Silver ring</option>
+     <option value="ringsmanp.html">platinum ring man</option>
+    <option value="ringswoman.html">gold  ring woman</option>
+    <option value="ringwomans.html">Silver ring woman</option>
+    <option value="silvermenring.html">Silver ring</option>
+    <option value="ringwomanp.html">platinum ring woman</option>
+    <option value="couplegold.htm">couples gold ring</option>
+    <option value="couplesilver.html">coupl Silver ring</option>
+    <option value="silvermenring.html">Silver ring</option>
+    <option value="Couples platinum.html">couples platinum rings</option>
+    <option value="manchaing.html">man Gold chain</option>
+    <option value="manchaings.html">man Silver chain</option>
+    <option value="womanchaing.html">woman chain  gold</option>
+    <option value="womanchains.html">woman chaing Silver</option>
+    <option value="earrings.html">gold earrings for man</option>
+    <option value="earringss.html">Silver earrings for man</option>
+    <option value="earringswomang.html">gold earrings  for woman</option>
+    <option value="earringswomans.html">Silver earrings for woman</option>
+    <option value="earringswomand.html">Diamond  earrings  for woman</option>
+    <option value="neklesgoldwoman.html">gold necklace </option>
+    <option value="neklessilverwoman.html">silver necklace</option>
+    <option value="neklesdiamondwoman.html">Diamond necklace</option>
+    <option value="kadaformans.html">kada for silver</option>
+    <option value="bangelswomang.html">bangels for woman in gold </option>
+    <option value="bangelswomans.html">bangels for woman in silver </option>
+</datalist>
+</div>
+<script>
+
+
+let searchBoxOpen = false;
+
+function toggleSearchBox() {
+  searchBoxOpen = !searchBoxOpen;
+  const searchInput = document.getElementById('search-input');
+  searchInput.classList.toggle('hidden', !searchBoxOpen);
+  searchInput.classList.toggle('search-box-open', searchBoxOpen);
+
+}</script>
+<script>
+
+    function redirectPage() {
+        const searchTerm = document.getElementById('search-input').value.trim();
+        if (searchTerm !== '') {
+            const selectedOption = document.querySelector(`#detail option[value="${searchTerm}"]`);
+            if (selectedOption) {
+                window.location.href = searchTerm;
+            } else {
+                console.log("Invalid search term!");
+            }
+        }
+    }
+</script>
         </div>
         <ul class="nav-links">
             <li class="dropdown">
@@ -252,35 +280,7 @@
        
     </footer>
     
-    <script>
-        function toggleSearchBox() {
-            const searchBox = document.getElementById('search-box');
-            if (searchBox.style.display === 'none') {
-                searchBox.style.display = 'block';
-            } else {
-                searchBox.style.display = 'none';
-            }
-        }
+  
 
-        function redirectPage() {
-            const searchBox = document.getElementById('search-box');
-            const value = searchBox.value;
-            if (value) {
-                window.location.href = value;
-            }
-        }
-    </script>
-    <script>
-        const searchBox = document.getElementById('search-box');
-const dataList = document.getElementById('detail');
-
-searchBox.addEventListener('input', () => {
-  if (searchBox.value.length > 0) {
-    dataList.style.display = 'block';
-  } else {
-    dataList.style.display = 'none';
-  }
-});
-    </script>
 </body>
 </html>
