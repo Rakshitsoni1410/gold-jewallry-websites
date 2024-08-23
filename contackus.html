@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Jewelry Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="contact-container">
+    <h1>Contact Us</h1>
+    
+    <!-- General Inquiry Form -->
+    <form id="general-inquiry-form" class="contact-form">
+        <h2>General Inquiry</h2>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="phone">Phone Number (Optional)</label>
+        <input type="tel" id="phone" name="phone">
+        
+        <label for="subject">Subject</label>
+        <select id="subject" name="subject">
+            <option value="general">General Inquiry</option>
+            <option value="product">Product Information</option>
+            <option value="order">Order Status</option>
+            <option value="return">Return/Exchange</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+        
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Careers Form -->
+    <form id="careers-form" class="contact-form">
+        <h2>Careers</h2>
+        <label for="career-name">Name</label>
+        <input type="text" id="career-name" name="career-name" required>
+        
+        <label for="career-email">Email Address</label>
+        <input type="email" id="career-email" name="career-email" required>
+        
+        <label for="career-phone">Phone Number</label>
+        <input type="tel" id="career-phone" name="career-phone" required>
+        
+        <label for="position">Position Interested In</label>
+        <select id="position" name="position">
+            <option value="sales">Sales Associate</option>
+            <option value="designer">Jewelry Designer</option>
+            <option value="marketing">Marketing Specialist</option>
+            <option value="support">Customer Support</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <label for="resume">Upload Resume</label>
+        <input type="file" id="resume" name="resume" required>
+        
+        <label for="cover-letter">Cover Letter/Message</label>
+        <textarea id="cover-letter" name="cover-letter" required></textarea>
+        
+        <label for="portfolio">LinkedIn Profile/Portfolio URL (Optional)</label>
+        <input type="url" id="portfolio" name="portfolio">
+        
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Collaboration and Partnership Form -->
+    <form id="collaboration-form" class="contact-form">
+        <h2>Collaboration & Partnership</h2>
+        <label for="collab-name">Name</label>
+        <input type="text" id="collab-name" name="collab-name" required>
+        
+        <label for="company">Company/Brand Name</label>
+        <input type="text" id="company" name="company" required>
+        
+        <label for="collab-email">Email Address</label>
+        <input type="email" id="collab-email" name="collab-email" required>
+        
+        <label for="collab-phone">Phone Number (Optional)</label>
+        <input type="tel" id="collab-phone" name="collab-phone">
+        
+        <label for="collab-type">Type of Collaboration</label>
+        <select id="collab-type" name="collab-type">
+            <option value="brand">Brand Collaboration</option>
+            <option value="influencer">Influencer Partnership</option>
+            <option value="wholesale">Wholesale/Retail Partnership</option>
+            <option value="event">Event Sponsorship</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <label for="collab-website">Website/Portfolio URL</label>
+        <input type="url" id="collab-website" name="collab-website" required>
+        
+        <label for="collab-message">Message/Proposal</label>
+        <textarea id="collab-message" name="collab-message" required></textarea>
+        
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Vendor/Supplier Inquiries Form -->
+    <form id="vendor-form" class="contact-form">
+        <h2>Vendor/Supplier Inquiries</h2>
+        <label for="vendor-name">Name</label>
+        <input type="text" id="vendor-name" name="vendor-name" required>
+        
+        <label for="vendor-company">Company Name</label>
+        <input type="text" id="vendor-company" name="vendor-company" required>
+        
+        <label for="vendor-email">Email Address</label>
+        <input type="email" id="vendor-email" name="vendor-email" required>
+        
+        <label for="vendor-phone">Phone Number (Optional)</label>
+        <input type="tel" id="vendor-phone" name="vendor-phone">
+        
+        <label for="vendor-product">Type of Product/Service</label>
+        <input type="text" id="vendor-product" name="vendor-product" required>
+        
+        <label for="vendor-website">Website/Portfolio URL (Optional)</label>
+        <input type="url" id="vendor-website" name="vendor-website">
+        
+        <label for="vendor-message">Message</label>
+        <textarea id="vendor-message" name="vendor-message" required></textarea>
+        
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script >
+    document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('.contact-form');
+
+    forms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.border = '1px solid red';
+                } else {
+                    input.style.border = '1px solid #ccc';
+                }
+            });
+
+            if (isValid) {
+                alert('Form submitted successfully!');
+                form.reset();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+    });
+});
+
+</script>
+</body>
+</html>
