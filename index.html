@@ -12,68 +12,6 @@
 <body>
     <nav class="navbar">
         <div class="logo"><img src="logo1.png" width="100px" height="290px" alt="Logo"></div>
-        <div class="icon-container">
-            <img src="./heart-solid.svg" alt="Whitelist" class="nav-icon">
-            <img src="./cart-shopping-solid (1).svg" class="nav-icon">
-            <a href="login.html">   <img src="./user-solid.svg" alt="Account" class="nav-icon"></a>
-            <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon" onclick="toggleSearchBox()">
-            <div id="search-container" style="display: none;">
-              <input type="text" id="search-input" list="detail" onkeypress="if(event.key === 'Enter') redirectPage()">
-              <datalist id="detail">
-                <option value="RINGman.html">Ring Gold</option>
-                <option value="kadaformang.html">Kada for Man in Gold</option>
-                <option value="silvermenring.html">Silver ring</option>
-                 <option value="ringsmanp.html">platinum ring man</option>
-                <option value="ringswoman.html">gold  ring woman</option>
-                <option value="ringwomans.html">Silver ring woman</option>
-                <option value="silvermenring.html">Silver ring</option>
-                <option value="ringwomanp.html">platinum ring woman</option>
-                <option value="couplegold.htm">couples gold ring</option>
-                <option value="couplesilver.html">coupl Silver ring</option>
-                <option value="silvermenring.html">Silver ring</option>
-                <option value="Couples platinum.html">couples platinum rings</option>
-                <option value="manchaing.html">man Gold chain</option>
-                <option value="manchaings.html">man Silver chain</option>
-                <option value="womanchaing.html">woman chain  gold</option>
-                <option value="womanchains.html">woman chaing Silver</option>
-                <option value="earrings.html">gold earrings for man</option>
-                <option value="earringss.html">Silver earrings for man</option>
-                <option value="earringswomang.html">gold earrings  for woman</option>
-                <option value="earringswomans.html">Silver earrings for woman</option>
-                <option value="earringswomand.html">Diamond  earrings  for woman</option>
-                <option value="neklesgoldwoman.html">gold necklace </option>
-                <option value="neklessilverwoman.html">silver necklace</option>
-                <option value="neklesdiamondwoman.html">Diamond necklace</option>
-                <option value="kadaformans.html">kada for silver</option>
-                <option value="bangelswomang.html">bangels for woman in gold </option>
-                <option value="bangelswomans.html">bangels for woman in silver </option>
-              </datalist>
-            </div>
-            
-            <script>
-              function toggleSearchBox() {
-                const searchContainer = document.getElementById('search-container');
-                searchContainer.style.display = searchContainer.style.display === 'none' ? 'block' : 'none';
-              }
-            
-              
-
-
-
-
-
-    function redirectPage() {
-        const searchTerm = document.getElementById('search-input').value.trim();
-        if (searchTerm !== '') {
-            const selectedOption = document.querySelector(`#detail option[value="${searchTerm}"]`);
-            if (selectedOption) {
-                window.location.href = searchTerm;
-            } else {
-                console.log("Invalid search term!");
-            }
-        }
-    }
-</script>
         </div>
         <ul class="nav-links">
             <li class="dropdown">
@@ -141,6 +79,70 @@
                     </div>
                 </div>
             </li>
+         <li class="nav-links">
+            <div class="icon-container">
+                <img src="./heart-solid.svg" alt="Whitelist" class="nav-icon">
+                <img src="./cart-shopping-solid (1).svg" class="nav-icon">
+                <a href="login.html">   <img src="./user-solid.svg" alt="Account" class="nav-icon"></a>
+                <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon" onclick="toggleSearchBox()">
+                <div id="search-container" style="display: none;">
+                  <input type="text" id="search-input" list="detail" onkeypress="if(event.key === 'Enter') redirectPage()">
+                  <datalist id="detail">
+                    <option value="RINGman.html">Ring Gold</option>
+                    <option value="kadaformang.html">Kada for Man in Gold</option>
+                    <option value="silvermenring.html">Silver ring</option>
+                     <option value="ringsmanp.html">platinum ring man</option>
+                    <option value="ringswoman.html">gold  ring woman</option>
+                    <option value="ringwomans.html">Silver ring woman</option>
+                    <option value="silvermenring.html">Silver ring</option>
+                    <option value="ringwomanp.html">platinum ring woman</option>
+                    <option value="couplegold.htm">couples gold ring</option>
+                    <option value="couplesilver.html">coupl Silver ring</option>
+                    <option value="silvermenring.html">Silver ring</option>
+                    <option value="Couples platinum.html">couples platinum rings</option>
+                    <option value="manchaing.html">man Gold chain</option>
+                    <option value="manchaings.html">man Silver chain</option>
+                    <option value="womanchaing.html">woman chain  gold</option>
+                    <option value="womanchains.html">woman chaing Silver</option>
+                    <option value="earrings.html">gold earrings for man</option>
+                    <option value="earringss.html">Silver earrings for man</option>
+                    <option value="earringswomang.html">gold earrings  for woman</option>
+                    <option value="earringswomans.html">Silver earrings for woman</option>
+                    <option value="earringswomand.html">Diamond  earrings  for woman</option>
+                    <option value="neklesgoldwoman.html">gold necklace </option>
+                    <option value="neklessilverwoman.html">silver necklace</option>
+                    <option value="neklesdiamondwoman.html">Diamond necklace</option>
+                    <option value="kadaformans.html">kada for silver</option>
+                    <option value="bangelswomang.html">bangels for woman in gold </option>
+                    <option value="bangelswomans.html">bangels for woman in silver </option>
+                  </datalist>
+                </div>
+                
+                <script>
+                  function toggleSearchBox() {
+                    const searchContainer = document.getElementById('search-container');
+                    searchContainer.style.display = searchContainer.style.display === 'none' ? 'block' : 'none';
+                  }
+                
+                  
+    
+    
+    
+    
+    
+        function redirectPage() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (searchTerm !== '') {
+                const selectedOption = document.querySelector(`#detail option[value="${searchTerm}"]`);
+                if (selectedOption) {
+                    window.location.href = searchTerm;
+                } else {
+                    console.log("Invalid search term!");
+                }
+            }
+        }
+    </script>
+           </li>
             
         </ul>
         
