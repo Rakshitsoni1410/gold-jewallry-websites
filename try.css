@@ -342,7 +342,6 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-left: 10px;
 }
 
 
@@ -428,54 +427,3 @@ white-space: auto;
 }
 
 /* Subscribe form styles */
-.subscribe-form {
-  background-color: #444;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.subscribe-form .center {
-  text-align: center;
-}
-
-.subscribe-form .footer-widget {
-  margin-bottom: 20px;
-}
-
-.subscribe-form .footer-widget-heading {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.subscribe-form .footer-text {
-  font-size: 14px;
-  color: #fff;
-}
-
-.subscribe-form .form-input {
-  margin-top: 20px;
-}
-
-.subscribe-form label {
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.subscribe-form input[type="file"] {
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-.subscribe-form .preview {
-  margin-top: 20px;
-}
-
-.subscribe-form .preview img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  margin: 0 auto;
-}
