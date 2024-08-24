@@ -405,22 +405,6 @@ footer {
   color: #ccc;
 }
 
-.single-cta {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.single-cta i {
-  font-size: 24px;
-  margin-right: 10px;
-}
-
-.cta-text {
-  font-size: 18px;
-  color: #000000;
-}
 .paymenu li{
   justify-content:center ;
 white-space: auto;
