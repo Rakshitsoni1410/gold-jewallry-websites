@@ -10,12 +10,12 @@
 }
 
 .search-box-open {
-  display: block; /* or flex, or inline-block, depending on your layout */
+  display:flex; /* or flex, or inline-block, depending on your layout */
 }
 #search-input.search-box-open {
-  width: 200px; /* adjust the width as needed */
+  width: 500px; /* adjust the width as needed */
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 5px solid #ccc;
   border-radius: 5px;
 }
 
