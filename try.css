@@ -341,8 +341,8 @@ footer {
 .footer-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
 }
 
 .footer-logo {
@@ -373,6 +373,7 @@ footer {
 .footer-links a {
   color: #000000;
   text-decoration: none;
+  right: 10px; ;
 }
 
 .footer-links a:hover {
@@ -431,6 +432,7 @@ footer {
 }
 .paymenu li{
   justify-content:center ;
+justify-content: space-between;
 }
 
 /* Subscribe form styles */
