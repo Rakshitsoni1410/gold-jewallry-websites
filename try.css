@@ -279,11 +279,11 @@ h2 {
 
 .product-item h3 {
   margin-top: 10px;
-  margin-bottom: 5px;
+  bottom: 0px;
 }
 
 .product-item p {
-  margin: 0;
+  margin-bottom: 0px;
 }
 
 @media (max-width: 768px) {
