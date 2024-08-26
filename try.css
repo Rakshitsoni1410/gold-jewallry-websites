@@ -1,12 +1,20 @@
-/* search box*/
 .icon-containers {
   display: flex;
   align-items: center;
-  position: relative;
+  justify-content: flex-end; /* changed to flex-end to align to the right */
+  position: absolute; /* changed from relative to absolute */
+  top: 0; /* stick to the top */
+  right: 20px; /* added 20px of space from the right corner */
   margin: 0;
   padding: 0;
-  margin-top: 10px;
+}
 
+/* added media query for responsiveness */
+@media (max-width: 768px) {
+  .icon-containers {
+    flex-direction: column; /* change flex direction to column on smaller screens */
+    align-items: center; /* center align items on smaller screens */
+  }
 }
 #search-input {
   width: 0;
