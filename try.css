@@ -4,7 +4,7 @@
   justify-content: flex-end; /* changed to flex-end to align to the right */
   position: absolute; /* changed from relative to absolute */
   top: 0; /* stick to the top */
-  right: 20px; /* added 20px of space from the right corner */
+  right: 0; /* stick to the right */
   margin: 0;
   padding: 0;
 }
