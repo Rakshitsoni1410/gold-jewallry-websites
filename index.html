@@ -1,28 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.C. Soni Jewelry</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>R.C. Soni Jewelry</title>    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="try.css">
     <script type="text/javascript" src="workforwishlist.js" async></script>
     <script src="addbutton.js" async></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        /* Panel Styles */
+        .panel {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+        }
+
+        /* Button Styles */
+        .toggle-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #337ab7;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-button:hover {
+            background-color: #23527c;
+        }
+
+        .toggle-button.active {
+            background-color: #23527c;
+        }
+
+        /* Form Styles */
+        .login,
+        .register {
+            display: none;
+            padding: 20px;
+        }
+
+        .login.show-login,
+        .register.show-register {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #337ab7;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #23527c;
+        }
+    </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="logo"><img src="logo1.png" width="100px" height="290px" alt="Logo"></div>
-        <div class="icon-containers">       <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon" onclick="toggleSearchBox()">
-                <div id="search-container" style="display: none;">
-                  <input type="text" id="search-input" list="detail" onkeypress="if(event.key === 'Enter') redirectPage()">
-                  <datalist id="detail">
+        <div class="icon-containers"> <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon"
+                onclick="toggleSearchBox()">
+            <div id="search-container" style="display: none;">
+                <input type="text" id="search-input" list="detail"
+                    onkeypress="if(event.key === 'Enter') redirectPage()">
+                <datalist id="detail">
                     <script type="text/javascript" src="workforwishlist.js" async></script>
                     <script src="addbutton.js" async></script>
                     <option value="RINGman.html">Ring Gold</option>
                     <option value="kadaformang.html">Kada for Man in Gold</option>
                     <option value="silvermenring.html">Silver ring</option>
-                     <option value="ringsmanp.html">platinum ring man</option>
-                    <option value="ringswoman.html">gold  ring woman</option>
+                    <option value="ringsmanp.html">platinum ring man</option>
+                    <option value="ringswoman.html">gold ring woman</option>
                     <option value="ringwomans.html">Silver ring woman</option>
                     <option value="silvermenring.html">Silver ring</option>
                     <option value="ringwomanp.html">platinum ring woman</option>
@@ -32,41 +135,41 @@
                     <option value="Couples platinum.html">couples platinum rings</option>
                     <option value="manchaing.html">man Gold chain</option>
                     <option value="manchaings.html">man Silver chain</option>
-                    <option value="womanchaing.html">woman chain  gold</option>
+                    <option value="womanchaing.html">woman chain gold</option>
                     <option value="womanchains.html">woman chaing Silver</option>
                     <option value="earrings.html">gold earrings for man</option>
                     <option value="earringss.html">Silver earrings for man</option>
-                    <option value="earringswomang.html">gold earrings  for woman</option>
+                    <option value="earringswomang.html">gold earrings for woman</option>
                     <option value="earringswomans.html">Silver earrings for woman</option>
-                    <option value="earringswomand.html">Diamond  earrings  for woman</option>
+                    <option value="earringswomand.html">Diamond earrings for woman</option>
                     <option value="neklesgoldwoman.html">gold necklace </option>
                     <option value="neklessilverwoman.html">silver necklace</option>
                     <option value="neklesdiamondwoman.html">Diamond necklace</option>
                     <option value="kadaformans.html">kada for silver</option>
                     <option value="bangelswomang.html">bangels for woman in gold </option>
                     <option value="bangelswomans.html">bangels for woman in silver </option>
-                  </datalist>
-                </div>
-            
-                <script>
-                  function toggleSearchBox() {
+                </datalist>
+            </div>
+
+            <script>
+                function toggleSearchBox() {
                     const searchContainer = document.getElementById('search-container');
                     searchContainer.style.display = searchContainer.style.display === 'none' ? 'block' : 'none';
-                  }
-                
-                   function redirectPage() {
-            const searchTerm = document.getElementById('search-input').value.trim();
-            if (searchTerm !== '') {
-                const selectedOption = document.querySelector(`#detail option[value="${searchTerm}"]`);
-                if (selectedOption) {
-                    window.location.href = searchTerm;
-                } else {
-                    console.log("Invalid search term!");
                 }
-            }
-        }
-    </script>
-    </div>
+
+                function redirectPage() {
+                    const searchTerm = document.getElementById('search-input').value.trim();
+                    if (searchTerm !== '') {
+                        const selectedOption = document.querySelector(`#detail option[value="${searchTerm}"]`);
+                        if (selectedOption) {
+                            window.location.href = searchTerm;
+                        } else {
+                            console.log("Invalid search term!");
+                        }
+                    }
+                }
+            </script>
+        </div>
         </div>
         <ul class="nav-links">
             <li class="dropdown">
@@ -141,26 +244,26 @@
                 </div>
             </li>
             <li class="dropdown">
-                    <a href="#">bestselling</a>
-                    <div class="dropdown-content">
+                <a href="#">bestselling</a>
+                <div class="dropdown-content">
                     <div class="dropdown-section"></div>
                 </div>
             </li>
             <li class="nav-links">
-         <li class="dropdown">
-            <div class="icon-container">
-                <img src="./heart-solid.svg" alt="Whitelist" class="nav-icon">
-                <img src="./cart-shopping-solid (1).svg" class="nav-icon">
-                <a href="login.html">   <img src="./user-solid.svg" alt="Account" class="nav-icon"></a><br><br>
-                
-                
-    </li>
-           </li>
-            
+            <li class="dropdown">
+                <div class="icon-container">
+                    <img src="./heart-solid.svg" alt="Whitelist" class="nav-icon">
+                    <img src="./cart-shopping-solid (1).svg" class="nav-icon">
+                    <a href="#"> <img src="./user-solid.svg" alt="Account" data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-icon"></a><br><br>
+
+
+            </li>
+            </li>
+
         </ul>
-        
+
     </nav>
-     <main>
+    <main>
         <div>
             <img src="skin.png" style="height: 100%; width: 100%;" alt="Background Image">
         </div>
@@ -171,21 +274,24 @@
                 <div class="product-grid">
                     <div class="product-item">
                         <a href="neklesgoldwoman.html">
-                            <img src="https://th.bing.com/th/id/OIP.Die_pcQqzJ99hHwLxtl1IgHaHa?rs=1&pid=ImgDetMain" alt="Gold Necklace">
+                            <img src="https://th.bing.com/th/id/OIP.Die_pcQqzJ99hHwLxtl1IgHaHa?rs=1&pid=ImgDetMain"
+                                alt="Gold Necklace">
                             <h3>Gold Necklace</h3>
                             <p>₹4999</p>
                         </a>
                     </div>
                     <div class="product-item">
                         <a href="ringswoman.html">
-                            <img src="https://th.bing.com/th/id/OIP.oAwpwHUywVmflmRGrsYeRwHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Gold Ring">
+                            <img src="https://th.bing.com/th/id/OIP.oAwpwHUywVmflmRGrsYeRwHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                alt="Gold Ring">
                             <h3>Gold Ring</h3>
                             <p>₹9999</p>
                         </a>
                     </div>
                     <div class="product-item">
                         <a href="bangelswomans.html">
-                            <img src="https://th.bing.com/th/id/OIP.YQbrykEQYPm1kvjfklWhrwHaHa?w=206&h=205&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Silver Bracelet">
+                            <img src="https://th.bing.com/th/id/OIP.YQbrykEQYPm1kvjfklWhrwHaHa?w=206&h=205&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                alt="Silver Bracelet">
                             <h3>Silver Bracelet</h3>
                             <p>₹2999</p>
                         </a>
@@ -200,21 +306,24 @@
                 <div class="product-grid">
                     <div class="product-item">
                         <a href="manchaing.html">
-                            <img src="https://th.bing.com/th/id/OIP.S7bhaHRPUskDljXpi9depgHaHa?w=191&h=191&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Gold Chain">
+                            <img src="https://th.bing.com/th/id/OIP.S7bhaHRPUskDljXpi9depgHaHa?w=191&h=191&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                                alt="Gold Chain">
                             <h3>Gold Chain</h3>
                             <p>₹4999</p>
                         </a>
                     </div>
                     <div class="product-item">
                         <a href="RINGman.html">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1YmkWUb0DSuqTu-QQ1Z-2A5TmAvF6qBwhDw&s" alt="Gold Ring">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1YmkWUb0DSuqTu-QQ1Z-2A5TmAvF6qBwhDw&s"
+                                alt="Gold Ring">
                             <h3>Gold Ring</h3>
                             <p>₹9999</p>
                         </a>
                     </div>
                     <div class="product-item">
                         <a href="kadaformans.html">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfgf-sywrzHyuWdHztFs0wC6ZGAp4XwiI5wg&s" alt="Silver Bracelet">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfgf-sywrzHyuWdHztFs0wC6ZGAp4XwiI5wg&s"
+                                alt="Silver Bracelet">
                             <h3>Silver Bracelet</h3>
                             <p>₹2999</p>
                         </a>
@@ -226,41 +335,100 @@
 
     <footer>
         <div class="footer-content">
-           
+
             <div class="footer-links">
-                <a href="about us.html"style="text-decoration: black;">About Us</a>
-                <a href="POLICY.html"style="text-decoration: black;">Privacy Policy</a>
-                <a href="service.html"style="text-decoration: black;">Terms of Service</a>
-                <a href="contackus.html"style="text-decoration: black;">Contact Us</a>
-                <a href="feedbackfrom.html"style="text-decoration: black;">review</a>
+                <a href="about us.html" style="text-decoration: black;">About Us</a>
+                <a href="POLICY.html" style="text-decoration: black;">Privacy Policy</a>
+                <a href="service.html" style="text-decoration: black;">Terms of Service</a>
+                <a href="contackus.html" style="text-decoration: black;">Contact Us</a>
+                <a href="feedbackfrom.html" style="text-decoration: black;">review</a>
             </div>
             <div class="footer-social">
                 <div class="footer-social-icon">
                     <span style="text-decoration: black;">Follow us</span>
-                    <a href="#"><img src="./instagram-brands-solid.svg"height="30px"width="30px"></a>
-                    <a href="#"><img src="./facebook-brands-solid.svg"height="30px"width="30px"></a>
-                    <a href="#"><img src="./square-whatsapp-brands-solid.svg"height="30px"width="30px"></a>
-                    <a href="#"><img src="./youtube-brands-solid.svg"height="30px"width="30px"></a>
+                    <a href="#"><img src="./instagram-brands-solid.svg" height="30px" width="30px"></a>
+                    <a href="#"><img src="./facebook-brands-solid.svg" height="30px" width="30px"></a>
+                    <a href="#"><img src="./square-whatsapp-brands-solid.svg" height="30px" width="30px"></a>
+                    <a href="#"><img src="./youtube-brands-solid.svg" height="30px" width="30px"></a>
                 </div>
             </div>
         </div>
-    
-            <div class="paymenu">
-                <ul ><li style="display: inline-block;list-style-type: style none;;"><b >we accept</b> </li>
-                    <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img src="./cc-visa-brands-solid.svg"height="50px"width="50px"></a></li>
-                    <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img src="./cc-mastercard-brands-solid.svg"height="50px"width="50px" ></a></li>
-                    <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img src="cash-on-delivery.png"height="50px"width="50px" ></a></li>
-                    <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img src="google-pay-brands-solid.svg" alt=""height="50px"width="50px"></a></li>
-                    <li style="display: inline-block;list-style-type: style none;;"><a href="#"><img src="paypal-brands-solid.svg" alt=""height="50px"width="50px"></a></li>
-                    <li style="display: inline-block;list-style-type: style none;;"><a href="#"><img src="building-columns-solid.svg" alt=""height="50px"width="50px"></a></li>
-                </ul>
-            </div>        </div>
-        </div>
-    </div>
-       
-    </footer>
-    
-  
 
+        <div class="paymenu">
+            <ul>
+                <li style="display: inline-block;list-style-type: style none;;"><b>we accept</b> </li>
+                <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img
+                            src="./cc-visa-brands-solid.svg" height="50px" width="50px"></a></li>
+                <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img
+                            src="./cc-mastercard-brands-solid.svg" height="50px" width="50px"></a></li>
+                <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img
+                            src="cash-on-delivery.png" height="50px" width="50px"></a></li>
+                <li style="display: inline-block;list-style-type: style none;;"><a href="payment.html"><img
+                            src="google-pay-brands-solid.svg" alt="" height="50px" width="50px"></a></li>
+                <li style="display: inline-block;list-style-type: style none;;"><a href="#"><img
+                            src="paypal-brands-solid.svg" alt="" height="50px" width="50px"></a></li>
+                <li style="display: inline-block;list-style-type: style none;;"><a href="#"><img
+                            src="building-columns-solid.svg" alt="" height="50px" width="50px"></a></li>
+            </ul>
+        </div>
+        </div>
+        </div>
+        </div>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+            <div class="modal-body">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Login/Register Panel</h2>
+                    </div>
+                    <div class="panel-body">
+                        <button class="toggle-button" id="login-btn">Login</button>
+                        <button class="toggle-button" id="register-btn">Register</button>
+                        <div class="login" id="login-form">
+                            <form>
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username"><br><br>
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password"><br><br>
+                                <input type="submit" value="Login">
+                                <p>
+                                    <a href="#" id="forgot-password">Forgot Password?</a>
+                                </p>
+                                <p>
+                                    Don't have an account? <a href="#" id="register-link">Sign up</a>
+                                </p>
+                            </form>
+                        </div>
+                        <div class="register" id="register-form">
+                            <form>
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username"><br><br>
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email"><br><br>
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password"><br><br>
+                                <label for="confirm-password">Confirm Password:</label>
+                                <input type="password" id="confirm-password" name="confirm-password"><br><br>
+                                <input type="submit" value="Register">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
 </body>
+<script src="login.js" async></script>
+
 </html>
