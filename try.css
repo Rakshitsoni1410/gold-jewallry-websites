@@ -315,6 +315,7 @@ footer {
 .footer-links a {
   margin: 0 10px;
   text-decoration: none;
+ background-color: #ffffff;
   color: #ffffff;
 }
 
