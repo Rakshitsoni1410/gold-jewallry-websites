@@ -221,12 +221,12 @@ card .fa-trash-alt {
 }
 
 .size_wrap li:hover{
-  background: #7f8db0;
+  background: #34ae0f;
   color: #fff;
 }
 
 .size_wrap li.active{
-  background: #7f8db0;
+  background: #34cf0d;
   color: #fff;
 }
 .product-link:hover .overlay {
