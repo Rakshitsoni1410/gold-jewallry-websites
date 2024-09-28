@@ -1,39 +1,40 @@
 <?php
-// Enable error reporting
+// Enable error reporting for debugging (optional but recommended during development)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Database connection details
-$servername = "localhost";
-$username = "root"; // Your DB username
-$password = ""; // Your DB password
-$dbname = "registration_db"; // Your DB name
+$servername = "localhost"; // or the IP address of the server
+$username = "root"; // your MySQL username
+$password = ""; // your MySQL password (leave empty for default XAMPP/WAMP)
+$dbname = "registration_db"; // the database you created
 
-// Create connection
+// Create a connection to the MySQL database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// Check if the connection was successful
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate input data
+    // Collect and sanitize user input to avoid SQL injection
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     
-    // Validate form fields (add more checks as needed)
+    // Check if any form fields are empty (simple validation)
     if (empty($username) || empty($email) || empty($password)) {
         echo "All fields are required!";
     } else {
-        // Hash the password for security
+        // Hash the password before storing it for security
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert data into the database
+        // SQL query to insert data into the users table
         $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
 
+        // Execute the query and check if it was successful
         if ($conn->query($sql) === TRUE) {
             echo "Registration successful!";
         } else {
@@ -42,6 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Close connection
+// Close the database connection
 $conn->close();
 ?>
