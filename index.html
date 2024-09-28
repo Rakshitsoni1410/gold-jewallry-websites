@@ -392,9 +392,9 @@
                         <div class="login" id="login-form">
                             <form>
                                 <label for="username">Username:</label>
-                                <input type="text" id="username" name="username"><br><br>
+                                <input type="text" id="uusername" name="Username"><br><br>
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password"><br><br>
+                                <input type="password" id="ppassword" name="Password"><br><br>
                                 <input type="submit" value="Login">
                                 <p>
                                     <a href="#" id="forgot-password">Forgot Password?</a>
@@ -405,14 +405,17 @@
                             </form>
                         </div>
                         <div class="register" id="register-form">
-                            <form action="Register.php" method="POST">
+                            <form action="" method="post">
                                 <label for="username">Username:</label>
-                                <input type="text" id="username" name="username"><br><br>
+                                <input type="text" id="username" name="username" required><br><br>
+                                
                                 <label for="email">Email:</label>
-                                <input type="email" id="email" name="email"><br><br>
+                                <input type="email" id="email" name="email" required><br><br>
+                                
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password"><br><br>
-                                <input type="submit" value="Register">
+                                <input type="password" id="password" name="password" required><br><br>
+                                
+                                <input type="submit" value="submit">
                             </form>
                         </div>
                     </div>

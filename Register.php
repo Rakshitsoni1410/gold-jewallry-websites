@@ -1,48 +1,46 @@
 <?php
-// Enable error reporting for debugging (optional but recommended during development)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Configuration
+$db_host = "localhost";
+$db_username = "root";
+$db_password = "";
+$db_name = "registration_db";
 
-// Database connection details
-$servername = "localhost"; // or the IP address of the server
-$username = "root"; // your MySQL username
-$password = ""; // your MySQL password (leave empty for default XAMPP/WAMP)
-$dbname = "registration_db"; // the database you created
+// Create connection
+$conn = new mysqli($db_host, $db_username, $db_password, $db_name);
 
-// Create a connection to the MySQL database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check if the connection was successful
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if form is submitted
+// Retrieve form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect and sanitize user input to avoid SQL injection
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    
-    // Check if any form fields are empty (simple validation)
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Validate form data
     if (empty($username) || empty($email) || empty($password)) {
-        echo "All fields are required!";
+        echo "Please fill in all fields.";
     } else {
-        // Hash the password before storing it for security
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        // Hash password
+        $password = password_hash($password, PASSWORD_DEFAULT);
 
-        // SQL query to insert data into the users table
-        $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+        // Prepare query
+        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $email, $password);
+        $stmt->execute();
 
-        // Execute the query and check if it was successful
-        if ($conn->query($sql) === TRUE) {
+        if ($stmt->affected_rows > 0) {
             echo "Registration successful!";
+            // You can also start a session or redirect to a protected page
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Registration failed: " . $conn->error;
         }
+
+        $stmt->close();
     }
 }
 
-// Close the database connection
 $conn->close();
 ?>
