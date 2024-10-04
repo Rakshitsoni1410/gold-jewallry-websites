@@ -27,8 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if ($stmt->affected_rows > 0) {
-            // Registration successful, redirect to login page
-            header('Location: login.php');
+            // Registration successful, redirect to home page
+            header('Location: index.php');
             exit;
         } else {
             $error = 'Registration failed';
