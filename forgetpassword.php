@@ -53,7 +53,9 @@ if (isset($_POST['reset_password'])) {
     send_reset_password_email($email, $token);
     $stmt = $conn->prepare("INSERT INTO password_reset (email, token) VALUES (?, ?)");
     $stmt->bind_param("ss", $email, $token);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die("Error: " . $stmt->error);
+    }
     $stmt->close();
     header('location: pending.php?email=' . $email);
 }
@@ -67,7 +69,9 @@ if (isset($_POST['new_password'])) {
     if ($new_password == $new_password_c) {
         $stmt = $conn->prepare("SELECT * FROM password_reset WHERE token = ?");
         $stmt->bind_param("s", $token);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            die("Error: " . $stmt->error);
+        }
         $result = $stmt->get_result();
         $reset_data = $result->fetch_assoc();
         $stmt->close();
@@ -83,3 +87,29 @@ if (isset($_POST['new_password'])) {
 // Close connection
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Password</title>
+</head>
+<body>
+    <h1>Reset Password</h1>
+    <form action="reset_password.php" method="post">
+        <label>Email:</label>
+        <input type="email" name="email"><br><br>
+        <button type="submit" name="reset_password">Reset Password</button>
+    </form>
+
+    <?php if (isset($_GET['token'])) { ?>
+    <form action="reset_password.php" method="post">
+        <label>New Password:</label>
+        <input type="password" name="new_pass"><br><br>
+        <label>Confirm New Password:</label>
+        <input type="password" name="new_pass_c"><br><br>
+        <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
+        <button type="submit" name="new_password">Submit</button>
+    </form>
+    <?php } ?>
+</body>
+</html>
