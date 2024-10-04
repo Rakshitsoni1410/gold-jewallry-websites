@@ -1,4 +1,17 @@
 <?php
+
+$db_host = 'localhost';
+$db_username = 'root';
+$db_password = '';
+$db_name = 'shop';
+
+// Create connection
+$conn = new mysqli($db_host, $db_username, $db_password, $db_name);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate input data
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);

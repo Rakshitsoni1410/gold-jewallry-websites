@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Configuration
 $db_host = 'localhost';
 $db_username = 'root';
@@ -14,25 +16,23 @@ if ($conn->connect_error) {
 }
 
 // Get user data
-$user_id = $_SESSION['user_id'];
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    $user_id = null;
+}
+
 $stmt = $conn->prepare("SELECT * FROM user WHERE id=?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user_data = $result->fetch_assoc();
 
-// Get order data
-$stmt = $conn->prepare("SELECT * FROM orders WHERE user_id=?");
-$stmt->bind_param("i", $user_id);
+// Get products data
+$stmt = $conn->prepare("SELECT * FROM user");
 $stmt->execute();
 $result = $stmt->get_result();
-$order_data = $result->fetch_all(MYSQLI_ASSOC);
-
-// Get product data
-$stmt = $conn->prepare("SELECT * FROM products");
-$stmt->execute();
-$result = $stmt->get_result();
-$product_data = $result->fetch_all(MYSQLI_ASSOC);
+$products_data = $result->fetch_all(MYSQLI_ASSOC);
 
 // Close connection
 $conn->close();
@@ -41,41 +41,22 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Orders</a></li>
                 <li><a href="#">Products</a></li>
-                <li><a href="#">Account</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Reports</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <h1>Welcome, <?php echo $user_data['username']; ?>!</h1>
-        <section>
-            <h2>Orders</h2>
-            <table>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-                <?php foreach ($order_data as $order) { ?>
-                <tr>
-                    <td><?php echo $order['id']; ?></td>
-                    <td><?php echo $order['product_name']; ?></td>
-                    <td><?php echo $order['quantity']; ?></td>
-                    <td><?php echo $order['total']; ?></td>
-                </tr>
-                <?php } ?>
-            </table>
-        </section>
+        <h1>Admin Dashboard</h1>
         <section>
             <h2>Products</h2>
             <table>
@@ -85,7 +66,7 @@ $conn->close();
                     <th>Price</th>
                     <th>Quantity</th>
                 </tr>
-                <?php foreach ($product_data as $product) { ?>
+                <?php foreach ($products_data as $product) { ?>
                 <tr>
                     <td><?php echo $product['id']; ?></td>
                     <td><?php echo $product['name']; ?></td>
