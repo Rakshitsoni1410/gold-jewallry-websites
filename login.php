@@ -39,38 +39,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Close connection
 $conn->close();
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login/Register Panel</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="modal-body">
-        <div class="panel">
-            <div class="panel-header">
-                <h2>Login/Register Panel</h2>
-            </div>
-            <div class="panel-body">
-                <button class="toggle-button" id="login-btn">Login</button>
-                <button class="toggle-button" id="register-btn">Register</button>
-                <div class="register" id="register-form">
-                    <form action="login.php" method="post">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" required><br><br>
-                        
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required><br><br>
-                        
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required><br><br>
-                        
-                        <input type="submit" value="submit" name="submit">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
