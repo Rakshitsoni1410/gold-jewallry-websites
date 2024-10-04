@@ -381,7 +381,7 @@
             <div class="modal-header">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-            <div class="modal-body">
+              <div class="modal-body">
                 <div class="panel">
                     <div class="panel-header">
                         <h2>Login/Register Panel</h2>
@@ -390,12 +390,12 @@
                         <button class="toggle-button" id="login-btn">Login</button>
                         <button class="toggle-button" id="register-btn">Register</button>
                         <div class="login" id="login-form">
-                            <form>
+                            <form action="login.php" method="post">
                                 <label for="username">Username:</label>
-                                <input type="text" id="uusername" name="Username"><br><br>
+                                <input type="text" id="username" name="username"><br><br>
                                 <label for="password">Password:</label>
-                                <input type="password" id="ppassword" name="Password"><br><br>
-                                <input type="submit" value="Login">
+                                <input type="password" id="password" name="password"><br><br>
+                                <input type="submit" value="Login" name="login">
                                 <p>
                                     <a href="#" id="forgot-password">Forgot Password?</a>
                                 </p>
@@ -405,7 +405,7 @@
                             </form>
                         </div>
                         <div class="register" id="register-form">
-                            <form action="" method="post">
+                            <form action="login.php" method="post">
                                 <label for="username">Username:</label>
                                 <input type="text" id="username" name="username" required><br><br>
                                 
@@ -415,12 +415,12 @@
                                 <label for="password">Password:</label>
                                 <input type="password" id="password" name="password" required><br><br>
                                 
-                                <input type="submit" value="submit">
+                                <input type="submit" value="submit" name="register">
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>     
            
           </div>
         </div>
