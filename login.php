@@ -1,3 +1,4 @@
+
 <?php
 // Configuration
 $db_host = 'localhost';
@@ -15,7 +16,25 @@ if ($conn->connect_error) {
 
 // Process the form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $stmt = $conn->prepare("SELECT * FROM user WHERE username=? AND password=?");
+        $stmt->bind_param("ss", $username, $password);
+        if (!$stmt->execute()) {
+            echo "Error: " . $stmt->error;
+        }
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Login successful, redirect to home page
+            header('Location: index.html');
+            exit;
+        } else {
+            $error = 'Invalid username or password';
+        }
+    } elseif (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -35,7 +54,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-// Close connection
-$conn->close();
-?>
