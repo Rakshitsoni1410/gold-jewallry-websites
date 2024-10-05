@@ -35,8 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssssssssss", $firstname, $email, $address, $city, $state, $zip, $cardname, $cardnumber, $expmonth, $expyear, $cvv);
 
     if ($stmt->execute()) {
-        // Payment successfully processed
-        echo "Payment successful!";
+        // Randomly determine the payment status
+        $paymentStatus = rand(0, 1) ? 'Completed' : 'Not Completed';
+
+        // Display the payment status to the user
+        echo "<h2>Payment Status: $paymentStatus</h2>";
+        
+        // You can also redirect to a thank you page with the status if needed
+        // header("Location: thank_you.php?status=$paymentStatus");
+        // exit();
+        
     } else {
         echo "Error: " . $stmt->error;
     }
