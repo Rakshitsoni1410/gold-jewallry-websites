@@ -1,8 +1,3 @@
-
-
-const cartButtons = document.querySelectorAll('.cart.button');
-const cartContainer = document.getElementById('cart-container');
-
 // Function to check if user is logged in
 function isLoggedIn() {
   // For demonstration purposes, assume user is not logged in
@@ -32,10 +27,17 @@ document.getElementById('add-to-cart').addEventListener('click', (event) => {
   // Add item to cart functionality
   // ...
 });
+
 // Add an event listener to each cart button
+const cartButtons = document.querySelectorAll('.cart.button');
 cartButtons.forEach(button => {
   button.addEventListener('click', (event) => {
     event.preventDefault(); // Prevent the default link behavior
+
+    if (!isLoggedIn()) {
+      displayLoginSignupMessage();
+      return;
+    }
 
     // Get the product details from the product card
     const productCard = button.closest('.product-card');
@@ -45,7 +47,7 @@ cartButtons.forEach(button => {
     const productImage = productCard.querySelector('img').src; // Get the product image URL
 
     // Check if the item already exists in the cart
-    const existingCartItem = cartContainer.querySelector(`[data-id="${productId}"]`);
+    const existingCartItem = document.getElementById('cart-container').querySelector(`[data-id="${productId}"]`);
     if (!existingCartItem) {
       // Create a new cart item object
       const cartItem = {
@@ -85,7 +87,7 @@ function addCartItemToCart(cartItem) {
   `;
 
   // Add the cart item element to the cart container
-  cartContainer.appendChild(cartItemElement);
+  document.getElementById('cart-container').appendChild(cartItemElement);
 
   // Update the width of the cart container
   updateCartContainerWidth();
@@ -116,18 +118,14 @@ function addCartItemToCart(cartItem) {
 }
 
 // Function to update the width of the cart container
+// Function to update the width of the cart container
 function updateCartContainerWidth() {
-  const cartItems = cartContainer.children;
+  const cartItems = document.getElementById('cart-container').children;
   const itemWidth = cartItems[0].offsetWidth; // Get the width of a single item
   const containerWidth = cartItems.length * itemWidth;
-  cartContainer.style.width = `${containerWidth}px`;
+  document.getElementById('cart-container').style.width = `${containerWidth}px`;
 }
-
 // Function to add a cart item to the wishlist
-function addCartItemToWishlist(cartItem) {
-  // Add the cart item to the wishlist logic here
-  console.log(`Added ${cartItem.title} to wishlist`);
-}
 function addCartItemToWishlist(cartItem) {
   // Get the wishlist container
   const wishlistContainer = document.getElementById('wishlist-container');
@@ -167,20 +165,17 @@ function addCartItemToWishlist(cartItem) {
     addCartItemToCart(cartItem);
   });
 }
+
 // Function to make payment for a cart item
 function makePayment(cartItem) {
   console.log('Make payment function called');
   console.log(`Making payment for ${cartItem.title}`);
-  
-  // Remove the cart item from the cart
 
-  
   // Remove the cart item from the cart
   const cartItemElement = document.querySelector(`.cart-item img[src="${cartItem.image}"]`).closest('.cart-item');
   console.log(cartItemElement); // Check if the element is being selected correctly
   cartItemElement.remove(); // Remove the element from the DOM
-  
+
   // Redirect to payment options page
-  window.location.href ='payment.html';
+  window.location.href = 'payment.html';
 }
-``
