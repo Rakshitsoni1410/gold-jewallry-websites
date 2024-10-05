@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+
   // Function to check if user is logged in
   function isLoggedIn() {
     // Check if user is logged in (you can customize this with your login logic)
@@ -9,34 +10,18 @@ document.addEventListener('DOMContentLoaded', function () {
   function displayLoginSignupMessage() {
     const message = 'You must login or signup to add to cart';
     alert(message);
-    // Display login and signup buttons
+    // Display login and signup buttons (assumes buttons exist in the DOM)
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
-    loginButton.style.display = 'block';
-    signupButton.style.display = 'block';
+    if (loginButton) loginButton.style.display = 'block';
+    if (signupButton) signupButton.style.display = 'block';
   }
 
-  // Add event listener to add to cart button
-  const addToCartButton = document.getElementById('add-to-cart');
-  if (addToCartButton) {
-    addToCartButton.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the default link behavior
-
-      if (!isLoggedIn()) {
-        displayLoginSignupMessage();
-        return;
-      }
-
-      // Add item to cart functionality
-      // Implement your add to cart logic here
-    });
-  }
-
-  // Add an event listener to each cart button
+  // Add event listener to "Add to Cart" buttons
   const cartButtons = document.querySelectorAll('.cart-button');
   cartButtons.forEach(button => {
     button.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the default link behavior
+      event.preventDefault(); // Prevent default behavior
 
       if (!isLoggedIn()) {
         displayLoginSignupMessage();
@@ -45,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Get the product details from the product card
       const productCard = button.closest('.product-card');
-      const productId = productCard.id; // Get the product ID from the HTML
+      const productId = productCard.id; // Assuming product ID is the element's ID
       const productTitle = productCard.querySelector('.title').textContent;
       const productPrice = productCard.querySelector('.price').textContent;
       const productImage = productCard.querySelector('img').src; // Get the product image URL
@@ -73,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Function to add a cart item to the cart
   function addCartItemToCart(cartItem) {
     const cartContainer = document.getElementById('cart-container');
-    
+
     // Create a new cart item element
     const cartItemElement = document.createElement('div');
     cartItemElement.classList.add('cart-item');
@@ -96,29 +81,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add the cart item element to the cart container
     cartContainer.appendChild(cartItemElement);
 
-    // Update the width of the cart container
-    updateCartContainerWidth();
-
-    // Add an event listener to the remove from cart button
+    // Add event listener to the remove from cart button
     const removeFromCartButton = cartItemElement.querySelector('.remove-from-cart');
     removeFromCartButton.addEventListener('click', () => {
-      // Remove the cart item from the cart
       cartItemElement.remove();
-      // Update the width of the cart container
       updateCartContainerWidth();
     });
 
-    // Add an event listener to the add to wishlist button
+    // Add event listener to add to wishlist button
     const addToWishlistButton = cartItemElement.querySelector('.add-to-wishlist');
     addToWishlistButton.addEventListener('click', () => {
       addCartItemToWishlist(cartItem);
     });
 
-    // Add an event listener to the make payment button
+    // Add event listener to make payment button
     const makePaymentButton = cartItemElement.querySelector('.make-payment');
     makePaymentButton.addEventListener('click', () => {
       makePayment(cartItem);
     });
+
+    updateCartContainerWidth();
   }
 
   // Function to update the width of the cart container
@@ -175,4 +157,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     window.location.href = 'payment.html'; // Redirect to payment page
   }
+
 });
