@@ -1,9 +1,13 @@
 // Function to check if the user is logged in
 function isLoggedIn() {
-  // Simulated check for user login status
-  // In a real application, this could be a check against session or token
-  return false; // Change this to true if the user is logged in
+  // Perform an AJAX request to check session status
+  return fetch('check_session.php')
+    .then(response => response.json())
+    .then(data => {
+      return data.loggedIn; // This will return true or false
+    });
 }
+
 
 // Function to display login/signup prompt
 function displayLoginSignupMessage() {
