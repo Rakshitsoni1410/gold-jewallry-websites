@@ -1,24 +1,60 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // Get all the wishlist buttons
+  const wishlistButtons = document.querySelectorAll('.wish-button');
+  const cartButtons = document.querySelectorAll('.cart-button');
+  const wishlistContainer = document.getElementById('wishlist-container');
+  const cartContainer = document.getElementById('cart-container');
 
   // Function to check if user is logged in
   function isLoggedIn() {
-    // Check if user is logged in (you can customize this with your login logic)
-    return localStorage.getItem('loggedIn') === 'true';
+    // For demonstration purposes, assume user is not logged in
+    return false;
   }
 
   // Function to display login and signup message
   function displayLoginSignupMessage() {
-    const message = 'You must login or signup to add to cart';
+    const message = 'You must login or signup to perform this action';
     alert(message);
-    // Display login and signup buttons (assumes buttons exist in the DOM)
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
-    if (loginButton) loginButton.style.display = 'block';
-    if (signupButton) signupButton.style.display = 'block';
+    loginButton.style.display = 'block';
+    signupButton.style.display = 'block';
   }
 
-  // Add event listener to "Add to Cart" buttons
-  const cartButtons = document.querySelectorAll('.cart-button');
+  // Add event listener to wishlist buttons
+  wishlistButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent default behavior
+
+      if (!isLoggedIn()) {
+        displayLoginSignupMessage();
+        return;
+      }
+
+      // Get the product details from the product card
+      const productCard = button.closest('.product-card');
+      const productId = productCard.id;
+      const productTitle = productCard.querySelector('.title').textContent;
+      const productPrice = productCard.querySelector('.price').textContent;
+      const productImage = productCard.querySelector('img').src;
+
+      // Check if the item already exists in the wishlist
+      const existingWishlistItem = wishlistContainer.querySelector(`[data-id="${productId}"]`);
+      if (!existingWishlistItem) {
+        const wishlistItem = {
+          id: productId,
+          title: productTitle,
+          price: productPrice,
+          image: productImage
+        };
+        addWishlistItemToWishlist(wishlistItem);
+      } else {
+        alert('Item already exists in the wishlist!');
+      }
+    });
+  });
+
+  // Add event listener to cart buttons
   cartButtons.forEach(button => {
     button.addEventListener('click', (event) => {
       event.preventDefault(); // Prevent default behavior
@@ -30,132 +66,102 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Get the product details from the product card
       const productCard = button.closest('.product-card');
-      const productId = productCard.id; // Assuming product ID is the element's ID
+      const productId = productCard.id;
       const productTitle = productCard.querySelector('.title').textContent;
       const productPrice = productCard.querySelector('.price').textContent;
-      const productImage = productCard.querySelector('img').src; // Get the product image URL
+      const productImage = productCard.querySelector('img').src;
 
       // Check if the item already exists in the cart
-      const cartContainer = document.getElementById('cart-container');
       const existingCartItem = cartContainer.querySelector(`[data-id="${productId}"]`);
       if (!existingCartItem) {
-        // Create a new cart item object
         const cartItem = {
-          id: productId, // Use the product ID as the unique ID
+          id: productId,
           title: productTitle,
           price: productPrice,
-          image: productImage // Include the image URL
+          image: productImage
         };
-
-        // Add the cart item to the cart
         addCartItemToCart(cartItem);
       } else {
-        alert("Item already exists in the cart!");
+        alert('Item already exists in the cart!');
       }
     });
   });
 
-  // Function to add a cart item to the cart
-  function addCartItemToCart(cartItem) {
-    const cartContainer = document.getElementById('cart-container');
-
-    // Create a new cart item element
-    const cartItemElement = document.createElement('div');
-    cartItemElement.classList.add('cart-item');
-    cartItemElement.dataset.id = cartItem.id; // Store the unique ID
-    cartItemElement.innerHTML = `
-      <div class="cart-item-image">
-        <img src="${cartItem.image}" alt="${cartItem.title}" style="width: 100px; height: auto;">
-      </div>
-      <div class="cart-item-details">
-        <h3 style="color:black;">${cartItem.title}</h3>
-        <p style="color:skyblue;text-size:8px">${cartItem.price}</p>
-      </div>
-      <div class="cart-item-actions">
-        <button class="btn btn-danger btn-sm remove-from-cart">Remove from cart</button>
-        <button class="btn btn-primary btn-sm add-to-wishlist"><i class="fas fa-heart"></i> Add to wishlist</button>
-        <button class="btn btn-success btn-sm make-payment">Make Payment</button>
-      </div>
-    `;
-
-    // Add the cart item element to the cart container
-    cartContainer.appendChild(cartItemElement);
-
-    // Add event listener to the remove from cart button
-    const removeFromCartButton = cartItemElement.querySelector('.remove-from-cart');
-    removeFromCartButton.addEventListener('click', () => {
-      cartItemElement.remove();
-      updateCartContainerWidth();
-    });
-
-    // Add event listener to add to wishlist button
-    const addToWishlistButton = cartItemElement.querySelector('.add-to-wishlist');
-    addToWishlistButton.addEventListener('click', () => {
-      addCartItemToWishlist(cartItem);
-    });
-
-    // Add event listener to make payment button
-    const makePaymentButton = cartItemElement.querySelector('.make-payment');
-    makePaymentButton.addEventListener('click', () => {
-      makePayment(cartItem);
-    });
-
-    updateCartContainerWidth();
-  }
-
-  // Function to update the width of the cart container
-  function updateCartContainerWidth() {
-    const cartContainer = document.getElementById('cart-container');
-    const cartItems = cartContainer.children;
-    const itemWidth = cartItems[0]?.offsetWidth || 0; // Check if there's at least one item
-    cartContainer.style.width = `${cartItems.length * itemWidth}px`;
-  }
-
-  // Function to add item to wishlist
-  function addCartItemToWishlist(cartItem) {
-    const wishlistContainer = document.getElementById('wishlist-container');
-    if (!wishlistContainer) {
-      console.error('Wishlist container not found');
-      return;
-    }
-
+  // Function to add a wishlist item to the wishlist
+  function addWishlistItemToWishlist(wishlistItem) {
     const wishlistItemElement = document.createElement('div');
     wishlistItemElement.classList.add('wishlist-item');
-    wishlistItemElement.dataset.id = cartItem.id;
-
+    wishlistItemElement.dataset.id = wishlistItem.id;
     wishlistItemElement.innerHTML = `
       <div class="wishlist-item-image">
-        <img src="${cartItem.image}" alt="${cartItem.title}" style="width: 100px; height: auto;">
+        <img src="${wishlistItem.image}" alt="${wishlistItem.title}" style="width: 100px; height: auto;">
       </div>
       <div class="wishlist-item-details">
-        <h3 style="color:black;">${cartItem.title}</h3>
-        <p style="color:skyblue; font-size: 8px;">${cartItem.price}</p>
+        <h3 style="color:black;">${wishlistItem.title}</h3>
+        <p style="color:skyblue; font-size: 8px;">${wishlistItem.price}</p>
       </div>
       <div class="wishlist-item-actions">
         <button class="btn btn-danger btn-sm remove-from-wishlist">Remove from wishlist</button>
         <button class="btn btn-primary btn-sm add-to-cart"><i class="fas fa-shopping-cart"></i> Add to cart</button>
       </div>
     `;
-
     wishlistContainer.appendChild(wishlistItemElement);
 
+    updateWishlistContainerWidth();
+
+    // Add remove and add-to-cart event listeners
     wishlistItemElement.querySelector('.remove-from-wishlist').addEventListener('click', () => {
       wishlistItemElement.remove();
+      updateWishlistContainerWidth();
     });
 
     wishlistItemElement.querySelector('.add-to-cart').addEventListener('click', () => {
-      addCartItemToCart(cartItem);
+      addCartItemToCart(wishlistItem);
+      wishlistItemElement.remove(); // Optionally remove the item from wishlist after adding to cart
+      updateWishlistContainerWidth();
     });
   }
 
-  // Function to make payment
-  function makePayment(cartItem) {
-    console.log('Making payment for', cartItem.title);
-    const cartItemElement = document.querySelector(`.cart-item img[src="${cartItem.image}"]`)?.closest('.cart-item');
-    if (cartItemElement) {
+  // Function to add a cart item to the cart
+  function addCartItemToCart(cartItem) {
+    const cartItemElement = document.createElement('div');
+    cartItemElement.classList.add('cart-item');
+    cartItemElement.dataset.id = cartItem.id;
+    cartItemElement.innerHTML = `
+      <div class="cart-item-image">
+        <img src="${cartItem.image}" alt="${cartItem.title}" style="width: 100px; height: auto;">
+      </div>
+      <div class="cart-item-details">
+        <h3 style="color:black;">${cartItem.title}</h3>
+        <p style="color:skyblue; font-size: 8px;">${cartItem.price}</p>
+      </div>
+      <div class="cart-item-actions">
+        <button class="btn btn-danger btn-sm remove-from-cart">Remove from cart</button>
+      </div>
+    `;
+    cartContainer.appendChild(cartItemElement);
+
+    updateCartContainerWidth();
+
+    cartItemElement.querySelector('.remove-from-cart').addEventListener('click', () => {
       cartItemElement.remove();
-    }
-    window.location.href = 'payment.html'; // Redirect to payment page
+      updateCartContainerWidth();
+    });
   }
 
+  // Function to update the width of the wishlist container
+  function updateWishlistContainerWidth() {
+    const wishlistItems = wishlistContainer.children;
+    const itemWidth = wishlistItems[0]?.offsetWidth || 0;
+    const containerWidth = wishlistItems.length * itemWidth;
+    wishlistContainer.style.width = `${containerWidth}px`;
+  }
+
+  // Function to update the width of the cart container
+  function updateCartContainerWidth() {
+    const cartItems = cartContainer.children;
+    const itemWidth = cartItems[0]?.offsetWidth || 0;
+    const containerWidth = cartItems.length * itemWidth;
+    cartContainer.style.width = `${containerWidth}px`;
+  }
 });
