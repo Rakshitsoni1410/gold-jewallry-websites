@@ -1,30 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const cartButtons = document.querySelectorAll('.cart-button');
-  const cartContainer = document.getElementById('cart-container');
-
   // Function to check if user is logged in
   function isLoggedIn() {
-    // For demonstration purposes, assume user is not logged in
-    return false;
+    // Check if user is logged in (you can customize this with your login logic)
+    return localStorage.getItem('loggedIn') === 'true';
   }
 
   // Function to display login and signup message
   function displayLoginSignupMessage() {
     const message = 'You must login or signup to add to cart';
     alert(message);
-
+    // Display login and signup buttons
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
-
-    if (loginButton && signupButton) {
-      loginButton.style.display = 'block';
-      signupButton.style.display = 'block';
-    } else {
-      console.warn('Login or signup button not found!');
-    }
+    loginButton.style.display = 'block';
+    signupButton.style.display = 'block';
   }
 
-  // Add event listener to add to cart button (if it exists)
+  // Add event listener to add to cart button
   const addToCartButton = document.getElementById('add-to-cart');
   if (addToCartButton) {
     addToCartButton.addEventListener('click', (event) => {
@@ -35,60 +27,64 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      // Add item to cart functionality (if logged in)
-      console.log('Add to cart functionality would go here');
+      // Add item to cart functionality
+      // Implement your add to cart logic here
     });
-  } else {
-    console.warn('Add to Cart button not found');
   }
 
-  // Add event listeners to each cart button
-  if (cartButtons.length > 0) {
-    cartButtons.forEach(button => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent default behavior
+  // Add an event listener to each cart button
+  const cartButtons = document.querySelectorAll('.cart-button');
+  cartButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent the default link behavior
 
-        const productCard = button.closest('.product-card');
-        if (productCard) {
-          const productId = productCard.id;
-          const productTitle = productCard.querySelector('.title')?.textContent;
-          const productPrice = productCard.querySelector('.price')?.textContent;
-          const productImage = productCard.querySelector('img')?.src;
+      if (!isLoggedIn()) {
+        displayLoginSignupMessage();
+        return;
+      }
 
-          if (!productId || !productTitle || !productPrice || !productImage) {
-            console.error('Product details missing!');
-            return;
-          }
+      // Get the product details from the product card
+      const productCard = button.closest('.product-card');
+      const productId = productCard.id; // Get the product ID from the HTML
+      const productTitle = productCard.querySelector('.title').textContent;
+      const productPrice = productCard.querySelector('.price').textContent;
+      const productImage = productCard.querySelector('img').src; // Get the product image URL
 
-          const existingCartItem = cartContainer.querySelector(`[data-id="${productId}"]`);
-          if (!existingCartItem) {
-            const cartItem = { id: productId, title: productTitle, price: productPrice, image: productImage };
-            addCartItemToCart(cartItem);
-          } else {
-            alert("Item already exists in the cart!");
-          }
-        } else {
-          console.error('Product card not found!');
-        }
-      });
+      // Check if the item already exists in the cart
+      const cartContainer = document.getElementById('cart-container');
+      const existingCartItem = cartContainer.querySelector(`[data-id="${productId}"]`);
+      if (!existingCartItem) {
+        // Create a new cart item object
+        const cartItem = {
+          id: productId, // Use the product ID as the unique ID
+          title: productTitle,
+          price: productPrice,
+          image: productImage // Include the image URL
+        };
+
+        // Add the cart item to the cart
+        addCartItemToCart(cartItem);
+      } else {
+        alert("Item already exists in the cart!");
+      }
     });
-  } else {
-    console.warn('No cart buttons found');
-  }
+  });
 
   // Function to add a cart item to the cart
   function addCartItemToCart(cartItem) {
+    const cartContainer = document.getElementById('cart-container');
+    
+    // Create a new cart item element
     const cartItemElement = document.createElement('div');
     cartItemElement.classList.add('cart-item');
-    cartItemElement.dataset.id = cartItem.id;
-
+    cartItemElement.dataset.id = cartItem.id; // Store the unique ID
     cartItemElement.innerHTML = `
       <div class="cart-item-image">
         <img src="${cartItem.image}" alt="${cartItem.title}" style="width: 100px; height: auto;">
       </div>
       <div class="cart-item-details">
         <h3 style="color:black;">${cartItem.title}</h3>
-        <p style="color:skyblue; font-size: 8px;">${cartItem.price}</p>
+        <p style="color:skyblue;text-size:8px">${cartItem.price}</p>
       </div>
       <div class="cart-item-actions">
         <button class="btn btn-danger btn-sm remove-from-cart">Remove from cart</button>
@@ -97,28 +93,37 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     `;
 
+    // Add the cart item element to the cart container
     cartContainer.appendChild(cartItemElement);
+
+    // Update the width of the cart container
     updateCartContainerWidth();
 
-    // Remove from cart event
-    cartItemElement.querySelector('.remove-from-cart').addEventListener('click', () => {
+    // Add an event listener to the remove from cart button
+    const removeFromCartButton = cartItemElement.querySelector('.remove-from-cart');
+    removeFromCartButton.addEventListener('click', () => {
+      // Remove the cart item from the cart
       cartItemElement.remove();
+      // Update the width of the cart container
       updateCartContainerWidth();
     });
 
-    // Add to wishlist event
-    cartItemElement.querySelector('.add-to-wishlist').addEventListener('click', () => {
+    // Add an event listener to the add to wishlist button
+    const addToWishlistButton = cartItemElement.querySelector('.add-to-wishlist');
+    addToWishlistButton.addEventListener('click', () => {
       addCartItemToWishlist(cartItem);
     });
 
-    // Make payment event
-    cartItemElement.querySelector('.make-payment').addEventListener('click', () => {
+    // Add an event listener to the make payment button
+    const makePaymentButton = cartItemElement.querySelector('.make-payment');
+    makePaymentButton.addEventListener('click', () => {
       makePayment(cartItem);
     });
   }
 
-  // Function to update cart container width
+  // Function to update the width of the cart container
   function updateCartContainerWidth() {
+    const cartContainer = document.getElementById('cart-container');
     const cartItems = cartContainer.children;
     const itemWidth = cartItems[0]?.offsetWidth || 0; // Check if there's at least one item
     cartContainer.style.width = `${cartItems.length * itemWidth}px`;
@@ -127,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Function to add item to wishlist
   function addCartItemToWishlist(cartItem) {
     const wishlistContainer = document.getElementById('wishlist-container');
-
     if (!wishlistContainer) {
       console.error('Wishlist container not found');
       return;
@@ -165,13 +169,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Function to make payment
   function makePayment(cartItem) {
     console.log('Making payment for', cartItem.title);
-
     const cartItemElement = document.querySelector(`.cart-item img[src="${cartItem.image}"]`)?.closest('.cart-item');
     if (cartItemElement) {
       cartItemElement.remove();
     }
-
-    // Redirect to payment page
-    window.location.href = 'payment.html';
+    window.location.href = 'payment.html'; // Redirect to payment page
   }
 });
