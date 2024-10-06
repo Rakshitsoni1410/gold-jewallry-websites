@@ -33,7 +33,8 @@ if (isset($_POST['login'])) {
         // Set the admin session variable
         $_SESSION['admin'] = $username;
         // Redirect to the dashboard
-        header('Location: #dashboard');
+        header('Location: dashboard.php');
+        exit();
     } else {
         // Display an error message
         echo "Invalid username or password";
@@ -42,9 +43,9 @@ if (isset($_POST['login'])) {
 
 // Check if the admin is logged in
 if (isset($_SESSION['admin'])) {
-    // Display the dashboard content
-    echo "<h2 id='dashboard'>Welcome, " . $_SESSION['admin'] . "!</h2>";
-    // Add your dashboard content here
+    // Redirect to the dashboard
+    header('Location: dashboard.php');
+    exit();
 } else {
     // Add CSS styling to the login form
     ?>
