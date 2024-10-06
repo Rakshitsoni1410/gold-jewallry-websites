@@ -14,6 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
 // Process form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
@@ -31,8 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 
-    // Display success message
+    // Display success message and redirect to index.html
     echo "Thank you for sharing your thoughts! Your feedback has been submitted successfully.";
+    header("Location: index.html");
+    exit();
 } else {
     // Display error message
     echo "Error: Unable to submit feedback. Please try again.";
