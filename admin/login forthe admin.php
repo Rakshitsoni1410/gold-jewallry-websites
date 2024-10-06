@@ -1,9 +1,9 @@
 <?php
 // Configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "shop";
+$servername = 'localhost';
+$username = 'root';
+$password = '';
+$dbname = 'shop';
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -12,6 +12,7 @@ try {
     echo "Connected successfully";
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
+    exit();
 }
 
 // Start the session
@@ -23,21 +24,26 @@ if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
     // Prepare the SQL query
-    $stmt = $conn->prepare("SELECT * FROM admins WHERE username = :username AND password = :password");
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', $password);
-    $stmt->execute();
+    try {
+        $stmt = $conn->prepare("SELECT * FROM admins WHERE username = :username AND password = :password");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
 
-    // Check if the query returned any results
-    if ($stmt->rowCount() > 0) {
-        // Set the admin session variable
-        $_SESSION['admin'] = $username;
-        // Redirect to the dashboard
-        header('Location: dashboard.php');
+        // Check if the query returned any results
+        if ($stmt->rowCount() > 0) {
+            // Set the admin session variable
+            $_SESSION['admin'] = $username;
+            // Redirect to the dashboard
+            header('Location: dashboard.php');
+            exit();
+        } else {
+            // Display an error message
+            echo "Invalid username or password";
+        }
+    } catch(PDOException $e) {
+        echo "Database error: " . $e->getMessage();
         exit();
-    } else {
-        // Display an error message
-        echo "Invalid username or password";
     }
 }
 
