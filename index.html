@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="try.css">
     <script type="text/javascript" src="workforwishlist.js" async></script>
     <script src="addbutton.js" async></script>
+<script src="login.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -389,36 +390,36 @@
                     <div class="panel-body">
                         <button class="toggle-button" id="login-btn">Login</button>
                         <button class="toggle-button" id="register-btn">Register</button>
-                        <div class="login" id="login-form">
+                        <div class="login" id="login-form" style="display: none;">
                             <form action="login.php" method="post">
                                 <label for="username">Username:</label>
-                                <input type="text" id="username" name="username"required><br><br>
+                                <input type="text" id="username" name="username" required><br><br>
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password"required><br><br>
+                                <input type="password" id="password" name="password" required><br><br>
                                 <input type="submit" value="Login" name="login">
                                 <p>
                                     <a href="#" id="forgot-password">Forgot Password?</a>
                                 </p>
                                 
-                                  <div id="forgot-password-modal" style="display: none;">
+                                <div id="forgot-password-modal" style="display: none;">
                                     <form action="forgotpassword.php" method="post">
                                       <label for="email">Email:</label>
                                       <input type="email" id="email" name="email" required>
                                       <input type="submit" value="submit" name="submit">
                                     </form>
-                                  </div>
-                                  
-                                  <script>
+                                </div>
+                                
+                                <script>
                                     document.getElementById('forgot-password').addEventListener('click', function() {
-                                      document.getElementById('forgot-password-modal').style.display = 'block';
+                                        document.getElementById('forgot-password-modal').style.display = 'block';
                                     });
-                                  </script>
+                                </script>
                                 <p>
                                     Don't have an account? <a href="#" id="register-link">Sign up</a>
                                 </p>
                             </form>
                         </div>
-                        <div class="register" id="register-form">
+                        <div class="register" id="register-form" style="display: none;">
                             <form action="login.php" method="post">
                                 <label for="username">Username:</label>
                                 <input type="text" id="username" name="username" required><br><br>
@@ -432,9 +433,25 @@
                                 <input type="submit" value="submit" name="submit">
                             </form>
                         </div>
+                        
+                        <script>
+                            document.getElementById('login-btn').addEventListener('click', function() {
+                                document.getElementById('login-form').style.display = 'block';
+                                document.getElementById('register-form').style.display = 'none';
+                            });
+                            
+                            document.getElementById('register-btn').addEventListener('click', function() {
+                                document.getElementById('login-form').style.display = 'none';
+                                document.getElementById('register-form').style.display = 'block';
+                            });
+                            
+                            document.getElementById('register-link').addEventListener('click', function() {
+                                document.getElementById('login-form').style.display = 'none';
+                                document.getElementById('register-form').style.display = 'block';
+                            });
+                        </script>
                     </div>
-                </div>
-            </div>
+                </div>            </div>
             </div>     
             <script src="login.js" async></script>
           </div>
