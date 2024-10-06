@@ -96,15 +96,6 @@ if (isset($_SESSION['admin'])) {
         .login-form input[type="submit"]:hover {
             background-color: #3e8e41;
         }
-
-        .login-form a {
-            text-decoration: none;
-            color: #4CAF50;
-        }
-
-        .login-form a:hover {
-            color: #3e8e41;
-        }
     </style>
 
     <!-- Create the login form -->
@@ -116,7 +107,6 @@ if (isset($_SESSION['admin'])) {
             <label for="password">Password:</label>
             <input type="password" id="password" name="password"><br><br>
             <input type="submit" name="login" value="Login">
-            <p>Don't have an account? <a href="#">Sign up</a></p>
         </form>
     </div>
     <?php
