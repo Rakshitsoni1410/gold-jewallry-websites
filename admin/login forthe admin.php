@@ -96,6 +96,9 @@ if (isset($_SESSION['admin'])) {
         .login-form input[type="submit"]:hover {
             background-color: #3e8e41;
         }
+        .login-button {
+    text-align: center;
+}
     </style>
 
     <!-- Create the login form -->
