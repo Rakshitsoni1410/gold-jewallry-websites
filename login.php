@@ -16,6 +16,9 @@ if ($conn->connect_error) {
 // Start session
 session_start();
 
+// Initialize error variable
+$error = '';
+
 // Process the form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['login'])) {
@@ -37,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify the password using password_verify()
             if (password_verify($password, $user['password'])) {
                 // Store user data in session
-                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_id'] = $user['user_id'];  // Make sure this matches your database column name
                 $_SESSION['username'] = $user['username'];
 
                 // Redirect to home page
@@ -61,16 +64,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Prepare and execute query to insert the new user
         $stmt = $conn->prepare("INSERT INTO user (username, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $hashed_password);
+        
         if (!$stmt->execute()) {
-            echo "Error: " . $stmt->error;
-        }
-
-        if ($stmt->affected_rows > 0) {
+            // Check for specific error codes to provide feedback
+            if ($stmt->errno === 1062) {  // Duplicate entry error
+                $error = 'Username or email already exists.';
+            } else {
+                $error = 'Error: ' . $stmt->error;
+            }
+        } else {
             // Registration successful, redirect to home page
             header('Location: index.html');
             exit;
-        } else {
-            $error = 'Registration failed';
         }
     }
 }
