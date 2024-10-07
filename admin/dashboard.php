@@ -1,5 +1,6 @@
 <?php
 // Database Connection
+session_start(); // Start the session
 $servername = 'localhost';
 $username = 'root';
 $password = '';
@@ -10,6 +11,17 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
+    exit();
+}
+
+// Logout function
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    // Unset all session variables
+    $_SESSION = [];
+    // Destroy the session
+    session_destroy();
+    // Redirect to the login page
+    header("Location: login.php"); // Change this to your actual login page
     exit();
 }
 ?>
@@ -53,64 +65,57 @@ try {
         }
         .table {
             margin-top: 10px;
-        }<style>
-    body {
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-    }
-    .admin-dashboard {
-        padding: 20px;
-    }
-    .modal-header {
-        background-color: #007bff;
-        color: white;
-    }
-    .modal-title {
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    .table {
-        margin-top: 10px;
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .table th {
-        background-color: #007bff;
-        color: white;
-    }
-    .table th, .table td {
-        padding: 12px 15px;
-        text-align: left;
-    }
-    .table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-    .table tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    .table tbody tr:hover {
-        background-color: #e9ecef;
-    }
-    .modal-footer {
-        border-top: 1px solid #dddddd;
-        background-color: #f8f9fa;
-    }
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-    }
-    .btn-secondary:hover {
-        background-color: #5a6268;
-    }
-</style>
-
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .modal-footer {
+            border-top: 1px solid #dddddd;
+            background-color: #f8f9fa;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .btn-danger {
+            background-color: #dc3545; /* Bootstrap danger color */
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
 
 <div class="container admin-dashboard">
     <h2 class="text-center mb-4">Admin Dashboard</h2>
+    
+    <!-- Logout Button -->
+    <div class="text-right mb-3">
+        <a href="?action=logout" class="btn btn-danger">Logout</a>
+    </div>
+
     <div class="icon-container">
         <i class="fas fa-users" data-toggle="modal" data-target="#userModal" title="User Information"></i>
         <i class="fas fa-money-check-alt" data-toggle="modal" data-target="#paymentModal" title="Payment Information"></i>
@@ -167,71 +172,70 @@ try {
         </div>
     </div>
 
-    <!-- Payment Modal --><!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Payment Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?php
-                // Fetch all payment data
-                $stmt = $conn->prepare("SELECT * FROM payment");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                ?>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Payment ID</th>
-                            <th>User Email</th>
-                            <th>First Name</th>
-                            <th>Address</th>
-                            <th>City</th>
-                            <th>State</th>
-                            <th>Zip</th>
-                            <th>Card Name</th>
-                            <th>Card Number</th>
-                            <th>Exp Month</th>
-                            <th>Exp Year</th>
-                            <th>CVV</th>
-                            <th>Amount</th>
-                            <th>Payment Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($data as $row) { ?>
-                        <tr>
-                            <td><?php echo $row['payment_id']; ?></td>
-                            <td><?php echo $row['user_email']; ?></td>
-                            <td><?php echo $row['firstname']; ?></td>
-                            <td><?php echo $row['address']; ?></td>
-                            <td><?php echo $row['city']; ?></td>
-                            <td><?php echo $row['state']; ?></td>
-                            <td><?php echo $row['zip']; ?></td>
-                            <td><?php echo $row['cardname']; ?></td>
-                            <td><?php echo $row['cardnumber']; ?></td>
-                            <td><?php echo $row['expmonth']; ?></td>
-                            <td><?php echo $row['expyear']; ?></td>
-                            <td><?php echo $row['cvv']; ?></td>
-                            <td><?php echo $row['amount']; ?></td>
-                            <td><?php echo $row['payment_date']; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Payment Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?php
+                    // Fetch all payment data
+                    $stmt = $conn->prepare("SELECT * FROM payment");
+                    $stmt->execute();
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>User Email</th>
+                                <th>First Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                                <th>Card Name</th>
+                                <th>Card Number</th>
+                                <th>Exp Month</th>
+                                <th>Exp Year</th>
+                                <th>CVV</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($data as $row) { ?>
+                            <tr>
+                                <td><?php echo $row['payment_id']; ?></td>
+                                <td><?php echo $row['user_email']; ?></td>
+                                <td><?php echo $row['firstname']; ?></td>
+                                <td><?php echo $row['address']; ?></td>
+                                <td><?php echo $row['city']; ?></td>
+                                <td><?php echo $row['state']; ?></td>
+                                <td><?php echo $row['zip']; ?></td>
+                                <td><?php echo $row['cardname']; ?></td>
+                                <td><?php echo $row['cardnumber']; ?></td>
+                                <td><?php echo $row['expmonth']; ?></td>
+                                <td><?php echo $row['expyear']; ?></td>
+                                <td><?php echo $row['cvv']; ?></td>
+                                <td><?php echo $row['amount']; ?></td>
+                                <td><?php echo $row['payment_date']; ?></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
     <!-- Order Modal -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
