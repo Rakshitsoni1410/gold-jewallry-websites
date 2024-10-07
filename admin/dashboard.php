@@ -117,46 +117,69 @@ try {
     </div>
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Payment Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    $stmt = $conn->prepare("SELECT * FROM payment");
-                    $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Payment ID</th>
-                                <th>User ID</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['payment_id']; ?></td>
-                                <td><?php echo $row['user_id']; ?></td>
-                                <td><?php echo $row['amount']; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Payment Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php
+                // Fetch all payment data
+                $stmt = $conn->prepare("SELECT * FROM payment");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                ?>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>User Email</th>
+                            <th>First Name</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Zip</th>
+                            <th>Card Name</th>
+                            <th>Card Number</th>
+                            <th>Exp Month</th>
+                            <th>Exp Year</th>
+                            <th>CVV</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($data as $row) { ?>
+                        <tr>
+                            <td><?php echo $row['payment_id']; ?></td>
+                            <td><?php echo $row['user_email']; ?></td>
+                            <td><?php echo $row['firstname']; ?></td>
+                            <td><?php echo $row['address']; ?></td>
+                            <td><?php echo $row['city']; ?></td>
+                            <td><?php echo $row['state']; ?></td>
+                            <td><?php echo $row['zip']; ?></td>
+                            <td><?php echo $row['cardname']; ?></td>
+                            <td><?php echo $row['cardnumber']; ?></td>
+                            <td><?php echo $row['expmonth']; ?></td>
+                            <td><?php echo $row['expyear']; ?></td>
+                            <td><?php echo $row['cvv']; ?></td>
+                            <td><?php echo $row['amount']; ?></td>
+                            <td><?php echo $row['payment_date']; ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Order Modal -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
