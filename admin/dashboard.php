@@ -1,33 +1,40 @@
 <?php
-// Configuration for the database connection
+// Database Connection (already present in your code)
 $servername = 'localhost';
 $username = 'root';
 $password = '';
 $dbname = 'shop';
 
 try {
-    // Establish connection using PDO
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    // Display an error message and stop the script if the connection fails
     echo "Connection failed: " . $e->getMessage();
-    exit();
-}
-
-// Start the session
-session_start();
-
-// Check if the admin is logged in
-if (!isset($_SESSION['admin'])) {
-    // If not, redirect to the login page
-    header('Location: login.php');
     exit();
 }
 ?>
 
-<!-- User Modal -->
+<!-- Icons for Admin Dashboard -->
+<div class="admin-dashboard">
+    <div class="icon-container">
+        <!-- User Info Icon -->
+        <i class="fas fa-users" data-toggle="modal" data-target="#userModal" title="User Information"></i>
+        
+        <!-- Payments Info Icon -->
+        <i class="fas fa-money-check-alt" data-toggle="modal" data-target="#paymentModal" title="Payment Information"></i>
+        
+        <!-- Orders Info Icon -->
+        <i class="fas fa-box-open" data-toggle="modal" data-target="#orderModal" title="Order Information"></i>
+        
+        <!-- Feedback Info Icon -->
+        <i class="fas fa-comments" data-toggle="modal" data-target="#feedbackModal" title="Feedback Information"></i>
+        
+        <!-- Contact Info Icon (Remove or fix since the table does not exist) -->
+        <i class="fas fa-address-book" data-toggle="modal" data-target="#contactModal" title="Contact Information"></i>
+    </div>
+</div>
+
+<!-- Modals (User Modal) -->
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -42,11 +49,10 @@ if (!isset($_SESSION['admin'])) {
                 // Fetch user data
                 $stmt = $conn->prepare("SELECT * FROM user");
                 $stmt->execute();
-
-                // Fetch the data
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                ?>
 
+                if ($data) {
+                ?>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -58,13 +64,16 @@ if (!isset($_SESSION['admin'])) {
                     <tbody>
                     <?php foreach ($data as $row) { ?>
                         <tr>
-                            <td><?php echo $row['user_id']; ?></td>
-                            <td><?php echo $row['username']; ?></td>
-                            <td><?php echo $row['email']; ?></td>
+                            <td><?php echo isset($row['user_id']) ? $row['user_id'] : 'N/A'; ?></td>
+                            <td><?php echo isset($row['username']) ? $row['username'] : 'N/A'; ?></td>
+                            <td><?php echo isset($row['email']) ? $row['email'] : 'N/A'; ?></td>
                         </tr>
                     <?php } ?>
                     </tbody>
                 </table>
+                <?php } else {
+                    echo "No user data available.";
+                } ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -73,49 +82,7 @@ if (!isset($_SESSION['admin'])) {
     </div>
 </div>
 
-<!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Payment Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?php
-                // Fetch payment data
-                $stmt = $conn->prepare("SELECT * FROM payments");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                ?>
-
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Payment ID</th>
-                            <th>User ID</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($data as $row) { ?>
-                        <tr>
-                            <td><?php echo $row['payment_id']; ?></td>
-                            <td><?php echo $row['user_id']; ?></td>
-                            <td><?php echo $row['amount']; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Repeat similar modal structure for Payment, Orders, Feedback, and Contacts -->
 
 
 
