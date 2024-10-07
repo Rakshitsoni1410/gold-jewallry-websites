@@ -98,7 +98,7 @@ try {
             </div>
             <div class="modal-body">
                 <?php
-                $stmt = $conn->prepare("SELECT * FROM payments");
+                $stmt = $conn->prepare("SELECT * FROM payment");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
@@ -224,7 +224,7 @@ try {
             </div>
             <div class="modal-body">
                 <?php
-                $stmt = $conn->prepare("SELECT * FROM contacts");
+                $stmt = $conn->prepare("SELECT * FROM contact");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
