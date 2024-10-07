@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rating = $_POST['rating'];
 
     // Validate if the email exists in the users table
-    $stmt = $conn->prepare("SELECT email FROM user WHERE email = ?");
+    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
