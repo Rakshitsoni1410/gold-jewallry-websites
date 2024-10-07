@@ -40,8 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify the password using password_verify()
             if (password_verify($password, $user['password'])) {
                 // Store user data in session
-                $_SESSION['user_id'] = $user['user_id'];  // Make sure this matches your database column name
+                $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
+
+                // Set a success message in session
+                $_SESSION['login_success'] = 'Successfully logged in!';
 
                 // Redirect to home page
                 header('Location: index.html');
