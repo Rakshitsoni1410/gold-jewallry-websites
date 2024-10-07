@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <?php
-                $stmt = $conn->prepare("SELECT * FROM users");
+                $stmt = $conn->prepare("SELECT * FROM user");
                 $stmt->execute();
 
                 // Fetch the data
