@@ -1,23 +1,24 @@
 <?php
 // Configuration
-$db_host = 'localhost';
-$db_username = 'root';
-$db_password = '';
-$db_name = 'shop';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "shop";
 
-// Create connection
-$conn = new mysqli($db_host, $db_username, $db_password, $db_name);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    exit();
 }
 
 // Start session
 session_start();
 
 // Dashboard
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['admin'])) {
     ?>
     <div class="container">
         <div class="row">
@@ -50,5 +51,5 @@ if (isset($_SESSION['user_id'])) {
 }
 
 // Close the connection
-$conn->close();
+$conn = null;
 ?>
