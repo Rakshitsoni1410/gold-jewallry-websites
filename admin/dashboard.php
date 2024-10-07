@@ -17,8 +17,9 @@ try {
 // Start session
 session_start();
 
-// Dashboard
+// Check if admin is logged in
 if (isset($_SESSION['admin'])) {
+    // Dashboard
     ?>
     <div class="container">
         <div class="row">
@@ -46,6 +47,7 @@ if (isset($_SESSION['admin'])) {
     </div>
     <?php
 } else {
+    // If admin is not logged in, redirect to login page
     header('Location: login.php');
     exit;
 }
