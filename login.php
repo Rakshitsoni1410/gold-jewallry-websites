@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['password'];
 
         // Prepare and execute query to fetch the user by username
-        $stmt = $conn->prepare("SELECT * FROM user WHERE username=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username=?");
         $stmt->bind_param("s", $username);
         if (!$stmt->execute()) {
             echo "Error: " . $stmt->error;
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Prepare and execute query to insert the new user
-        $stmt = $conn->prepare("INSERT INTO user (username, email, password) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $hashed_password);
         
         if (!$stmt->execute()) {
