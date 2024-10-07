@@ -1,4 +1,3 @@
-<!-- PHP Code (feedback.php) -->
 <?php
 // Configuration
 $db_host = 'localhost';
@@ -14,7 +13,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
 // Process form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -23,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rating = $_POST['rating'];
 
     // Validate if the email exists in the users table
-    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT email FROM user WHERE email = ?");
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -43,4 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: The email provided does not match any user account.";
     }
 }
+
+// Close connection
+$conn->close();
 ?>
