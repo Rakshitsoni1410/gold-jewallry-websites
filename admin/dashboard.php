@@ -182,7 +182,7 @@
             </div>
             <div class="modal-body">
                 <?php
-                $stmt = $conn->prepare("SELECT * FROM contacts");
+                $stmt = $conn->prepare("SELECT * FROM contact");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
