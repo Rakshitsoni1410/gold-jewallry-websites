@@ -201,46 +201,53 @@ try {
     </div>
 
     <!-- Feedback Modal -->
-    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="feedbackModalLabel">Feedback Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    $stmt = $conn->prepare("SELECT * FROM feedback");
-                    $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Feedback ID</th>
-                                <th>User ID</th>
-                                <th>Feedback</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['feedback_id']; ?></td>
-                                <td><?php echo $row['user_id']; ?></td>
-                                <td><?php echo $row['feedback']; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+   <!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedbackModalLabel">Feedback Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php
+                // Modify the SQL query to join feedback with users
+                $stmt = $conn->prepare("
+                    SELECT f.feedback_id, u.email AS user_email, f.feedback
+                    FROM feedback f
+                    JOIN users u ON f.user_id = u.user_id
+                ");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                ?>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Feedback ID</th>
+                            <th>User Email</th> <!-- Change header -->
+                            <th>Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($data as $row) { ?>
+                        <tr>
+                            <td><?php echo $row['feedback_id']; ?></td>
+                            <td><?php echo $row['user_email'] ?? 'N/A'; ?></td> <!-- Change to user email -->
+                            <td><?php echo $row['feedback']; ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Contact Modal -->
     <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
