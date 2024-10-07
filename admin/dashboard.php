@@ -21,7 +21,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     // Destroy the session
     session_destroy();
     // Redirect to the login page
-    header("Location: login.php"); // Change this to your actual login page
+    header("Location: login.php"); // Change this to your actual login page URL
     exit();
 }
 ?>
