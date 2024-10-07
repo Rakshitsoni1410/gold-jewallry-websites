@@ -47,7 +47,7 @@ try {
             <div class="modal-body">
                 <?php
                 // Fetch user data
-                $stmt = $conn->prepare("SELECT * FROM user");
+                $stmt = $conn->prepare("SELECT * FROM users");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
