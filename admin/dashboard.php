@@ -185,7 +185,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 <div class="modal-body">
                     <?php
                     // Fetch all payment data
-                    $stmt = $conn->prepare("SELECT * FROM payment");
+                    $stmt = $conn->prepare("SELECT * FROM payments");
                     $stmt->execute();
                     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     ?>
