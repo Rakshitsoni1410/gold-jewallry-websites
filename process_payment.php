@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cvv = $_POST['cvv'];
 
     // Prepare and execute query to insert payment data
-    $stmt = $conn->prepare("INSERT INTO payment (firstname, email, address, city, state, zip, cardname, cardnumber, expmonth, expyear, cvv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO payments (firstname, email, address, city, state, zip, cardname, cardnumber, expmonth, expyear, cvv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssssssss", $firstname, $email, $address, $city, $state, $zip, $cardname, $cardnumber, $expmonth, $expyear, $cvv);
 
     if ($stmt->execute()) {
