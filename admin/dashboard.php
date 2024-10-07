@@ -53,7 +53,58 @@ try {
         }
         .table {
             margin-top: 10px;
-        }
+        }<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+    .admin-dashboard {
+        padding: 20px;
+    }
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+    }
+    .modal-title {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .table {
+        margin-top: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .table th {
+        background-color: #007bff;
+        color: white;
+    }
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+    }
+    .table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+    .modal-footer {
+        border-top: 1px solid #dddddd;
+        background-color: #f8f9fa;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
+
     </style>
 </head>
 <body>
