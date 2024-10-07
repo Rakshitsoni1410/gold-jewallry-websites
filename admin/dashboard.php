@@ -200,8 +200,7 @@ try {
         </div>
     </div>
 
-    <!-- Feedback Modal -->
-   <!-- Feedback Modal -->
+<!-- Feedback Modal -->
 <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -213,11 +212,11 @@ try {
             </div>
             <div class="modal-body">
                 <?php
-                // Modify the SQL query to join feedback with users
+                // Modify the SQL query to use the correct column name for user reference
                 $stmt = $conn->prepare("
                     SELECT f.feedback_id, u.email AS user_email, f.feedback
                     FROM feedback f
-                    JOIN users u ON f.user_id = u.user_id
+                    JOIN users u ON f.user_email = u.email  -- Update this line if necessary
                 ");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
