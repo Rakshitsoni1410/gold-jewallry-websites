@@ -17,27 +17,30 @@ if ($conn->connect_error) {
 
 // Process form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $feedback = $_POST["feedback"];
-    $rating = $_POST["rating"];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $feedback = $_POST['feedback'];
+    $rating = $_POST['rating'];
 
-    // Insert data into database
-    $sql = "INSERT INTO feedback (name, email, feedback, rating) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $name, $email, $feedback, $rating);
+    // Validate if the email exists in the users table
+    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+    $stmt->bind_param('s', $email);
     $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
+    if ($result->num_rows > 0) {
+        // Email exists, proceed to insert feedback
+        $insertStmt = $conn->prepare("INSERT INTO feedback (user_email, name, feedback, rating) VALUES (?, ?, ?, ?)");
+        $insertStmt->bind_param('sssi', $email, $name, $feedback, $rating);
 
-    // Display success message and redirect to index.html
-    echo "Thank you for sharing your thoughts! Your feedback has been submitted successfully.";
-    header("Location: index.html");
-    exit();
-} else {
-    // Display error message
-    echo "Error: Unable to submit feedback. Please try again.";
+        if ($insertStmt->execute()) {
+            echo "Feedback submitted successfully!";
+        } else {
+            echo "Error submitting feedback. Please try again.";
+        }
+    } else {
+        // Email does not exist in the users table
+        echo "Error: The email provided does not match any user account.";
+    }
 }
 ?>
