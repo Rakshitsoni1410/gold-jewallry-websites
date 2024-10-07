@@ -1,4 +1,7 @@
 <?php
+// Start session
+session_start();
+
 // Configuration
 $db_host = 'localhost';
 $db_username = 'root';
@@ -21,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rating = $_POST['rating'];
 
     // Validate if the email exists in the users table
-    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT email FROM user WHERE email = ?");
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -32,7 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertStmt->bind_param('sssi', $email, $name, $feedback, $rating);
 
         if ($insertStmt->execute()) {
-            echo "Feedback submitted successfully!";
+            // Feedback submitted successfully, store message in session
+            $_SESSION['success_message'] = "Feedback submitted successfully!";
+            // Redirect to the home page
+            header("Location: index.html");
+            exit; // Ensure no further code is executed after redirect
         } else {
             echo "Error submitting feedback. Please try again.";
         }
