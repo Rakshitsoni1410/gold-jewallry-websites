@@ -14,7 +14,6 @@ if ($conn->connect_error) {
 }
 
 // Process the form data
-// Process the form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'];
     $email = $_POST['email'];
@@ -28,27 +27,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expyear = $_POST['expyear'];
     $cvv = $_POST['cvv'];
 
-    // Insert data into the payments table
-    $query = "INSERT INTO payments (email, firstname, address, city, state, zip, cardname, cardnumber, expmonth, expyear, cvv)
-              VALUES ('$email', '$firstname', '$address', '$city', '$state', '$zip', '$cardname', '$cardnumber', '$expmonth', '$expyear', '$cvv')";
+    // Check if the email address exists in the users table
+    $query = "SELECT * FROM users WHERE email = '$email'";
+    $result = $conn->query($query);
 
-    if ($conn->query($query) === TRUE) {
-        // Randomly determine the payment status
-        $paymentStatus = rand(0, 1) ? 'Completed' : 'Not Completed';
+    if ($result->num_rows > 0) {
+        // Email address exists in the users table, proceed with inserting into payments table
+        $query = "INSERT INTO payments (email, firstname, address, city, state, zip, cardname, cardnumber, expmonth, expyear, cvv)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Update the payment status in the payments table
-        $updateQuery = "UPDATE payments SET payment_status = '$paymentStatus' WHERE email = '$email'";
-        $conn->query($updateQuery);
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssssssssss", $email, $firstname, $address, $city, $state, $zip, $cardname, $cardnumber, $expmonth, $expyear, $cvv);
 
-        // Display the payment status to the user
-        echo "<h2>Payment Status: $paymentStatus</h2>";
-        
-        // Redirect to a thank you page with the status
-        header("Location: thank_you.php?status=$paymentStatus");
-        exit();
-        
+        if ($stmt->execute()) {
+            // Randomly determine the payment status
+            $paymentStatus = rand(0, 1) ? 'Completed' : 'Not Completed';
+
+            // Update the payment status in the payments table
+            $updateQuery = "UPDATE payments SET payment_status = ? WHERE email = ?";
+            $updateStmt = $conn->prepare($updateQuery);
+            $updateStmt->bind_param("ss", $paymentStatus, $email);
+            $updateStmt->execute();
+
+            // Display the payment status to the user
+            echo "<h2>Payment Status: $paymentStatus</h2>";
+            
+            // Redirect to a thank you page with the status
+            header("Location: thank_you.php?status=$paymentStatus");
+            exit();
+            
+        } else {
+            echo "Error: " . $conn->error;
+        }
     } else {
-        echo "Error: " . $conn->error;
+        // Email address does not exist in the users table, display an error message
+        echo "<h2>Error: Email address does not exist in the users table.</h2>";
     }
 }
 
