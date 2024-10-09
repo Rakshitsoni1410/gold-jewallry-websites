@@ -8,8 +8,8 @@ $db_username = 'root';
 $db_password = '';
 $db_name = 'shop';
 
-// Create connection
-$conn = new mysqli($db_host, $db_username, $db_password, $db_name);
+// Create connection with persistent connection
+$conn = new mysqli('p:' . $db_host, $db_username, $db_password, $db_name);
 
 // Check connection
 if ($conn->connect_error) {
@@ -33,6 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Email exists, proceed to insert feedback
         $insertStmt = $conn->prepare("INSERT INTO feedback (user_email, name, feedback, rating) VALUES (?, ?, ?, ?)");
         $insertStmt->bind_param('sssi', $email, $name, $feedback, $rating);
+
+        if (!$insertStmt->execute()) {
+            // Reconnect to the MySQL server if connection is lost
+            $conn->close();
+            $conn = new mysqli('p:' . $db_host, $db_username, $db_password, $db_name);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            $insertStmt->execute();
+        }
 
         if ($insertStmt->execute()) {
             // Feedback submitted successfully, store message in session
