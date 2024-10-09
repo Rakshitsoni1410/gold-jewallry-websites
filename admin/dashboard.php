@@ -279,51 +279,42 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     </div>
 
 <!-- Feedback Modal -->
-<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="feedbackModalLabel">Feedback Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?php
-                // Modify the SQL query to use the correct column name for user reference
-                $stmt = $conn->prepare("
-                    SELECT f.feedback_id, u.email AS user_email, f.feedback
-                    FROM feedback f
-                    JOIN users u ON f.user_email = u.email  -- Update this line if necessary
-                ");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                ?>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Feedback ID</th>
-                            <th>User Email</th> <!-- Change header -->
-                            <th>Feedback</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($data as $row) { ?>
-                        <tr>
-                            <td><?php echo $row['feedback_id']; ?></td>
-                            <td><?php echo $row['user_email'] ?? 'N/A'; ?></td> <!-- Change to user email -->
-                            <td><?php echo $row['feedback']; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<?php
+// Create a connection
+
+// Check connection
+
+// Prepare the query
+$stmt = $conn->prepare("SELECT f.feedback_id, u.email AS user_email, f.feedback FROM feedback f JOIN users u ON f.user_email = u.email");
+
+// Check if the query was prepared successfully
+if (!$stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
+
+// Execute the query
+$stmt->execute();
+
+// Check if the query was executed successfully
+if (!$stmt->get_result()) {
+    die("Execute failed: (" . $conn->errno . ") " . $conn->error);
+}
+
+// Fetch the data
+$result = $stmt->get_result();
+
+// Check if the data was fetched successfully
+if (!$result) {
+    die("Fetch failed: (" . $conn->errno . ") " . $conn->error);
+}
+
+// Print the data
+while ($row = $result->fetch_assoc()) {
+    echo $row['feedback_id'] . " " . $row['user_email'] . " " . $row['feedback'] . "\n";
+}
+
+// Close the connection
+?>
 <!-- Contact Modal -->
 <?php
 // Start the session and include the database connection
