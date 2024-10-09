@@ -14,6 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Process the form data
+// Process the form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'];
     $email = $_POST['email'];
@@ -27,15 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expyear = $_POST['expyear'];
     $cvv = $_POST['cvv'];
 
-    // Use a LEFT JOIN to check if the email address exists in the users table
+    // Insert data into the payments table
     $query = "INSERT INTO payments (email, firstname, address, city, state, zip, cardname, cardnumber, expmonth, expyear, cvv)
-              SELECT u.email, '$firstname', '$address', '$city', '$state', '$zip', '$cardname', '$cardnumber', '$expmonth', '$expyear', '$cvv'
-              FROM users u
-              WHERE u.email = '$email'";
+              VALUES ('$email', '$firstname', '$address', '$city', '$state', '$zip', '$cardname', '$cardnumber', '$expmonth', '$expyear', '$cvv')";
 
     if ($conn->query($query) === TRUE) {
         // Randomly determine the payment status
         $paymentStatus = rand(0, 1) ? 'Completed' : 'Not Completed';
+
+        // Update the payment status in the payments table
+        $updateQuery = "UPDATE payments SET payment_status = '$paymentStatus' WHERE email = '$email'";
+        $conn->query($updateQuery);
 
         // Display the payment status to the user
         echo "<h2>Payment Status: $paymentStatus</h2>";
