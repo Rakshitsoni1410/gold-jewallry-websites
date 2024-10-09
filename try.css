@@ -180,7 +180,21 @@ nav {
   width: 250px;
   z-index: 1;
 }
+.dropdown-contents{
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 3px;
+  z-index: 1;
+}
 
+.dropdown:hover .dropdown-contents {
+  display: block;
+  
+}
 .dropdown:hover .dropdown-content {
   display: block;
 }
