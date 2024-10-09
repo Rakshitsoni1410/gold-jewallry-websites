@@ -327,47 +327,101 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
 
     <!-- Contact Modal -->
-    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="contactModalLabel">Contact Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    $stmt = $conn->prepare("SELECT * FROM contact");
-                    $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Contact ID</th>
-                                <th>User ID</th>
-                                <th>Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['contact_id']; ?></td>
-                                <td><?php echo $row['user_id']; ?></td>
-                                <td><?php echo $row['message']; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <?php
+// Start the session and include the database connection
+session_start();
+require 'database_connection.php'; // Ensure you have this file that establishes $conn
 
+// Fetch data from vendors table
+$query = "SELECT * FROM vendors";
+$result_vendors = $conn->query($query);
+
+// Fetch data from collaborations table
+$query = "SELECT * FROM collaborations";
+$result_collab = $conn->query($query);
+
+// Fetch data from careers table
+$query = "SELECT * FROM careers";
+$result_careers = $conn->query($query);
+
+// Fetch data from contact table
+$query = "SELECT * FROM contact";
+$result_contact = $conn->query($query);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor and Collaboration Information</title>
+    <!-- Include Bootstrap CSS and Font Awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Vendors Section -->
+        <h2 class="mb-4">Vendors</h2>
+        <ul class="list-group">
+            <?php while ($row = $result_vendors->fetch_assoc()) { ?>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-building me-3"></i>
+                    <div>
+                        <span class="fw-bold"><?php echo htmlspecialchars($row['company']); ?></span>
+                        <p class="mb-1"><?php echo htmlspecialchars($row['product_service']); ?></p>
+                        <a href="<?php echo htmlspecialchars($row['website']); ?>" target="_blank" class="text-primary">Visit Website</a>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+
+        <!-- Collaborations Section -->
+        <h2 class="mt-4 mb-4">Collaborations</h2>
+        <ul class="list-group">
+            <?php while ($row = $result_collab->fetch_assoc()) { ?>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-handshake me-3"></i>
+                    <div>
+                        <span class="fw-bold"><?php echo htmlspecialchars($row['company']); ?></span>
+                        <p class="mb-1"><?php echo htmlspecialchars($row['collab_type']); ?></p>
+                        <a href="<?php echo htmlspecialchars($row['website']); ?>" target="_blank" class="text-primary">Visit Website</a>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+
+        <!-- Careers Section -->
+        <h2 class="mt-4 mb-4">Careers</h2>
+        <ul class="list-group">
+            <?php while ($row = $result_careers->fetch_assoc()) { ?>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-briefcase me-3"></i>
+                    <div>
+                        <span class="fw-bold"><?php echo htmlspecialchars($row['position']); ?></span>
+                        <p class="mb-1"><?php echo htmlspecialchars($row['cover_letter']); ?></p>
+                        <a href="<?php echo htmlspecialchars($row['portfolio']); ?>" target="_blank" class="text-primary">View Portfolio</a>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+
+        <!-- Contact Section -->
+        <h2 class="mt-4 mb-4">Contact</h2>
+        <ul class="list-group">
+            <?php while ($row = $result_contact->fetch_assoc()) { ?>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-envelope me-3"></i>
+                    <span><?php echo htmlspecialchars($row['message']); ?></span>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
