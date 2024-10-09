@@ -1,17 +1,29 @@
 <?php
-// Database Connection
-session_start(); // Start the session
-$servername = 'localhost';
-$username = 'root';
-$password = '';
-$dbname = 'shop';
+// Start the session
+session_start();
+
+// Database connection parameters
+$servername = 'localhost'; // Database host
+$username = 'root';         // Database username
+$password = '';             // Database password
+$dbname = 'shop';           // Database name
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // Create a new PDO instance
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+    
+    // Set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Optional: Set the default fetch mode to associative array
+    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    
+    // Uncomment this line to check if the connection is successful
+    // echo "Connected successfully"; 
 } catch (PDOException $e) {
+    // Catch any connection errors and display the message
     echo "Connection failed: " . $e->getMessage();
-    exit();
+    exit(); // Stop the script if the connection fails
 }
 
 // Logout function
@@ -31,463 +43,334 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .admin-dashboard {
-            padding: 20px;
-        }
-        .icon-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-        .icon-container i {
-            font-size: 40px;
-            color: #007bff;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .icon-container i:hover {
-            transform: scale(1.1);
-            color: #0056b3;
-        }
-        .modal-header {
-            background-color: #007bff;
-            color: white;
-        }
-        .table {
-            margin-top: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .table th {
-            background-color: #007bff;
-            color: white;
-        }
-        .table th, .table td {
-            padding: 12px 15px;
-            text-align: left;
-        }
-        .table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-        .table tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .table tbody tr:hover {
-            background-color: #e9ecef;
-        }
-        .modal-footer {
-            border-top: 1px solid #dddddd;
-            background-color: #f8f9fa;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-        .btn-danger {
-            background-color: #dc3545; /* Bootstrap danger color */
-            border: none;
-        }
-        .btn-danger:hover {
-            background-color: #c82333; /* Darker shade on hover */
-        }
-    </style>
+    <title>Admin Panel</title>
+    <!-- Add your CSS here -->
 </head>
 <body>
-
-<div class="container admin-dashboard">
-    <h2 class="text-center mb-4">Admin Dashboard</h2>
-    
     <!-- Logout Button -->
-    <div class="text-right mb-3">
-        <a href="?action=logout" class="btn btn-danger">Logout</a>
+    <div class="logout">
+        <a href="?action=logout" class="btn btn-danger"> Logout</a>
     </div>
 
-    <div class="icon-container">
-        <i class="fas fa-users" data-toggle="modal" data-target="#userModal" title="User Information"></i>
-        <i class="fas fa-money-check-alt" data-toggle="modal" data-target="#paymentModal" title="Payment Information"></i>
-        <i class="fas fa-box-open" data-toggle="modal" data-target="#orderModal" title="Order Information"></i>
-        <i class="fas fa-comments" data-toggle="modal" data-target="#feedbackModal" title="Feedback Information"></i>
-        <i class="fas fa-address-book" data-toggle="modal" data-target="#contactModal" title="Contact Information"></i>
+    <!-- Admin Panel -->
+    
+
+
+<!-- Include Bootstrap and Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Admin Panel Dashboard Icons -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Panel</h2>
+    <div class="row text-center">
+        <div class="col-md-3">
+            <i class="fas fa-users fa-3x text-primary" data-toggle="collapse" href="#users-table" role="button" aria-expanded="false" aria-controls="users-table"></i>
+            <p>Users</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-money-check-alt fa-3x text-success" data-toggle="collapse" href="#payments-table" role="button" aria-expanded="false" aria-controls="payments-table"></i>
+            <p>Payments</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-comment fa-3x text-warning" data-toggle="collapse" href="#feedback-table" role="button" aria-expanded="false" aria-controls="feedback-table"></i>
+            <p>Feedback</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-question-circle fa-3x text-info" data-toggle="collapse" href="#inquiries-table" role="button" aria-expanded="false" aria-controls="inquiries-table"></i>
+            <p>Inquiries</p>
+        </div>
     </div>
 
-    <!-- User Modal -->
-    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">User Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
+    <div class="row text-center mt-4">
+        <div class="col-md-3">
+            <i class="fas fa-briefcase fa-3x text-danger" data-toggle="collapse" href="#careers-table" role="button" aria-expanded="false" aria-controls="careers-table"></i>
+            <p>Careers</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-industry fa-3x text-dark" data-toggle="collapse" href="#vendors-table" role="button" aria-expanded="false" aria-controls="vendors-table"></i>
+            <p>Vendors</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-handshake fa-3x text-secondary" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table"></i>
+            <p>Collaborations</p>
+        </div>
+    </div>
+
+    <!-- Collapsible Tables -->
+    <div class="collapse" id="users-table">
+        <div class="card card-body mt-3">
+            <h3>Users</h3>
+            <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#users-table" role="button" aria-expanded="false" aria-controls="users-table">Close</button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
                     // Fetch user data
                     $stmt = $conn->prepare("SELECT * FROM users");
                     $stmt->execute();
                     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                    if ($data) {
-                    ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['user_id'] ?? 'N/A'; ?></td>
-                                <td><?php echo $row['username'] ?? 'N/A'; ?></td>
-                                <td><?php echo $row['email'] ?? 'N/A'; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                    <?php } else {
-                        echo "No user data available.";
-                    } ?>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+                    foreach ($data as $row) { ?>
+                        <tr>
+                            <td><?php echo $row['user_id']; ?></td>
+                            <td><?php echo $row['username']; ?></td>
+                            <td><?php echo $row['email']; ?></td>
+                            <td><?php echo $row['password']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Payment Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    // Fetch all payment data
-                    $stmt = $conn->prepare("SELECT * FROM payments");
-                    $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Payment ID</th>
-                                <th>User Email</th>
-                                <th>First Name</th>
-                                <th>Address</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Zip</th>
-                                <th>Card Name</th>
-                                <th>Card Number</th>
-                                <th>Exp Month</th>
-                                <th>Exp Year</th>
-                                <th>CVV</th>
-                                <th>Amount</th>
-                                <th>Payment Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['payment_id']; ?></td>
-                                <td><?php echo $row['user_email']; ?></td>
-                                <td><?php echo $row['firstname']; ?></td>
-                                <td><?php echo $row['address']; ?></td>
-                                <td><?php echo $row['city']; ?></td>
-                                <td><?php echo $row['state']; ?></td>
-                                <td><?php echo $row['zip']; ?></td>
-                                <td><?php echo $row['cardname']; ?></td>
-                                <td><?php echo $row['cardnumber']; ?></td>
-                                <td><?php echo $row['expmonth']; ?></td>
-                                <td><?php echo $row['expyear']; ?></td>
-                                <td><?php echo $row['cvv']; ?></td>
-                                <td><?php echo $row['amount']; ?></td>
-                                <td><?php echo $row['payment_date']; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Order Modal -->
-    <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="orderModalLabel">Order Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    $stmt = $conn->prepare("SELECT * FROM orders");
-                    $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>User ID</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['order_id']; ?></td>
-                                <td><?php echo $row['user_id']; ?></td>
-                                <td><?php echo $row['total']; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Feedback Modal -->
-<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="feedbackModalLabel">Feedback Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
+   <!-- Payments Table -->
+<div class="collapse" id="payments-table">
+    <div class="card card-body mt-3">
+        <h3><i class="fas fa-credit-card" style="color: #337ab7; margin-right: 10px;"></i> Payments</h3>
+        <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#payments-table" role="button" aria-expanded="false" aria-controls="payments-table">Close</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">ID</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Email</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Firstname</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Address</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">City</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">State</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Zip</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Card Name</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Card Number</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Exp. Month</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Exp. Year</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">CVV</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Payment Status</th>
+                    <th style="background-color: #337ab7; color: #fff; padding: 10px; border: 1px solid #337ab7;">Created At</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php
-                // Fetch feedback data
-                $stmt = $conn->prepare("SELECT f.id, f.user_email, f.name, f.feedback, f.rating, u.email AS user_email_registered FROM feedback f LEFT JOIN users u ON f.user_email = u.email");
+                // Fetch payment data
+                $stmt = $conn->prepare("SELECT * FROM payments");
                 $stmt->execute();
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                if ($data) {
-                ?>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User Email</th>
-                            <th>Name</th>
-                            <th>Feedback</th>
-                            <th>Rating</th>
-                            <th>Email Registered</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($data as $row) { ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $row['user_email']; ?></td>
-                            <td><?php echo $row['name']; ?></td>
-                            <td><?php echo $row['feedback']; ?></td>
-                            <td><?php echo $row['rating']; ?></td>
-                            <td><?php echo ($row['user_email_registered'] == $row['user_email']) ? 'Yes' : 'No'; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-                <?php } else {
-                    echo "No feedback data available.";
-                } ?>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+                
+                foreach ($data as $row) { ?>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['id']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['email']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['firstname']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['address']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['city']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['state']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['zip']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['cardname']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['cardnumber']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['expmonth']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['expyear']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['cvv']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['payment_status']; ?></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $row['created_at']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
 </div>
-<!-- Contact Modal -->
-<?php
-// Start the session and include the database connection
-session_start();
-require 'database_connection.php'; // Ensure you have this file that establishes $conn
 
-// Fetch data from vendors table
-$query = "SELECT * FROM vendors";
-$result_vendors = $conn->query($query);
-
-// Fetch data from collaborations table
-$query = "SELECT * FROM collaborations";
-$result_collab = $conn->query($query);
-
-// Fetch data from careers table
-$query = "SELECT * FROM careers";
-$result_careers = $conn->query($query);
-
-// Fetch data from contact table
-$query = "SELECT * FROM contact";
-$result_contact = $conn->query($query);
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendor and Collaboration Information</title>
-    <!-- Include Bootstrap CSS and Font Awesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .list-group-item {
-            padding: 15px;
-        }
-        .list-group-item i {
-            font-size: 20px;
-            margin-right: 10px;
-        }
-        .list-group-item a {
-            text-decoration: none;
-            color: #337ab7;
-        }
-        .list-group-item a:hover {
-            color: #23527c;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <!-- Vendors Section -->
-        <h2 class="mb-4">Vendors</h2>
-        <ul class="list-group">
-            <?php while ($row = $result_vendors->fetch_assoc()) { ?>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-building me-3"></i>
-                    <div>
-                        <span class="fw-bold"><?php echo htmlspecialchars($row['company']); ?></span>
-                        <p class="mb-1"><?php echo htmlspecialchars($row['product_service']); ?></p>
-                        <a href="<?php echo htmlspecialchars($row['website']); ?>" target="_blank" class="text-primary">Visit Website</a>
-                    </div>
-                </li>
-            <?php } ?>
-        </ul>
-
-        <!-- Collaborations Section -->
-        <h2 class="mt-4 mb-4">Collaborations</h2>
-        <ul class="list-group">
-            <?php while ($row = $result_collab->fetch_assoc()) { ?>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-handshake me-3"></i>
-                    <div>
-                        <span class="fw-bold"><?php echo htmlspecialchars($row['company']); ?></span>
-                        <p class="mb-1"><?php echo htmlspecialchars($row['collab_type']); ?></p>
-                        <a href="<?php echo htmlspecialchars($row['website']); ?>" target="_blank" class="text-primary">Visit Website</a>
-                    </div>
-                </li>
-            <?php } ?>
-        </ul>
-
-        <!-- Careers Section -->
-        <h2 class="mt-4 mb-4">Careers</h2>
-        <ul class="list-group">
-            <?php while ($row = $result_careers->fetch_assoc()) { ?>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-briefcase me-3"></i>
-                    <div>
-                        <span class="fw-bold"><?php echo htmlspecialchars($row['position']); ?></span>
-                        <p class="mb-1"><?php echo htmlspecialchars($row['cover_letter']); ?></p>
-                        <a href="<?php echo htmlspecialchars($row['portfolio']); ?>" target="_blank" class="text-primary">View Portfolio</a>
-                    </div>
-                </li>
-            <?php } ?>
-        </ul>
-
-        <!-- Contact Section -->
-        <h2 class="mt-4 mb-4">Contact</h2>
-        <ul class="list-group">
-            <?php while ($row = $result_contact->fetch_assoc()) { ?>
-                <li class="list-group-item d-flex align-items-center">
-                <i class="fas fa-envelope me-3"></i>
-                <div>
-                    <span><?php echo htmlspecialchars($row['message']); ?></span>
-                </div>
-            </li>
-        <?php } ?>
-        </ul>
+    <!-- Add similar blocks for Feedback, Inquiries, Careers, Vendors, and Collaborations as shown above. -->
+     <!-- Collapsible Tables for Feedback, Inquiries, Careers, Vendors, and Collaborations -->
+<div class="collapse" id="feedback-table">
+    <div class="card card-body mt-3">
+        <h3>Feedback</h3>
+        <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#feedback-table" role="button" aria-expanded="false" aria-controls="feedback-table">Close</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User Email</th>
+                    <th>Name</th>
+                    <th>Feedback</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch feedback data
+                $stmt = $conn->prepare("SELECT * FROM feedback");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($data as $row) { ?>
+                    <tr>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['user_email']; ?></td>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['feedback']; ?></td>
+                        <td><?php echo $row['rating']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <!-- Modal for Contact Information -->
-    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="contactModalLabel">Contact Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                    // Assuming the contact details are stored in a similar way, you can pull the details like this
-                    $query_contact_details = "SELECT * FROM contact_details WHERE contact_id = ?"; // Example query, update according to your schema
-                    $stmt = $conn->prepare($query_contact_details);
-                    $stmt->execute();
-                    $result_contact_details = $stmt->get_result();
-
-                    while ($contact_row = $result_contact_details->fetch_assoc()) { ?>
-                        <p><strong>Name:</strong> <?php echo htmlspecialchars($contact_row['name']); ?></p>
-                        <p><strong>Email:</strong> <?php echo htmlspecialchars($contact_row['email']); ?></p>
-                        <p><strong>Message:</strong> <?php echo htmlspecialchars($contact_row['message']); ?></p>
-                    <?php } ?>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+<div class="collapse" id="inquiries-table">
+    <div class="card card-body mt-3">
+        <h3>Inquiries</h3>
+        <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#inquiries-table" role="button" aria-expanded="false" aria-controls="inquiries-table">Close</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Type</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch inquiry data
+                $stmt = $conn->prepare("SELECT * FROM inquiries");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($data as $row) { ?>
+                    <tr>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
+                        <td><?php echo $row['phone']; ?></td>
+                        <td><?php echo $row['subject']; ?></td>
+                        <td><?php echo $row['message']; ?></td>
+                        <td><?php echo $row['type']; ?></td>
+                        <td><?php echo $row['created_at']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <!-- Include jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+<div class="collapse" id="careers-table">
+    <div class="card card-body mt-3">
+        <h3>Careers</h3>
+        <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#careers-table" role="button" aria-expanded="false" aria-controls="careers-table">Close</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Inquiry ID</th>
+                    <th>Position</th>
+                    <th>Cover Letter</th>
+                    <th>Portfolio</th>
+                    <th>Resume</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch career data
+                $stmt = $conn->prepare("SELECT * FROM careers");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($data as $row) { ?>
+                    <tr>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['inquiry_id']; ?></td>
+                        <td><?php echo $row['position']; ?></td>
+                        <td><?php echo $row['cover_letter']; ?></td>
+                        <td><?php echo $row['portfolio']; ?></td>
+                        <td><?php echo $row['resume']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
+<div class="collapse" id="vendors-table">
+    <div class="card card-body mt-3">
+        <h3>Vendors</h3>
+        <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#vendors-table" role="button" aria-expanded="false" aria-controls="vendors-table">Close</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Inquiry ID</th>
+                    <th>Company</th>
+                    <th>Product/Service</th>
+                    <th>Website</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch vendor data
+                $stmt = $conn->prepare("SELECT * FROM vendors");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($data as $row) { ?>
+                    <tr>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['inquiry_id']; ?></td>
+                        <td><?php echo $row['company']; ?></td>
+                        <td><?php echo $row['product_service']; ?></td>
+                        <td><?php echo $row['website']; ?></td>
+                        <td><?php echo $row['message']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-</body>
-</html>
+<div class="collapse" id="collaborations-table">
+    <div class="card card-body mt-3">
+        <h3>Collaborations</h3>
+        <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table">Close</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Inquiry ID</th>
+                    <th>Company</th>
+                    <th>Collaboration Type</th>
+                    <th>Website</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch collaboration data
+                $stmt = $conn->prepare("SELECT * FROM collaborations");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($data as $row) { ?>
+                    <tr>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['inquiry_id']; ?></td>
+                        <td><?php echo $row['company']; ?></td>
+                        <td><?php echo $row['collab_type']; ?></td>
+                        <td><?php echo $row['website']; ?></td>
+                        <td><?php echo $row['message']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
+</div>
+
+<!-- Include Bootstrap and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

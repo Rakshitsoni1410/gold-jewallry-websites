@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         // Email exists, proceed to insert feedback
         $insertStmt = $conn->prepare("INSERT INTO feedback (user_email, name, feedback, rating) VALUES (?, ?, ?, ?)");
-        $insertStmt->bind_param('sssi', $email, $name, $feedback, $rating);
+        $insertStmt->bind_param('sss', $email, $name, $feedback, $rating);
 
         if (!$insertStmt->execute()) {
             // Reconnect to the MySQL server if connection is lost
