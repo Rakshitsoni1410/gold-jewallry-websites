@@ -279,42 +279,58 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     </div>
 
 <!-- Feedback Modal -->
-<?php
-// Create a connection
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedbackModalLabel">Feedback Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php
+                // Fetch feedback data
+                $stmt = $conn->prepare("SELECT f.id, f.user_email, f.name, f.feedback, f.rating, u.email AS user_email_registered FROM feedback f LEFT JOIN users u ON f.user_email = u.email");
+                $stmt->execute();
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Check connection
-
-// Prepare the query
-$stmt = $conn->prepare("SELECT f.feedback_id, u.email AS user_email, f.feedback FROM feedback f JOIN users u ON f.user_email = u.email");
-
-// Check if the query was prepared successfully
-if (!$stmt) {
-    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
-}
-
-// Execute the query
-$stmt->execute();
-
-// Check if the query was executed successfully
-if (!$stmt->get_result()) {
-    die("Execute failed: (" . $conn->errno . ") " . $conn->error);
-}
-
-// Fetch the data
-$result = $stmt->get_result();
-
-// Check if the data was fetched successfully
-if (!$result) {
-    die("Fetch failed: (" . $conn->errno . ") " . $conn->error);
-}
-
-// Print the data
-while ($row = $result->fetch_assoc()) {
-    echo $row['feedback_id'] . " " . $row['user_email'] . " " . $row['feedback'] . "\n";
-}
-
-// Close the connection
-?>
+                if ($data) {
+                ?>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User Email</th>
+                            <th>Name</th>
+                            <th>Feedback</th>
+                            <th>Rating</th>
+                            <th>Email Registered</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($data as $row) { ?>
+                        <tr>
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo $row['user_email']; ?></td>
+                            <td><?php echo $row['name']; ?></td>
+                            <td><?php echo $row['feedback']; ?></td>
+                            <td><?php echo $row['rating']; ?></td>
+                            <td><?php echo ($row['user_email_registered'] == $row['user_email']) ? 'Yes' : 'No'; ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+                <?php } else {
+                    echo "No feedback data available.";
+                } ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Contact Modal -->
 <?php
 // Start the session and include the database connection
