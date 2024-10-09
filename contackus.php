@@ -1,5 +1,6 @@
 <?php
 
+// Database configuration
 $db_host = 'localhost';
 $db_username = 'root';
 $db_password = '';
@@ -12,97 +13,118 @@ $conn = new mysqli($db_host, $db_username, $db_password, $db_name);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate input data
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
-    $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
 
-    // Careers Form Data
-    $careerName = filter_input(INPUT_POST, 'career-name', FILTER_SANITIZE_STRING);
-    $careerEmail = filter_input(INPUT_POST, 'career-email', FILTER_VALIDATE_EMAIL);
-    $careerPhone = filter_input(INPUT_POST, 'career-phone', FILTER_SANITIZE_STRING);
-    $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_STRING);
-    $coverLetter = filter_input(INPUT_POST, 'cover-letter', FILTER_SANITIZE_STRING);
-    $portfolio = filter_input(INPUT_POST, 'portfolio', FILTER_VALIDATE_URL);
+// Function to handle file upload
+function uploadFile($file) {
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($file["name"]);
+    $uploadOk = 1;
+    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
-    // Collaboration Form Data
-    $collabName = filter_input(INPUT_POST, 'collab-name', FILTER_SANITIZE_STRING);
-    $company = filter_input(INPUT_POST, 'company', FILTER_SANITIZE_STRING);
-    $collabEmail = filter_input(INPUT_POST, 'collab-email', FILTER_VALIDATE_EMAIL);
-    $collabPhone = filter_input(INPUT_POST, 'collab-phone', FILTER_SANITIZE_STRING);
-    $collabType = filter_input(INPUT_POST, 'collab-type', FILTER_SANITIZE_STRING);
-    $collabWebsite = filter_input(INPUT_POST, 'collab-website', FILTER_VALIDATE_URL);
-    $collabMessage = filter_input(INPUT_POST, 'collab-message', FILTER_SANITIZE_STRING);
+    // Check if file already exists
+    if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
 
-    // Vendor Form Data
-    $vendorName = filter_input(INPUT_POST, 'vendor-name', FILTER_SANITIZE_STRING);
-    $vendorCompany = filter_input(INPUT_POST, 'vendor-company', FILTER_SANITIZE_STRING);
-    $vendorEmail = filter_input(INPUT_POST, 'vendor-email', FILTER_VALIDATE_EMAIL);
-    $vendorPhone = filter_input(INPUT_POST, 'vendor-phone', FILTER_SANITIZE_STRING);
-    $vendorProduct = filter_input(INPUT_POST, 'vendor-product', FILTER_SANITIZE_STRING);
-    $vendorWebsite = filter_input(INPUT_POST, 'vendor-website', FILTER_VALIDATE_URL);
-    $vendorMessage = filter_input(INPUT_POST, 'vendor-message', FILTER_SANITIZE_STRING);
+    // Check file size (limit to 500KB)
+    if ($file["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
 
-    // Define the recipient email address
-    $to = "your-email@example.com"; // Replace with your email address
+    // Allow certain file formats
+    if ($imageFileType != "pdf" && $imageFileType != "docx" && $imageFileType != "doc") {
+        echo "Sorry, only PDF, DOCX and DOC files are allowed.";
+        $uploadOk = 0;
+    }
 
-    // Determine which form was submitted
-    if (!empty($name) && !empty($email) && !empty($subject) && !empty($message)) {
-        $emailSubject = "New General Inquiry from $name";
-        $emailBody = "Name: $name\nEmail: $email\nPhone: $phone\nSubject: $subject\nMessage:\n$message";
-    } elseif (!empty($careerName) && !empty($careerEmail) && !empty($position) && !empty($coverLetter)) {
-        $emailSubject = "New Career Application from $careerName";
-        $emailBody = "Name: $careerName\nEmail: $careerEmail\nPhone: $careerPhone\nPosition Interested In: $position\nCover Letter:\n$coverLetter\nLinkedIn/Portfolio: $portfolio";
-        
-        // Handle file upload (Resume)
-        if (isset($_FILES['resume']) && $_FILES['resume']['error'] == 0) {
-            $fileTmpPath = $_FILES['resume']['tmp_name'];
-            $fileName = $_FILES['resume']['name'];
-            $fileSize = $_FILES['resume']['size'];
-            $fileType = $_FILES['resume']['type'];
-            $fileNameCmps = explode(".", $fileName);
-            $fileExtension = strtolower(end($fileNameCmps));
-            $allowedfileExtensions = array('pdf', 'doc', 'docx');
-
-            if (in_array($fileExtension, $allowedfileExtensions)) {
-                $uploadFileDir = './uploads/';
-                $dest_path = $uploadFileDir . $fileName;
-
-                if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                    $emailBody .= "\nResume: $dest_path";
-                } else {
-                    echo "There was an error moving the uploaded file.";
-                    exit;
-                }
-            } else {
-                echo "Invalid file type. Only PDF, DOC, and DOCX are allowed.";
-                exit;
-            }
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+    } else {
+        if (move_uploaded_file($file["tmp_name"], $target_file)) {
+            return $target_file;
+        } else {
+            echo "Sorry, there was an error uploading your file.";
         }
-    } elseif (!empty($collabName) && !empty($collabEmail) && !empty($company) && !empty($collabType)) {
-        $emailSubject = "New Collaboration Inquiry from $collabName";
-        $emailBody = "Name: $collabName\nCompany: $company\nEmail: $collabEmail\nPhone: $collabPhone\nType of Collaboration: $collabType\nWebsite: $collabWebsite\nMessage:\n$collabMessage";
-    } elseif (!empty($vendorName) && !empty($vendorEmail) && !empty($vendorCompany) && !empty($vendorProduct)) {
-        $emailSubject = "New Vendor Inquiry from $vendorName";
-        $emailBody = "Name: $vendorName\nCompany: $vendorCompany\nEmail: $vendorEmail\nPhone: $vendorPhone\nType of Product/Service: $vendorProduct\nWebsite: $vendorWebsite\nMessage:\n$vendorMessage";
-    } else {
-        echo "Required fields are missing.";
-        exit;
     }
-
-    // Email headers
-    $headers = "From: $email";
-
-    // Send email
-    if (mail($to, $emailSubject, $emailBody, $headers)) {
-        echo "Your message has been sent successfully!";
-    } else {
-        echo "There was an error sending your message. Please try again later.";
-    }
-} else {
-    echo "Invalid request method.";
+    return false; // Return false if upload failed
 }
+
+// Handle form data
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // General Inquiry Form
+    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $subject = $_POST['subject'];
+        $message = $_POST['message'];
+
+        $sql = "INSERT INTO inquiries (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $name, $email, $phone, $subject, $message);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    // Careers Form
+    if (isset($_POST['career-name']) && isset($_POST['career-email']) && isset($_POST['career-phone']) && isset($_POST['position']) && isset($_FILES['resume']) && isset($_POST['cover-letter'])) {
+        $name = $_POST['career-name'];
+        $email = $_POST['career-email'];
+        $phone = $_POST['career-phone'];
+        $position = $_POST['position'];
+        $resume = uploadFile($_FILES['resume']); // Upload file
+        $cover_letter = $_POST['cover-letter'];
+        $portfolio = $_POST['portfolio'];
+
+        if ($resume) { // Ensure resume upload was successful
+            $sql = "INSERT INTO careers (name, email, phone, position, resume, cover_letter, portfolio) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssssss", $name, $email, $phone, $position, $resume, $cover_letter, $portfolio);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+
+    // Collaboration and Partnership Form
+    if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['collab-email']) && isset($_POST['collab-type']) && isset($_POST['collab-website']) && isset($_POST['collab-message'])) {
+        $name = $_POST['collab-name'];
+        $company = $_POST['company'];
+        $email = $_POST['collab-email'];
+        $phone = $_POST['collab-phone'];
+        $collaboration_type = $_POST['collab-type'];
+        $website = $_POST['collab-website'];
+        $message = $_POST['collab-message'];
+
+        $sql = "INSERT INTO collaborations (name, company, email, phone, collaboration_type, website, message) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssss", $name, $company, $email, $phone, $collaboration_type, $website, $message);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    // Vendor Form
+    if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
+        $name = $_POST['vendor-name'];
+        $company = $_POST['vendor-company'];
+        $email = $_POST['vendor-email'];
+        $phone = $_POST['vendor-phone'];
+        $product_service = $_POST['vendor-product'];
+        $website = $_POST['vendor-website'];
+        $message = $_POST['vendor-message'];
+
+        $sql = "INSERT INTO vendors (name, company, email, phone, product_service, website, message) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssss", $name, $company, $email, $phone, $product_service, $website, $message);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
+
+// Close the database connection
+$conn->close();
+
+echo "Data inserted successfully!";
 ?>
