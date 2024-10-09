@@ -324,10 +324,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
         </div>
     </div>
 </div>
-
-
-    <!-- Contact Modal -->
-    <?php
+<!-- Contact Modal -->
+<?php
 // Start the session and include the database connection
 session_start();
 require 'database_connection.php'; // Ensure you have this file that establishes $conn
@@ -358,6 +356,30 @@ $result_contact = $conn->query($query);
     <!-- Include Bootstrap CSS and Font Awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .list-group-item {
+            padding: 15px;
+        }
+        .list-group-item i {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-group-item a {
+            text-decoration: none;
+            color: #337ab7;
+        }
+        .list-group-item a:hover {
+            color: #23527c;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -411,17 +433,54 @@ $result_contact = $conn->query($query);
         <ul class="list-group">
             <?php while ($row = $result_contact->fetch_assoc()) { ?>
                 <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-envelope me-3"></i>
+                <i class="fas fa-envelope me-3"></i>
+                <div>
                     <span><?php echo htmlspecialchars($row['message']); ?></span>
-                </li>
-            <?php } ?>
+                </div>
+            </li>
+        <?php } ?>
         </ul>
+    </div>
+
+    <!-- Modal for Contact Information -->
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Contact Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?php
+                    // Assuming the contact details are stored in a similar way, you can pull the details like this
+                    $query_contact_details = "SELECT * FROM contact_details WHERE contact_id = ?"; // Example query, update according to your schema
+                    $stmt = $conn->prepare($query_contact_details);
+                    $stmt->execute();
+                    $result_contact_details = $stmt->get_result();
+
+                    while ($contact_row = $result_contact_details->fetch_assoc()) { ?>
+                        <p><strong>Name:</strong> <?php echo htmlspecialchars($contact_row['name']); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($contact_row['email']); ?></p>
+                        <p><strong>Message:</strong> <?php echo htmlspecialchars($contact_row['message']); ?></p>
+                    <?php } ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Include jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
 </body>
 </html>
 
