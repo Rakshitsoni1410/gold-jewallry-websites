@@ -303,10 +303,12 @@ h2 {
 .product-item h3 {
   margin-top: 10px;
   margin-bottom: 0px;
+color:#333;
 }
 
 .product-item p {
   margin-bottom: 0px;
+  color: #333;
 }
 
 @media (max-width: 768px) {
