@@ -94,6 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 echo "Career application submitted successfully!<br>";
+                header('Location: index.php');
+                exit;
             } else {
                 echo "Error: " . $stmt->error . "<br>";
             }
@@ -105,28 +107,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Collaboration Form
 if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['collab-email']) && isset($_POST['collab-type']) && isset($_POST['collab-website']) && isset($_POST['collab-message'])) {
     
-    // Sanitize inputs
-    $name = mysqli_real_escape_string($conn, $_POST['collab-name']);
-    $company = mysqli_real_escape_string($conn, $_POST['company']);
-    $email = mysqli_real_escape_string($conn, $_POST['collab-email']);
-    $phone = isset($_POST['collab-phone']) ? mysqli_real_escape_string($conn, $_POST['collab-phone']) : ''; // Optional field
-    $collaboration_type = mysqli_real_escape_string($conn, $_POST['collab-type']);
-    $website = mysqli_real_escape_string($conn, $_POST['collab-website']);
-    $message = mysqli_real_escape_string($conn, $_POST['collab-message']);
-    
     // Prepare SQL statement for collaboration
-    $sql = "INSERT INTO collaborations (name, company_name, email_address, phone_number, collab_type, website_url, message_content) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO collaborations (company_name, email_address, phone_number, collab_type, website_url, message_content, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
     
     // Check if statement preparation was successful
     if ($stmt) {
         // Bind the parameters
-        $stmt->bind_param("sssssss", $name, $company, $email, $phone, $collaboration_type, $website, $message);
+        $stmt->bind_param("ssssss", 
+            $_POST['company'], 
+            $_POST['collab-email'], 
+            $_POST['collab-phone'], 
+            $_POST['collab-type'], 
+            $_POST['collab-website'], 
+            $_POST['collab-message']
+        );
         
         // Execute the statement
         if ($stmt->execute()) {
             echo "Collaboration request submitted successfully!<br>";
+            header('Location: index.php');
+            exit;
         } else {
             echo "Error: " . $stmt->error; // Show error message
         }
@@ -136,25 +138,52 @@ if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['co
     } else {
         echo "Error preparing statement: " . $conn->error; // Show error in statement preparation
     }
-}
-if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
+}if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
     
-    // Insert data into the vendors table
-    $sql = "INSERT INTO vendors (company, product_service, website, message) VALUES (?, ?, ?, ?)";
+    // Insert data into the inquiries table
+    $sql = "INSERT INTO inquiries (name, email, phone) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     
-    // Check if statement preparation was successful
+    if ($stmt) {
+        $name = $_POST['vendor-name'];
+        $email = $_POST['vendor-email'];
+        $phone = $_POST['vendor-phone'];
+        
+        $stmt->bind_param("sss", $name, $email, $phone);
+        
+        // Execute the statement
+        if ($stmt->execute()) {
+            $inquiry_id = $conn->insert_id;
+            echo "Inquiry submitted successfully!<br>";
+            header('Location: index.php');
+            exit;
+        } else {
+            echo "Error: " . $stmt->error . "<br>";
+        }
+        
+        // Close the statement
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error; // Show error in statement preparation
+    }
+    
+    // Insert data into the vendors table
+    $sql = "INSERT INTO vendors (inquiry_id, company, product_service, website, message) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    
     if ($stmt) {
         $company = $_POST['vendor-company'];
         $product_service = $_POST['vendor-product'];
         $website = $_POST['vendor-website'];
         $message = $_POST['vendor-message'];
         
-        $stmt->bind_param("ssss", $company, $product_service, $website, $message);
+        $stmt->bind_param("issss", $inquiry_id, $company, $product_service, $website, $message);
         
         // Execute the statement
         if ($stmt->execute()) {
             echo "Vendor inquiry submitted successfully!<br>";
+            header('Location: index.php');
+            exit;
         } else {
             echo "Error: " . $stmt->error . "<br>";
         }
@@ -167,6 +196,5 @@ if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_P
 }
 
 // Close the database connection
-$conn->close();
-}
+$conn->close();}
 ?>
