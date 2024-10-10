@@ -303,7 +303,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
+              
                     <th>Inquiry ID</th>
                     <th>Company</th>
                     <th>Product/Service</th>
@@ -319,7 +319,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($data as $row) { ?>
                     <tr>
-                        <td><?php echo $row['id']; ?></td>
+                        
                         <td><?php echo $row['inquiry_id']; ?></td>
                         <td><?php echo $row['company']; ?></td>
                         <td><?php echo $row['product_service']; ?></td>
@@ -330,9 +330,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             </tbody>
         </table>
     </div>
-</div>
-
-<div class="collapse" id="collaborations-table">
+</div><div class="collapse" id="collaborations-table">
     <div class="card card-body mt-3">
         <h3>Collaborations</h3>
         <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table">Close</button>
@@ -340,36 +338,48 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Inquiry ID</th>
                     <th>Company</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                     <th>Collaboration Type</th>
                     <th>Website</th>
                     <th>Message</th>
+                    <th>Created At</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 // Fetch collaboration data
-                $stmt = $conn->prepare("SELECT * FROM collaborations");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($data as $row) { ?>
-                    <tr>
-                        <td><?php echo $row['id']; ?></td>
-                        <td><?php echo $row['inquiry_id']; ?></td>
-                        <td><?php echo $row['company']; ?></td>
-                        <td><?php echo $row['collab_type']; ?></td>
-                        <td><?php echo $row['website']; ?></td>
-                        <td><?php echo $row['message']; ?></td>
-                    </tr>
-                <?php } ?>
+                try {
+                    $stmt = $conn->prepare("SELECT id, company_name, email_address, phone_number, collab_type, website_url, message_content, created_at FROM collaborations");
+                    $stmt->execute();
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    if ($data) { // Check if there are results
+                        foreach ($data as $row) {
+                            // Output each field using echo
+                            echo "<tr>
+                                    <td>" . $row['id'] . "</td>
+                                    <td>" . $row['company_name'] . "</td>
+                                    <td>" . $row['email_address'] . "</td>
+                                    <td>" . $row['phone_number'] . "</td>
+                                    <td>" . $row['collab_type'] . "</td>
+                                    <td>" . $row['website_url'] . "</td>
+                                    <td>" . $row['message_content'] . "</td>
+                                    <td>" . $row['created_at'] . "</td>
+                                  </tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='8'>No collaborations found.</td></tr>";
+                    }
+                } catch (PDOException $e) {
+                    echo "<tr><td colspan='8'>Error fetching data: " . $e->getMessage() . "</td></tr>";
+                }
+                ?>
             </tbody>
         </table>
     </div>
 </div>
-
-</div>
-
 <!-- Include Bootstrap and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
