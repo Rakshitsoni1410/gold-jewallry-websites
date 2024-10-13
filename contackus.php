@@ -77,20 +77,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
+    // Careers Form// Handle form submissions
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // General Inquiry Form
+    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
+        $stmt = $conn->prepare("INSERT INTO inquiries (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)");
+        
+        // Binding parameters directly from $_POST
+        $stmt->bind_param("sssss", $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['subject'], $_POST['message']);
+
+        if ($stmt->execute()) {
+            echo "General inquiry submitted successfully!<br>";
+        } else {
+            echo "Error: " . $stmt->error . "<br>";
+        }
+        $stmt->close();
+    }
+
     // Careers Form
     if (isset($_POST['career-name']) && isset($_POST['career-email']) && isset($_POST['career-phone']) && isset($_POST['position']) && isset($_FILES['resume'])) {
-        $name = mysqli_real_escape_string($conn, $_POST['career-name']);
-        $email = mysqli_real_escape_string($conn, $_POST['career-email']);
-        $phone = mysqli_real_escape_string($conn, $_POST['career-phone']);
-        $position = mysqli_real_escape_string($conn, $_POST['position']);
+        $stmt = $conn->prepare("INSERT INTO careers (inquiry_id, position, cover_letter, portfolio, resume) VALUES (?, ?, ?, ?, ?)");
+        
+        // Use a placeholder for inquiry_id if applicable; replace it as needed
+        $inquiry_id = null; // Change this if you have a value to use
+        $position = $_POST['position'];
+        $cover_letter = $_POST['cover-letter'];
+        $portfolio = $_POST['portfolio'] ?? ''; // Optional
+        
+        // Handle file upload
         $resume = uploadFile($_FILES['resume']);
-        $cover_letter = isset($_POST['cover-letter']) ? mysqli_real_escape_string($conn, $_POST['cover-letter']) : ''; // Optional
-        $portfolio = isset($_POST['portfolio']) ? mysqli_real_escape_string($conn, $_POST['portfolio']) : ''; // Optional
-
+        
         if ($resume) {
-            $sql = "INSERT INTO careers (name, email, phone, position, resume, cover_letter, portfolio) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssssss", $name, $email, $phone, $position, $resume, $cover_letter, $portfolio);
+            // Bind parameters directly from $_POST and uploaded file
+            $stmt->bind_param("sssss", $inquiry_id, $position, $cover_letter, $portfolio, $resume);
 
             if ($stmt->execute()) {
                 echo "Career application submitted successfully!<br>";
@@ -102,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
         }
     }
-
+}
 
 // Collaboration Form
 if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['collab-email']) && isset($_POST['collab-type']) && isset($_POST['collab-website']) && isset($_POST['collab-message'])) {

@@ -267,7 +267,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Inquiry ID</th>
+            
                     <th>Position</th>
                     <th>Cover Letter</th>
                     <th>Portfolio</th>
@@ -283,7 +283,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 foreach ($data as $row) { ?>
                     <tr>
                         <td><?php echo $row['id']; ?></td>
-                        <td><?php echo $row['inquiry_id']; ?></td>
+                     
                         <td><?php echo $row['position']; ?></td>
                         <td><?php echo $row['cover_letter']; ?></td>
                         <td><?php echo $row['portfolio']; ?></td>
@@ -394,7 +394,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
         </div>
     </div>
 </div>
- >
+ 
 
       
 
