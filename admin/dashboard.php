@@ -329,7 +329,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             </tbody>
         </table>
     </div>
-</div><div class="collapse" id="collaborations-table">
+</div>
+<div class="collapse" id="collaborations-table">
     <div class="card card-body mt-3">
         <h3>Collaborations</h3>
         <button class="btn btn-sm btn-danger mb-3 float-right" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table">Close</button>
@@ -380,130 +381,22 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     </div>
 </div>
 
-<!-- Add Product Management Icon with Add, Update, and Delete Options -->
 
-<body>
-    <div class="container mt-5">
 
-        <div class="row text-center">
-            <div class="col-md-3">
-                <i class="fas fa-boxes fa-3x text-info" data-toggle="collapse" href="#products-table" role="button" aria-expanded="false" aria-controls="products-table"></i>
-                <p>Products</p>
-            </div>
-        </div>
 
-        <div class="collapse" id="products-table">
-            <div class="card card-body mt-3">
-                <h3>Products</h3>
-                <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addProductModal">
-                    <i class="fas fa-plus-circle"></i> Add Product
-                </button>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Product ID</th>
-                            <th>Product Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Database connection
-                        $conn = new PDO('mysql:host=localhost;dbname=your_database', 'your_username', 'your_password');
-
-                        // Fetch product data
-                        $stmt = $conn->prepare("SELECT * FROM products");
-                        $stmt->execute();
-                        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($data as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['product_id']; ?></td>
-                                <td><?php echo $row['product_name']; ?></td>
-                                <td><?php echo $row['price']; ?></td>
-                                <td><?php echo $row['quantity']; ?></td>
-                                <td>
-                                    <!-- Update and Delete Icons -->
-                                    <a href="update_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Update
-                                    </a>
-                                    <button class="btn btn-danger btn-sm delete-product" data-id="<?php echo $row['product_id']; ?>">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            </div>
+<div class="container mt-5">
+    <div class="row text-center">
+        <div class="col-md-3">
+            <!-- Product icon triggers the modal for options -->
+            <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
+            <p>Products</p>
         </div>
     </div>
+</div>
+ >
 
-    <!-- Modal for Adding Product -->
-    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="add_product.php" method="post">
-                        <div class="form-group">
-                            <label for="product_name">Product Name</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" class="form-control" id="price" name="price" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" name="quantity" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Product</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript for Deleting Product -->
-    <script>
-        $(document).ready(function() {
-            $('.delete-product').click(function() {
-                var productId = $(this).data('id');
-
-                if (confirm("Are you sure you want to delete this product?")) {
-                    // Send AJAX request to delete the product
-                    $.ajax({
-                        url: 'delete_product.php',
-                        method: 'POST',
-                        data: {
-                            product_id: productId
-                        },
-                        success: function(response) {
-                            if (response == 'success') {
-                                alert("Product deleted successfully!");
-                                location.reload();
-                            } else {
-                                alert("Failed to delete product. Please try again.");
-                            }
-                        },
-                        error: function() {
-                            alert("An error occurred while processing your request.");
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+      
 
     
      
