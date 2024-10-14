@@ -54,7 +54,7 @@ $conn->close();
     <script type="text/javascript" src="workforwishlist.js" async></script>
     <script src="addbutton.js"async></script>
 </head>
-<>
+
 <div class="head">
     <h2>Gold man PENDALS</h2>
     <div class="icon">
