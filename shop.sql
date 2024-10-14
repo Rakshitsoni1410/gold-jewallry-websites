@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2024 at 06:01 PM
+-- Generation Time: Oct 14, 2024 at 02:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -48,12 +48,18 @@ INSERT INTO `admins` (`id`, `username`, `password`) VALUES
 
 CREATE TABLE `careers` (
   `id` int(11) NOT NULL,
-  `inquiry_id` int(11) NOT NULL,
   `position` varchar(255) NOT NULL,
-  `cover_letter` text NOT NULL,
-  `portfolio` text NOT NULL,
-  `resume` text NOT NULL
+  `cover_letter` text DEFAULT NULL,
+  `portfolio` varchar(255) DEFAULT NULL,
+  `resume` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `careers`
+--
+
+INSERT INTO `careers` (`id`, `position`, `cover_letter`, `portfolio`, `resume`) VALUES
+(1, 'sales', 'i wan to ', '', 'uploads/84.pdf');
 
 -- --------------------------------------------------------
 
@@ -63,22 +69,19 @@ CREATE TABLE `careers` (
 
 CREATE TABLE `collaborations` (
   `id` int(11) NOT NULL,
-  `company_name` varchar(255) NOT NULL,
-  `email_address` varchar(255) NOT NULL,
-  `phone_number` varchar(255) NOT NULL,
+  `company` varchar(255) NOT NULL,
   `collab_type` varchar(255) NOT NULL,
-  `website_url` varchar(255) NOT NULL,
-  `message_content` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `website` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `collaborations`
 --
 
-INSERT INTO `collaborations` (`id`, `company_name`, `email_address`, `phone_number`, `collab_type`, `website_url`, `message_content`, `created_at`) VALUES
-(1, 'rrsoni', 'rakshitsoni544@gmail.com', '06354798703', 'event', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you', '2024-10-10 15:51:10'),
-(2, 'rrsoni', 'rakshitsoni544@gmail.com', '06354798703', 'event', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you', '2024-10-10 15:51:36');
+INSERT INTO `collaborations` (`id`, `company`, `collab_type`, `website`, `message`) VALUES
+(2, 'rrsoni', 'event', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you'),
+(3, 'rrsoni', 'event', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you');
 
 -- --------------------------------------------------------
 
@@ -112,10 +115,10 @@ CREATE TABLE `inquiries` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `type` varchar(255) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `type` enum('general','career','collaboration','vendor') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -124,9 +127,14 @@ CREATE TABLE `inquiries` (
 --
 
 INSERT INTO `inquiries` (`id`, `name`, `email`, `phone`, `subject`, `message`, `type`, `created_at`) VALUES
-(1, 'Soni Rakshit R', 'rakshitrsoni@gmail.com', '63547987', 'general', 'i want to work with you', '', '2024-10-10 15:39:04'),
-(2, 'Soni Rakshit R', 'rakshitsoni544@gmail.com', '07226804453', '', '', '', '2024-10-10 15:53:37'),
-(3, 'Soni Rakshit R', 'rakshitsoni544@gmail.com', '07226804453', '', '', '', '2024-10-10 15:54:03');
+(1, 'Soni Rakshit R ', 'rakshitsoni544@gmail.com', '6354798703', 'product', 'hi', 'general', '2024-10-14 11:28:35'),
+(2, 'Soni Rakshit R ', 'rakshitsoni544@gmail.com', '6354798703', 'product', 'hi', 'general', '2024-10-14 11:28:35'),
+(3, 'Soni Rakshit R', 'rakshitsoni544@gmail.com', '07226804453', NULL, NULL, 'general', '2024-10-14 11:31:15'),
+(4, 'Soni Rakshit R', 'rakshitsoni544@gmail.com', '07226804453', NULL, NULL, 'general', '2024-10-14 11:31:21'),
+(5, 'Soni Rakshit R', 'rakshitrsoni@gmail.com', '63547987', 'general', 'i want to work with you', 'general', '2024-10-14 11:31:34'),
+(6, 'Soni Rakshit R', 'rakshitrsoni@gmail.com', '63547987', 'general', 'i want to work with you', 'general', '2024-10-14 11:31:34'),
+(7, 'Soni Rakshit R', 'rakshitsoni544@gmail.com', '07226804453', NULL, NULL, 'general', '2024-10-14 11:39:46'),
+(8, 'Soni Rakshit R', 'rakshitrsoni@gmail.com', '63547987', 'general', 'i', 'general', '2024-10-14 11:57:42');
 
 -- --------------------------------------------------------
 
@@ -151,6 +159,13 @@ CREATE TABLE `payments` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `email`, `firstname`, `address`, `city`, `state`, `zip`, `cardname`, `cardnumber`, `expmonth`, `expyear`, `cvv`, `payment_status`, `created_at`) VALUES
+(1, 'rakshitrsoni@gmail.com', 'ofp', 'v', 'mu', 'beglor', '382424', 'om', '1234567890', 'oc', '2018', '366', 'Not Completed', '2024-10-14 12:02:08');
+
 -- --------------------------------------------------------
 
 --
@@ -169,8 +184,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`) VALUES
-(1, 'r.r.soni', 'rakshitrsoni@gmail.com', '$2y$10$bSIKPL/dB5iKYShORrkx8eHdm/ExJWcDOtYxpBt/hfr4sHmwhpJgG'),
-(2, 'rakshitsoni1410', 'smitsoni13@gmail.com', '$2y$10$e8WNKCJwFxc4lrkL4HKD1ukd0ImvYF4WPMcE7Hc7iGcyv9PJvuYne');
+(1, 'r.r.soni', 'rakshitrsoni@gmail.com', '$2y$10$bSIKPL/dB5iKYShORrkx8eHdm/ExJWcDOtYxpBt/hfr4sHmwhpJgG');
 
 -- --------------------------------------------------------
 
@@ -180,20 +194,19 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`) VALUES
 
 CREATE TABLE `vendors` (
   `id` int(11) NOT NULL,
-  `inquiry_id` int(11) NOT NULL,
   `company` varchar(255) NOT NULL,
   `product_service` varchar(255) NOT NULL,
-  `website` varchar(255) NOT NULL,
-  `message` text NOT NULL
+  `website` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `vendors`
 --
 
-INSERT INTO `vendors` (`id`, `inquiry_id`, `company`, `product_service`, `website`, `message`) VALUES
-(3, 2, 'rrsoni', 'making', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you'),
-(4, 3, 'rrsoni', 'making', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you');
+INSERT INTO `vendors` (`id`, `company`, `product_service`, `website`, `message`, `created_at`) VALUES
+(1, 'rrsoni', 'making', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you', '2024-10-14 11:55:16');
 
 --
 -- Indexes for dumped tables
@@ -210,8 +223,7 @@ ALTER TABLE `admins`
 -- Indexes for table `careers`
 --
 ALTER TABLE `careers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `inquiry_id` (`inquiry_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `collaborations`
@@ -251,8 +263,7 @@ ALTER TABLE `users`
 -- Indexes for table `vendors`
 --
 ALTER TABLE `vendors`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `inquiry_id` (`inquiry_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -268,13 +279,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `careers`
 --
 ALTER TABLE `careers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `collaborations`
 --
 ALTER TABLE `collaborations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -286,35 +297,29 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `inquiries`
 --
 ALTER TABLE `inquiries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `careers`
---
-ALTER TABLE `careers`
-  ADD CONSTRAINT `careers_ibfk_1` FOREIGN KEY (`inquiry_id`) REFERENCES `inquiries` (`id`);
 
 --
 -- Constraints for table `feedback`
@@ -327,12 +332,6 @@ ALTER TABLE `feedback`
 --
 ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`email`) REFERENCES `users` (`email`);
-
---
--- Constraints for table `vendors`
---
-ALTER TABLE `vendors`
-  ADD CONSTRAINT `vendors_ibfk_1` FOREIGN KEY (`inquiry_id`) REFERENCES `inquiries` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
