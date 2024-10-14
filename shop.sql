@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 02:16 PM
+-- Generation Time: Oct 14, 2024 at 03:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -86,6 +86,19 @@ INSERT INTO `collaborations` (`id`, `company`, `collab_type`, `website`, `messag
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `couple`
+--
+
+CREATE TABLE `couple` (
+  `id` int(11) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `carat` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `feedback`
 --
 
@@ -135,6 +148,27 @@ INSERT INTO `inquiries` (`id`, `name`, `email`, `phone`, `subject`, `message`, `
 (6, 'Soni Rakshit R', 'rakshitrsoni@gmail.com', '63547987', 'general', 'i want to work with you', 'general', '2024-10-14 11:31:34'),
 (7, 'Soni Rakshit R', 'rakshitsoni544@gmail.com', '07226804453', NULL, NULL, 'general', '2024-10-14 11:39:46'),
 (8, 'Soni Rakshit R', 'rakshitrsoni@gmail.com', '63547987', 'general', 'i', 'general', '2024-10-14 11:57:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `man`
+--
+
+CREATE TABLE `man` (
+  `id` int(11) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `carat` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `man`
+--
+
+INSERT INTO `man` (`id`, `image`, `description`, `carat`) VALUES
+(2, 'https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-product-catalog/default/dwcefbc364/images/hi-res/512621PKCAAA00_1.jpg', 'pendal', 92),
+(3, 'https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-product-catalog/default/dwcefbc364/images/hi-res/512621PKCAAA00_1.jpg', 'pendal', 92);
 
 -- --------------------------------------------------------
 
@@ -208,6 +242,28 @@ CREATE TABLE `vendors` (
 INSERT INTO `vendors` (`id`, `company`, `product_service`, `website`, `message`, `created_at`) VALUES
 (1, 'rrsoni', 'making', 'http://localhost/finalhomepagewithjoint/contackus.html', 'i want to work with you', '2024-10-14 11:55:16');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `woman`
+--
+
+CREATE TABLE `woman` (
+  `id` int(11) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `carat` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `woman`
+--
+
+INSERT INTO `woman` (`id`, `image`, `description`, `carat`) VALUES
+(1, 'https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-product-catalog/default/dwcefbc364/images/hi-res/512621PKCAAA00_1.jpg', 'pendal', 84),
+(2, 'https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-product-catalog/default/dwcefbc364/images/hi-res/512621PKCAAA00_1.jpg', 'pendal', 92),
+(3, 'https://di2ponv0v5otw.cloudfront.net/posts/2022/10/21/63531037c026864831398c31/m_635314037dfcc21abd8bd0d6.jpeg', 'woman pendal', 92);
+
 --
 -- Indexes for dumped tables
 --
@@ -232,6 +288,12 @@ ALTER TABLE `collaborations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `couple`
+--
+ALTER TABLE `couple`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
@@ -242,6 +304,12 @@ ALTER TABLE `feedback`
 -- Indexes for table `inquiries`
 --
 ALTER TABLE `inquiries`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `man`
+--
+ALTER TABLE `man`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -263,6 +331,12 @@ ALTER TABLE `users`
 -- Indexes for table `vendors`
 --
 ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `woman`
+--
+ALTER TABLE `woman`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -288,6 +362,12 @@ ALTER TABLE `collaborations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `couple`
+--
+ALTER TABLE `couple`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
@@ -298,6 +378,12 @@ ALTER TABLE `feedback`
 --
 ALTER TABLE `inquiries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `man`
+--
+ALTER TABLE `man`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -316,6 +402,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `vendors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `woman`
+--
+ALTER TABLE `woman`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
