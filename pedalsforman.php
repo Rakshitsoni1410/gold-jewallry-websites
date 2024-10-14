@@ -54,7 +54,7 @@ $conn->close();
     <script type="text/javascript" src="workforwishlist.js" async></script>
     <script src="addbutton.js"async></script>
 </head>
-<>
+
 <div class="head">
     <h2>Gold man PENDALS</h2>
     <div class="icon">
@@ -106,7 +106,7 @@ $conn->close();
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://www.kalyanjewellers.net/images/Jewellery/Chains/images/jewellery_chain_banner.jpg" class="d-block w-100" width="100px">
+            <img src="https://www.vaibhavjewellers.com/pub/media/catalog/category/Gold-Pendant-promo-banners-01.jpg" class="d-block w-100" width="100px">
         </div>
     </div>
 </div>
