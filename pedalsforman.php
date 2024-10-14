@@ -106,7 +106,7 @@ $conn->close();
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://www.vaibhavjewellers.com/pub/media/catalog/category/Gold-Pendant-promo-banners-01.jpg" class="d-block w-100" width="100px">
+            <img src="" class="d-block w-100" width="100px">
         </div>
     </div>
 </div>
