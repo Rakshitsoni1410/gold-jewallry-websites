@@ -394,7 +394,184 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
         </div>
     </div>
 </div>
- 
+<?php
+$servername = "localhost";
+$username = "root"; // Default username
+$password = ""; // Default password
+$database = "shop"; // Change this to your actual shared database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Retrieve form data
+    $description = $_POST['description'];
+    $table_choice = $_POST['table_choice'];
+    $carats = $_POST['carat']; // This will now be an array
+
+    // Image upload or link
+    $image_path = "";
+
+    // Check if an image is uploaded
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        
+        // Create uploads directory if it doesn't exist
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            $image_path = $target_file;
+        } else {
+            echo "<p>Error uploading image.</p>";
+        }
+    } elseif (!empty($_POST['image_link'])) {
+        $image_path = $_POST['image_link'];
+    }
+
+    // Prepare SQL query based on table choice
+    $sql = "";
+    if ($table_choice == 'man') {
+        $sql = "INSERT INTO man (image, description, carat) VALUES (?, ?, ?)";
+    } elseif ($table_choice == 'woman') {
+        $sql = "INSERT INTO woman (image, description, carat) VALUES (?, ?, ?)";
+    } else {
+        $sql = "INSERT INTO couple (image, description, carat) VALUES (?, ?, ?)";
+    }
+
+    // Use prepared statements to prevent SQL injection
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        // Iterate through the selected carats and insert each one
+        foreach ($carats as $carat) {
+            $stmt->bind_param("ssi", $image_path, $description, $carat);
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                echo "<p class='message'>Data stored successfully for carat $carat!</p>";
+            } else {
+                echo "<p>Error: " . $stmt->error . "</p>";
+            }
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        echo "<p>Error preparing statement: " . $conn->error . "</p>";
+    }
+}
+
+// Close the connection
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry Submission Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        .message {
+            text-align: center;
+            color: #28a745;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Jewelry Submission Form</h1>
+<div class="form-container">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <label for="image">Upload Image (or provide image link):</label>
+        <input type="file" name="image" id="image">
+        <label for="image_link">Image Link:</label>
+        <input type="text" name="image_link" id="image_link" placeholder="Enter image URL (optional)">
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" id="description" required>
+
+        <label for="carat">Available Carat:</label>
+        <select name="carat[]" id="carat" required multiple>
+            <option value="84">84</option>
+            <option value="92">92</option>
+        </select>
+
+        <label for="table_choice">Select Table:</label>
+        <select name="table_choice" id="table_choice" required>
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+            <option value="couple">Couple</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+</body>
+</html>
 
       
 
