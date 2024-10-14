@@ -319,7 +319,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 foreach ($data as $row) { ?>
                     <tr>
                         
-                        <td><?php echo $row['inquiry_id']; ?></td>
+                        <td><?php echo $row['id']; ?></td>
                         <td><?php echo $row['company']; ?></td>
                         <td><?php echo $row['product_service']; ?></td>
                         <td><?php echo $row['website']; ?></td>

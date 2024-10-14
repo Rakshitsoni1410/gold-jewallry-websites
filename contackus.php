@@ -59,11 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // General Inquiry Form
     if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-        $subject = mysqli_real_escape_string($conn, $_POST['subject']);
-        $message = mysqli_real_escape_string($conn, $_POST['message']);
+        $name = $conn->real_escape_string($_POST['name']);
+        $email = $conn->real_escape_string($_POST['email']);
+        $phone = $conn->real_escape_string($_POST['phone']);
+        $subject = $conn->real_escape_string($_POST['subject']);
+        $message = $conn->real_escape_string($_POST['message']);
 
         $sql = "INSERT INTO inquiries (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
@@ -71,24 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             echo "General inquiry submitted successfully!<br>";
-        } else {
-            echo "Error: " . $stmt->error . "<br>";
-        }
-        $stmt->close();
-    }
-
-    // Careers Form// Handle form submissions
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // General Inquiry Form
-    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
-        $stmt = $conn->prepare("INSERT INTO inquiries (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)");
-        
-        // Binding parameters directly from $_POST
-        $stmt->bind_param("sssss", $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['subject'], $_POST['message']);
-
-        if ($stmt->execute()) {
-            echo "General inquiry submitted successfully!<br>";
+            header('Location: index.html');
+            exit;
         } else {
             echo "Error: " . $stmt->error . "<br>";
         }
@@ -97,24 +81,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Careers Form
     if (isset($_POST['career-name']) && isset($_POST['career-email']) && isset($_POST['career-phone']) && isset($_POST['position']) && isset($_FILES['resume'])) {
-        $stmt = $conn->prepare("INSERT INTO careers (inquiry_id, position, cover_letter, portfolio, resume) VALUES (?, ?, ?, ?, ?)");
-        
-        // Use a placeholder for inquiry_id if applicable; replace it as needed
-        $inquiry_id = null; // Change this if you have a value to use
-        $position = $_POST['position'];
-        $cover_letter = $_POST['cover-letter'];
-        $portfolio = $_POST['portfolio'] ?? ''; // Optional
-        
+        $position = $conn->real_escape_string($_POST['position']);
+        $cover_letter = $conn->real_escape_string($_POST['cover-letter']);
+        $portfolio = isset($_POST['portfolio']) ? $conn->real_escape_string($_POST['portfolio']) : ''; // Optional
+
         // Handle file upload
         $resume = uploadFile($_FILES['resume']);
-        
+
         if ($resume) {
-            // Bind parameters directly from $_POST and uploaded file
-            $stmt->bind_param("sssss", $inquiry_id, $position, $cover_letter, $portfolio, $resume);
+            // Insert into careers (note: inquiry_id removed)
+            $stmt = $conn->prepare("INSERT INTO careers (position, cover_letter, portfolio, resume) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $position, $cover_letter, $portfolio, $resume);
 
             if ($stmt->execute()) {
                 echo "Career application submitted successfully!<br>";
-                header('Location: index.php');
+                header('Location: index.html');
                 exit;
             } else {
                 echo "Error: " . $stmt->error . "<br>";
@@ -122,32 +103,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
         }
     }
-}
 
 // Collaboration Form
 if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['collab-email']) && isset($_POST['collab-type']) && isset($_POST['collab-website']) && isset($_POST['collab-message'])) {
     
     // Prepare SQL statement for collaboration
-    $sql = "INSERT INTO collaborations (company_name, email_address, phone_number, collab_type, website_url, message_content, created_at) 
-            VALUES (?, ?, ?, ?, ?, ?, NOW())";
+    $sql = "INSERT INTO collaborations (company, collab_type, website, message) 
+            VALUES (?, ?, ?, ?)";
+    
     $stmt = $conn->prepare($sql);
     
     // Check if statement preparation was successful
     if ($stmt) {
         // Bind the parameters
-        $stmt->bind_param("ssssss", 
-            $_POST['company'], 
-            $_POST['collab-email'], 
-            $_POST['collab-phone'], 
-            $_POST['collab-type'], 
-            $_POST['collab-website'], 
-            $_POST['collab-message']
+        $stmt->bind_param("ssss", 
+            $_POST['company'],         // Company name
+            $_POST['collab-type'],     // Collaboration type
+            $_POST['collab-website'],  // Website URL
+            $_POST['collab-message']    // Message content
         );
         
         // Execute the statement
         if ($stmt->execute()) {
             echo "Collaboration request submitted successfully!<br>";
-            header('Location: index.php');
+            header('Location: index.html');
             exit;
         } else {
             echo "Error: " . $stmt->error; // Show error message
@@ -158,63 +137,27 @@ if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['co
     } else {
         echo "Error preparing statement: " . $conn->error; // Show error in statement preparation
     }
-}if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
-    
-    // Insert data into the inquiries table
-    $sql = "INSERT INTO inquiries (name, email, phone) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    
-    if ($stmt) {
-        $name = $_POST['vendor-name'];
-        $email = $_POST['vendor-email'];
-        $phone = $_POST['vendor-phone'];
-        
-        $stmt->bind_param("sss", $name, $email, $phone);
-        
-        // Execute the statement
-        if ($stmt->execute()) {
-            $inquiry_id = $conn->insert_id;
-            echo "Inquiry submitted successfully!<br>";
-            header('Location: index.php');
-            exit;
-        } else {
-            echo "Error: " . $stmt->error . "<br>";
-        }
-        
-        // Close the statement
-        $stmt->close();
-    } else {
-        echo "Error preparing statement: " . $conn->error; // Show error in statement preparation
-    }
-    
-    // Insert data into the vendors table
-    $sql = "INSERT INTO vendors (inquiry_id, company, product_service, website, message) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    
-    if ($stmt) {
-        $company = $_POST['vendor-company'];
-        $product_service = $_POST['vendor-product'];
-        $website = $_POST['vendor-website'];
-        $message = $_POST['vendor-message'];
-        
-        $stmt->bind_param("issss", $inquiry_id, $company, $product_service, $website, $message);
-        
-        // Execute the statement
+}
+
+    // Vendor Form
+    if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
+
+        // Insert into vendors (note: inquiry_id removed)
+        $sql = "INSERT INTO vendors (company, product_service, website, message) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $_POST['vendor-company'], $_POST['vendor-product'], $_POST['vendor-website'], $_POST['vendor-message']);
+
         if ($stmt->execute()) {
             echo "Vendor inquiry submitted successfully!<br>";
-            header('Location: index.php');
+            header('Location: index.html');
             exit;
         } else {
             echo "Error: " . $stmt->error . "<br>";
         }
-        
-        // Close the statement
         $stmt->close();
-    } else {
-        echo "Error preparing statement: " . $conn->error; // Show error in statement preparation
     }
 }
 
 // Close the database connection
-$conn->close();}
+$conn->close();
 ?>
