@@ -555,8 +555,8 @@ $conn->close();
 
         <label for="carat">Available Carat:</label>
         <select name="carat[]" id="carat" required multiple>
-            <option value="84">84</option>
-            <option value="92">92</option>
+        <option value="84">84</option>
+         <option value="92">92</option>
         </select>
 
         <label for="table_choice">Select Table:</label>
