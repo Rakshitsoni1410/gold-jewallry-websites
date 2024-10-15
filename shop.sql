@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 03:31 PM
+-- Generation Time: Oct 15, 2024 at 03:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -38,7 +38,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `username`, `password`) VALUES
-(1, 'r.r.soni', '50856371');
+(1, 'r.r.soni', '50856371'),
+(2, 'a.a.mandaliya ', '792001');
 
 -- --------------------------------------------------------
 
@@ -95,6 +96,13 @@ CREATE TABLE `couple` (
   `description` text DEFAULT NULL,
   `carat` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `couple`
+--
+
+INSERT INTO `couple` (`id`, `image`, `description`, `carat`) VALUES
+(1, 'https://cdn.augrav.com/online/jewels/2018/11/23113318/Stylish-Heart-Couple-Pendants-1.jpg', 'pendal couple', 92);
 
 -- --------------------------------------------------------
 
@@ -347,7 +355,7 @@ ALTER TABLE `woman`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `careers`
@@ -365,7 +373,7 @@ ALTER TABLE `collaborations`
 -- AUTO_INCREMENT for table `couple`
 --
 ALTER TABLE `couple`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `feedback`
