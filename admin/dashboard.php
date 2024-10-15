@@ -385,15 +385,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 
 
 
-<div class="container mt-5">
-    <div class="row text-center">
-        <div class="col-md-3">
-            <!-- Product icon triggers the modal for options -->
-            <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
-            <p>Products</p>
-        </div>
-    </div>
-</div>
 <?php
 $servername = "localhost";
 $username = "root"; // Default username
@@ -408,64 +399,81 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle form submission
+// Handle form submissions for adding and deleting products
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
-    $description = $_POST['description'];
-    $table_choice = $_POST['table_choice'];
-    $carats = $_POST['carat']; // This will now be an array
+    if (isset($_POST['submit_delete'])) {
+        // Handle delete operation
+        $delete_table_choice = $_POST['delete_table_choice'];
+        $delete_item_id = $_POST['delete_item_id'];
 
-    // Image upload or link
-    $image_path = "";
-
-    // Check if an image is uploaded
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["image"]["name"]);
-        
-        // Create uploads directory if it doesn't exist
-        if (!file_exists($target_dir)) {
-            mkdir($target_dir, 0777, true);
-        }
-
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            $image_path = $target_file;
-        } else {
-            echo "<p>Error uploading image.</p>";
-        }
-    } elseif (!empty($_POST['image_link'])) {
-        $image_path = $_POST['image_link'];
-    }
-
-    // Prepare SQL query based on table choice
-    $sql = "";
-    if ($table_choice == 'man') {
-        $sql = "INSERT INTO man (image, description, carat) VALUES (?, ?, ?)";
-    } elseif ($table_choice == 'woman') {
-        $sql = "INSERT INTO woman (image, description, carat) VALUES (?, ?, ?)";
-    } else {
-        $sql = "INSERT INTO couple (image, description, carat) VALUES (?, ?, ?)";
-    }
-
-    // Use prepared statements to prevent SQL injection
-    $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        // Iterate through the selected carats and insert each one
-        foreach ($carats as $carat) {
-            $stmt->bind_param("ssi", $image_path, $description, $carat);
-
-            // Execute the statement
-            if ($stmt->execute()) {
-                echo "<p class='message'>Data stored successfully for carat $carat!</p>";
+        // Perform delete operation
+        $delete_sql = "DELETE FROM $delete_table_choice WHERE id = ?";
+        $delete_stmt = $conn->prepare($delete_sql);
+        if ($delete_stmt) {
+            $delete_stmt->bind_param("i", $delete_item_id);
+            if ($delete_stmt->execute()) {
+                echo "<p class='message'>Item deleted successfully!</p>";
             } else {
-                echo "<p>Error: " . $stmt->error . "</p>";
+                echo "<p>Error deleting item: " . $delete_stmt->error . "</p>";
             }
+            $delete_stmt->close();
+        } else {
+            echo "<p>Error preparing delete statement: " . $conn->error . "</p>";
+        }
+    } elseif (isset($_POST['description'], $_POST['table_choice'], $_POST['carat'])) {
+        // Handle jewelry submission
+        $description = $_POST['description'];
+        $table_choice = $_POST['table_choice'];
+        $carats = isset($_POST['carat']) ? $_POST['carat'] : []; // Ensure carats is an array
+
+        // Image upload or link
+        $image_path = "";
+
+        // Check if an image is uploaded
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $target_dir = "uploads/";
+            $target_file = $target_dir . basename($_FILES["image"]["name"]);
+            
+            // Create uploads directory if it doesn't exist
+            if (!file_exists($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                $image_path = $target_file;
+            } else {
+                echo "<p>Error uploading image.</p>";
+            }
+        } elseif (!empty($_POST['image_link'])) {
+            $image_path = $_POST['image_link'];
         }
 
-        // Close the statement
-        $stmt->close();
-    } else {
-        echo "<p>Error preparing statement: " . $conn->error . "</p>";
+        // Prepare SQL query based on table choice
+        $sql = "";
+        if ($table_choice == 'man') {
+            $sql = "INSERT INTO man (image, description, carat) VALUES (?, ?, ?)";
+        } elseif ($table_choice == 'woman') {
+            $sql = "INSERT INTO woman (image, description, carat) VALUES (?, ?, ?)";
+        } else {
+            $sql = "INSERT INTO couple (image, description, carat) VALUES (?, ?, ?)";
+        }
+
+        // Use prepared statements to prevent SQL injection
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            // Iterate through the selected carats and insert each one
+            foreach ($carats as $carat) {
+                $stmt->bind_param("ssi", $image_path, $description, $carat);
+                if ($stmt->execute()) {
+                    echo "<p class='message'>Data stored successfully for carat $carat!</p>";
+                } else {
+                    echo "<p>Error: " . $stmt->error . "</p>";
+                }
+            }
+            $stmt->close();
+        } else {
+            echo "<p>Error preparing statement: " . $conn->error . "</p>";
+        }
     }
 }
 
@@ -480,6 +488,11 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewelry Submission Form</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -538,42 +551,115 @@ $conn->close();
             color: #28a745;
             margin-top: 20px;
         }
+
+        .icon-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-<h1>Jewelry Submission Form</h1>
-<div class="form-container">
-    <form action="" method="POST" enctype="multipart/form-data">
-        <label for="image">Upload Image (or provide image link):</label>
-        <input type="file" name="image" id="image">
-        <label for="image_link">Image Link:</label>
-        <input type="text" name="image_link" id="image_link" placeholder="Enter image URL (optional)">
 
-        <label for="description">Description:</label>
-        <input type="text" name="description" id="description" required>
+<div class="container mt-5">
+    <div class="row text-center icon-container">
+        <div class="col-md-3">
+            <!-- Product icon triggers the modal for options -->
+            <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
+            <p>Products</p>
+        </div>
+    </div>
+</div>
 
-        <label for="carat">Available Carat:</label>
-        <select name="carat[]" id="carat" required multiple>
-        <option value="84">84</option>
-         <option value="92">92</option>
-        </select>
+<!-- Modal for Product Options -->
+<div class="modal fade" id="productOptionsModal" tabindex="-1" role="dialog" aria-labelledby="productOptionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productOptionsModalLabel">Product Options</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal">Remove Product</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <label for="table_choice">Select Table:</label>
-        <select name="table_choice" id="table_choice" required>
-            <option value="man">Man</option>
-            <option value="woman">Woman</option>
-            <option value="couple">Couple</option>
-        </select>
+<!-- Add Product Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <label for="image">Upload Image (or provide image link):</label>
+                    <input type="file" name="image" id="image">
+                    <label for="image_link">Image Link:</label>
+                    <input type="text" name="image_link" id="image_link" placeholder="Enter image URL (optional)">
 
-        <input type="submit" value="Submit">
-    </form>
+                    <label for="description">Description:</label>
+                    <input type="text" name="description" id="description" required>
+
+                    <label for="carat">Available Carat:</label>
+                    <select name="carat[]" id="carat" required multiple>
+                        <option value="84">84</option>
+                        <option value="92">92</option>
+                    </select>
+
+                    <label for="table_choice">Select Table:</label>
+                    <select name="table_choice" id="table_choice" required>
+                        <option value="man">Man</option>
+                        <option value="woman">Woman</option>
+                        <option value="couple">Couple</option>
+                    </select>
+
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Product Modal -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProductModalLabel">Delete Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST">
+                    <label for="delete_table_choice">Select Table:</label>
+                    <select name="delete_table_choice" id="delete_table_choice" required>
+                        <option value="man">Man</option>
+                        <option value="woman">Woman</option>
+                        <option value="couple">Couple</option>
+                    </select>
+
+                    <label for="delete_item_id">Item ID:</label>
+                    <input type="text" name="delete_item_id" id="delete_item_id" required>
+
+                    <input type="submit" name="submit_delete" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
 </html>
 
-      
 
     
      
