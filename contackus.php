@@ -105,39 +105,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 // Collaboration Form
-if (isset($_POST['collab-name']) && isset($_POST['company']) && isset($_POST['collab-email']) && isset($_POST['collab-type']) && isset($_POST['collab-website']) && isset($_POST['collab-message'])) {
-    
-    // Prepare SQL statement for collaboration
-    $sql = "INSERT INTO collaborations (company, collab_type, website, message) 
-            VALUES (?, ?, ?, ?)";
-    
-    $stmt = $conn->prepare($sql);
-    
-    // Check if statement preparation was successful
-    if ($stmt) {
-        // Bind the parameters
-        $stmt->bind_param("ssss", 
-            $_POST['company'],         // Company name
-            $_POST['collab-type'],     // Collaboration type
-            $_POST['collab-website'],  // Website URL
-            $_POST['collab-message']    // Message content
-        );
-        
-        // Execute the statement
-        if ($stmt->execute()) {
-            echo "Collaboration request submitted successfully!<br>";
-            header('Location: index.html');
-            exit;
+
+// Database connection
+try {
+    $conn = new PDO("mysql:host=localhost;dbname=your_database_name", "username", "password");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Check if all required fields are set
+        if (isset($_POST['collab-name'], $_POST['company'], $_POST['collab-email'], $_POST['collab-type'], $_POST['collab-website'], $_POST['collab-message'])) {
+            
+            // Get form data
+            $collabName = $_POST['collab-name'];
+            $company = $_POST['company'];
+            $email = $_POST['collab-email'];
+            $phone = $_POST['collab-phone']; // Optional
+            $collabType = $_POST['collab-type'];
+            $website = $_POST['collab-website'];
+            $message = $_POST['collab-message'];
+
+            // Prepare SQL insert query
+            $stmt = $conn->prepare("INSERT INTO collaborations (collab_name, company, email_address, phone_number, collab_type, website_url, message_content) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+            // Execute the statement with values directly passed as an array
+            if ($stmt->execute([$collabName, $company, $email, $phone, $collabType, $website, $message])) {
+                echo "Data inserted successfully!";
+            } else {
+                echo "Failed to insert data.";
+            }
+
         } else {
-            echo "Error: " . $stmt->error; // Show error message
+            echo "Error: Please fill in all required fields.";
         }
-        
-        // Close the statement
-        $stmt->close();
-    } else {
-        echo "Error preparing statement: " . $conn->error; // Show error in statement preparation
     }
+
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
+
 
     // Vendor Form
     if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {

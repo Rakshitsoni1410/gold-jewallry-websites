@@ -348,34 +348,42 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                // Fetch collaboration data
-                try {
-                    $stmt = $conn->prepare("SELECT id, company_name, email_address, phone_number, collab_type, website_url, message_content, created_at FROM collaborations");
-                    $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            <?php
+// Database connection
 
-                    if ($data) { // Check if there are results
-                        foreach ($data as $row) {
-                            // Output each field using echo
-                            echo "<tr>
-                                    <td>" . $row['id'] . "</td>
-                                    <td>" . $row['company_name'] . "</td>
-                                    <td>" . $row['email_address'] . "</td>
-                                    <td>" . $row['phone_number'] . "</td>
-                                    <td>" . $row['collab_type'] . "</td>
-                                    <td>" . $row['website_url'] . "</td>
-                                    <td>" . $row['message_content'] . "</td>
-                                    <td>" . $row['created_at'] . "</td>
-                                  </tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8'>No collaborations found.</td></tr>";
-                    }
-                } catch (PDOException $e) {
-                    echo "<tr><td colspan='8'>Error fetching data: " . $e->getMessage() . "</td></tr>";
-                }
-                ?>
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Check if all required fields are set
+        if (isset($_POST['collab-name'], $_POST['company'], $_POST['collab-email'], $_POST['collab-type'], $_POST['collab-website'], $_POST['collab-message'])) {
+            
+            // Get form data
+            $collabName = $_POST['collab-name'];
+            $company = $_POST['company'];
+            $email = $_POST['collab-email'];
+            $phone = $_POST['collab-phone']; // Optional
+            $collabType = $_POST['collab-type'];
+            $website = $_POST['collab-website'];
+            $message = $_POST['collab-message'];
+
+            // Prepare SQL insert query - use the correct column name for email
+            $stmt = $conn->prepare("INSERT INTO collaborations (collab_name, company, email, phone_number, collab_type, website_url, message_content) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+            // Execute the statement with values directly passed as an array
+            if ($stmt->execute([$collabName, $company, $email, $phone, $collabType, $website, $message])) {
+                echo "Data inserted successfully!";
+            } else {
+                echo "Failed to insert data.";
+            }
+
+        } else {
+            echo "Error: Please fill in all required fields.";
+        }
+    }
+
+
+?>
+
             </tbody>
         </table>
     </div>
