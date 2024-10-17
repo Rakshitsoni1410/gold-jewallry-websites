@@ -1,13 +1,14 @@
-// Function to check if the user is logged in
-function isLoggedIn() {
-  // Perform an AJAX request to check session status
-  return fetch('login.php')
-    .then(response => response.json())
-    .then(data => {
-      return data.loggedIn; // This will return true or false
-    });
+// Function to check if the user is logged in (returns a promise)
+async function isLoggedIn() {
+  try {
+    const response = await fetch('login.php');
+    const data = await response.json();
+    return data.loggedIn; // This should return true or false
+  } catch (error) {
+    console.error('Error checking login status:', error);
+    return false; // Default to false if there's an error
+  }
 }
-
 
 // Function to display login/signup prompt
 function displayLoginSignupMessage() {
@@ -20,11 +21,13 @@ function displayLoginSignupMessage() {
 const cartButtons = document.querySelectorAll('.cart.button');
 
 cartButtons.forEach(button => {
-  button.addEventListener('click', (event) => {
+  button.addEventListener('click', async (event) => {
     event.preventDefault();
 
     // Check if the user is logged in
-    if (!isLoggedIn()) {
+    const loggedIn = await isLoggedIn();
+
+    if (!loggedIn) {
       displayLoginSignupMessage();
       return;
     }
@@ -68,7 +71,7 @@ function addCartItemToCart(cartItem) {
   cartItemElement.innerHTML = `
     <img src="${cartItem.image}" alt="${cartItem.title}" style="width: 100px; height: auto;">
     <h3 style="color:black;">${cartItem.title}</h3>
-    <p style="color:skyblue;text-size:8px">${cartItem.price}</p>
+    <p style="color:skyblue;">${cartItem.price}</p>
     <button class="btn btn-danger btn-sm remove-from-cart">Remove from cart</button>
     <button class="btn btn-primary btn-sm add-to-wishlist"><i class="fas fa-heart"></i> Add to wishlist</button>
     <button class="btn btn-success btn-sm make-payment">Make Payment</button>
@@ -109,7 +112,7 @@ function addCartItemToWishlist(cartItem) {
   wishlistItemElement.innerHTML = `
     <img src="${cartItem.image}" alt="${cartItem.title}" style="width: 100px; height: auto;">
     <h3 style="color:black;">${cartItem.title}</h3>
-    <p style="color:skyblue;text-size:8px">${cartItem.price}</p>
+    <p style="color:skyblue;">${cartItem.price}</p>
     <button class="btn btn-danger btn-sm remove-from-wishlist">Remove from wishlist</button>
     <button class="btn btn-primary btn-sm add-to-cart"><i class="fas fa-shopping-cart"></i> Add to cart</button>
   `;
