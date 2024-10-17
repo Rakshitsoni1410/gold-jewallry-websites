@@ -41,23 +41,20 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-  
-</head>
-<body>
-    <!-- Logout Button -->
-    <div class="logout">
-        <a href="?action=logout" class="btn btn-danger"> Logout</a>
-    </div>
-
-    
-
-
-<!-- Include Bootstrap and Font Awesome -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+
 
 <!-- Admin Panel Dashboard Icons -->
 <div class="container mt-5">
@@ -94,6 +91,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             <i class="fas fa-handshake fa-3x text-secondary" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table"></i>
             <p>Collaborations</p>
         </div>
+        <div class="col-md-3">
+     
+            <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
+            <p>Products</p>
+        </div>
+        <div class="logout">
+        <a href="?action=logout" class="btn btn-danger"> Logout</a>
+    </div>
     </div>
 
     <!-- Collapsible Tables -->
@@ -107,7 +112,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                         <th>User ID</th>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Password</th>
+     
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +126,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                             <td><?php echo $row['user_id']; ?></td>
                             <td><?php echo $row['username']; ?></td>
                             <td><?php echo $row['email']; ?></td>
-                            <td><?php echo $row['password']; ?></td>
+                       
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -568,15 +573,7 @@ $conn->close();
 <body>
 
 
-<div class="container mt-5">
-    <div class="row text-center icon-container">
-        <div class="col-md-3">
-            <!-- Product icon triggers the modal for options -->
-            <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
-            <p>Products</p>
-        </div>
-    </div>
-</div>
+
 
 <!-- Modal for Product Options -->
 <div class="modal fade" id="productOptionsModal" tabindex="-1" role="dialog" aria-labelledby="productOptionsModalLabel" aria-hidden="true">
@@ -672,6 +669,3 @@ $conn->close();
     
      
 <!-- Include Bootstrap and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
