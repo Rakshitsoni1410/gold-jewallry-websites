@@ -28,8 +28,8 @@ foreach ($tables as $table) {
     if ($result) {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                // Assuming you want to store the carat as a string or array if you have multiple carats
-                $row['carats'] = explode(',', $row['carat']); // Adjust this line based on how carat data is stored in the database
+                // Assuming carat is stored as a comma-separated string
+                $row['carats'] = explode(',', $row['carat']); 
                 $data[] = $row;
             }
         } else {
@@ -52,14 +52,14 @@ $conn->close();
     <title>Jewelry Collection</title>
     <link rel="stylesheet" href="RINGT.CSS">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="workforwishlist.js" async></script>
     <script src="addbutton.js" async></script>
 </head>
 
 <body>
 <div class="head">
-    <h2>Gold Man Pendals</h2>
+    <h2>Gold Man Pendants</h2>
     <div class="icon">
         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fa-solid fa-heart" style="color: #e60abe;"></i>
@@ -70,10 +70,10 @@ $conn->close();
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-black-50" id="exampleModalLabel">Wishlist</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Wishlist</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body d-flex gap-5" id="wishlist-container"></div>
+                    <div class="modal-body" id="wishlist-container"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
@@ -92,10 +92,10 @@ $conn->close();
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-black-50" id="cartModalLabel">Cart</h5>
+                    <h5 class="modal-title" id="cartModalLabel">Cart</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="cart-container" class="modal-body d-flex gap-5"></div>
+                <div id="cart-container" class="modal-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -113,9 +113,10 @@ $conn->close();
 </div>
 
 <div class="container mt-4">
+    <div class="wrapper"> 
     <div class="row">
         <?php foreach ($data as $item): ?>
-            <div class="col-md-3 mb-4"> <!-- 4 cards per row on medium screens and above -->
+            <div class="col-md-3 mb-4">
                 <div class="card">
                     <img src="<?php echo $item['image']; ?>" alt="Jewelry Image" class="card-img-top">
                     <div class="card-body">
@@ -128,18 +129,19 @@ $conn->close();
                             </ul>
                         </p>
                         <div class="button-wrap">
-                            <a href="#" class="cart button" id="add-to-cart"><i class="fa-solid fa-cart-shopping"></i></a>
-                            <a href="#" class="wish button" id="wishlist"><i class="fa fa-heart"></i></a>
+                            <a href="#" class="cart button"><i class="fa-solid fa-cart-shopping"></i></a>
+                            <a href="#" class="wish button"><i class="fa fa-heart"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
+    </div>
 </div>
 
 <!-- Bootstrap JS and dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-2R8I6jZbMkZ6k8C6X5CfFZ0NF5hKj2a4YkK5lpuSQ4LPC2k6F1pmh8bxBOH4D1D6" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-S2uH4G4x4OG3bZ5Qp4N2OHgiq1HIkqMSjsOWHA8h3I7qhrAdHSKgh9Fkp2mW7xXx" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
