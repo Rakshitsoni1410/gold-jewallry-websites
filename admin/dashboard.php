@@ -37,7 +37,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,31 +97,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
             <a href="?action=logout" class="btn btn-danger">Logout</a>
         </div>
     </div>
-
-    <!-- Modal for Products -->
-    <div class="modal fade" id="productOptionsModal" tabindex="-1" role="dialog" aria-labelledby="productOptionsModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="productOptionsModalLabel">Product Options</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Modal content -->
-            Product options will go here.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-</body>
-</html>
-
     <!-- Collapsible Tables -->
     <div class="collapse" id="users-table">
         <div class="card card-body mt-3">
@@ -134,7 +108,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                         <th>User ID</th>
                         <th>Username</th>
                         <th>Email</th>
-     
+                
                     </tr>
                 </thead>
                 <tbody>
