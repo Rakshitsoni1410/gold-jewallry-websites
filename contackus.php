@@ -107,8 +107,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Collaboration Form
 
 // Database connection
+
+
 try {
-    $conn = new PDO("mysql:host=localhost;dbname=your_database_name", "username", "password");
+    // Database connection
+    $conn = new PDO("mysql:host=localhost;dbname=shop", "root", "");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -116,16 +119,16 @@ try {
         if (isset($_POST['collab-name'], $_POST['company'], $_POST['collab-email'], $_POST['collab-type'], $_POST['collab-website'], $_POST['collab-message'])) {
             
             // Get form data
-            $collabName = $_POST['collab-name'];
+            $collabName = $_POST['collab-name']; // Ensure this corresponds with your form
             $company = $_POST['company'];
             $email = $_POST['collab-email'];
-            $phone = $_POST['collab-phone']; // Optional
+            $phone = isset($_POST['collab-phone']) ? $_POST['collab-phone'] : ''; // Optional
             $collabType = $_POST['collab-type'];
             $website = $_POST['collab-website'];
             $message = $_POST['collab-message'];
 
-            // Prepare SQL insert query
-            $stmt = $conn->prepare("INSERT INTO collaborations (collab_name, company, email_address, phone_number, collab_type, website_url, message_content) 
+            // Prepare SQL insert query with the correct column names
+            $stmt = $conn->prepare("INSERT INTO collaborations (name, company, email_address, phone_number, collab_type, website_url, message_content) 
                                     VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             // Execute the statement with values directly passed as an array
@@ -145,25 +148,24 @@ try {
 }
 
 
-    // Vendor Form
-    if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
+// Vendor Form
+if (isset($_POST['vendor-name']) && isset($_POST['vendor-company']) && isset($_POST['vendor-email']) && isset($_POST['vendor-phone']) && isset($_POST['vendor-product']) && isset($_POST['vendor-website']) && isset($_POST['vendor-message'])) {
 
-        // Insert into vendors (note: inquiry_id removed)
-        $sql = "INSERT INTO vendors (company, product_service, website, message) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $_POST['vendor-company'], $_POST['vendor-product'], $_POST['vendor-website'], $_POST['vendor-message']);
+    // Insert into vendors (note: inquiry_id removed)
+    $sql = "INSERT INTO vendors (company, product_service, website, message) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$_POST['vendor-company'], $_POST['vendor-product'], $_POST['vendor-website'], $_POST['vendor-message']]);
 
-        if ($stmt->execute()) {
-            echo "Vendor inquiry submitted successfully!<br>";
-            header('Location: index.html');
-            exit;
-        } else {
-            echo "Error: " . $stmt->error . "<br>";
-        }
-        $stmt->close();
+    if ($stmt) {
+        echo "Vendor inquiry submitted successfully!<br>";
+        header('Location: index.html');
+        exit;
+    } else {
+        echo "Error: " . $stmt->error . "<br>";
     }
 }
 
-// Close the database connection
-$conn->close();
+// No need to explicitly close the connection in PDO
+$conn = null; // This will close the connection
+}
 ?>
