@@ -41,65 +41,87 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome and Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-
-
-
-<!-- Admin Panel Dashboard Icons -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Admin Panel</h2>
-    <div class="row text-center">
-        <div class="col-md-3">
-            <i class="fas fa-users fa-3x text-primary" data-toggle="collapse" href="#users-table" role="button" aria-expanded="false" aria-controls="users-table"></i>
-            <p>Users</p>
+    <!-- Admin Panel Dashboard Icons -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Admin Panel</h2>
+        <div class="row text-center">
+            <div class="col-md-3">
+                <i class="fas fa-users fa-3x text-primary" data-toggle="collapse" href="#users-table" role="button" aria-expanded="false" aria-controls="users-table"></i>
+                <p>Users</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-money-check-alt fa-3x text-success" data-toggle="collapse" href="#payments-table" role="button" aria-expanded="false" aria-controls="payments-table"></i>
+                <p>Payments</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-comment fa-3x text-warning" data-toggle="collapse" href="#feedback-table" role="button" aria-expanded="false" aria-controls="feedback-table"></i>
+                <p>Feedback</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-question-circle fa-3x text-info" data-toggle="collapse" href="#inquiries-table" role="button" aria-expanded="false" aria-controls="inquiries-table"></i>
+                <p>Inquiries</p>
+            </div>
         </div>
-        <div class="col-md-3">
-            <i class="fas fa-money-check-alt fa-3x text-success" data-toggle="collapse" href="#payments-table" role="button" aria-expanded="false" aria-controls="payments-table"></i>
-            <p>Payments</p>
+
+        <div class="row text-center mt-4">
+            <div class="col-md-3">
+                <i class="fas fa-briefcase fa-3x text-danger" data-toggle="collapse" href="#careers-table" role="button" aria-expanded="false" aria-controls="careers-table"></i>
+                <p>Careers</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-industry fa-3x text-dark" data-toggle="collapse" href="#vendors-table" role="button" aria-expanded="false" aria-controls="vendors-table"></i>
+                <p>Vendors</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-handshake fa-3x text-secondary" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table"></i>
+                <p>Collaborations</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
+                <p>Products</p>
+            </div>
         </div>
-        <div class="col-md-3">
-            <i class="fas fa-comment fa-3x text-warning" data-toggle="collapse" href="#feedback-table" role="button" aria-expanded="false" aria-controls="feedback-table"></i>
-            <p>Feedback</p>
-        </div>
-        <div class="col-md-3">
-            <i class="fas fa-question-circle fa-3x text-info" data-toggle="collapse" href="#inquiries-table" role="button" aria-expanded="false" aria-controls="inquiries-table"></i>
-            <p>Inquiries</p>
+
+        <div class="logout mt-4 text-center">
+            <a href="?action=logout" class="btn btn-danger">Logout</a>
         </div>
     </div>
 
-    <div class="row text-center mt-4">
-        <div class="col-md-3">
-            <i class="fas fa-briefcase fa-3x text-danger" data-toggle="collapse" href="#careers-table" role="button" aria-expanded="false" aria-controls="careers-table"></i>
-            <p>Careers</p>
+    <!-- Modal for Products -->
+    <div class="modal fade" id="productOptionsModal" tabindex="-1" role="dialog" aria-labelledby="productOptionsModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productOptionsModalLabel">Product Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Modal content -->
+            Product options will go here.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
         </div>
-        <div class="col-md-3">
-            <i class="fas fa-industry fa-3x text-dark" data-toggle="collapse" href="#vendors-table" role="button" aria-expanded="false" aria-controls="vendors-table"></i>
-            <p>Vendors</p>
-        </div>
-        <div class="col-md-3">
-            <i class="fas fa-handshake fa-3x text-secondary" data-toggle="collapse" href="#collaborations-table" role="button" aria-expanded="false" aria-controls="collaborations-table"></i>
-            <p>Collaborations</p>
-        </div>
-        <div class="col-md-3">
-     
-            <i class="fas fa-boxes fa-3x text-info" data-toggle="modal" data-target="#productOptionsModal"></i>
-            <p>Products</p>
-        </div>
-        <div class="logout">
-        <a href="?action=logout" class="btn btn-danger"> Logout</a>
+      </div>
     </div>
-    </div>
+
+</body>
+</html>
 
     <!-- Collapsible Tables -->
     <div class="collapse" id="users-table">
