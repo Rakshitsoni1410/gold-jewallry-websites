@@ -4,7 +4,7 @@ const wishlistContainer = document.getElementById('wishlist-container');
 // Function to check if user is logged in
 function isLoggedIn() {
   // Perform an AJAX request to check session status
-  return fetch('check_session.php')
+  return fetch('login.php')
     .then(response => response.json())
     .then(data => {
       return data.loggedIn; // This will return true or false

@@ -1,7 +1,7 @@
 // Function to check if the user is logged in
 function isLoggedIn() {
   // Perform an AJAX request to check session status
-  return fetch('check_session.php')
+  return fetch('login.php')
     .then(response => response.json())
     .then(data => {
       return data.loggedIn; // This will return true or false
