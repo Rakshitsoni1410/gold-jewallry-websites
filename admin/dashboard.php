@@ -345,53 +345,39 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                     <th>Collaboration Type</th>
                     <th>Website</th>
                     <th>Message</th>
-                    <th>Created At</th>
                 </tr>
             </thead>
             <tbody>
             <?php
-// Database connection
+            // Database connection
+            try {
+                $conn = new PDO("mysql:host=localhost;dbname=shop", "root", "");
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+                // Fetch data from the collaborations table
+                $stmt = $conn->prepare("SELECT id, company, email_address, phone_number, collab_type, website_url, message_content FROM collaborations");
+                $stmt->execute();
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Check if all required fields are set
-        if (isset($_POST['collab-name'], $_POST['company'], $_POST['collab-email'], $_POST['collab-type'], $_POST['collab-website'], $_POST['collab-message'])) {
-            
-            // Get form data
-            $collabName = $_POST['collab-name'];
-            $company = $_POST['company'];
-            $email = $_POST['collab-email'];
-            $phone = $_POST['collab-phone']; // Optional
-            $collabType = $_POST['collab-type'];
-            $website = $_POST['collab-website'];
-            $message = $_POST['collab-message'];
-
-            // Prepare SQL insert query - use the correct column name for email
-            $stmt = $conn->prepare("INSERT INTO collaborations (collab_name, company, email, phone_number, collab_type, website_url, message_content) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?)");
-
-            // Execute the statement with values directly passed as an array
-            if ($stmt->execute([$collabName, $company, $email, $phone, $collabType, $website, $message])) {
-                echo "Data inserted successfully!";
-            } else {
-                echo "Failed to insert data.";
+                // Loop through the results and display them in the table
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['company'] . "</td>";
+                    echo "<td>" . $row['email_address'] . "</td>";
+                    echo "<td>" . $row['phone_number'] . "</td>";
+                    echo "<td>" . $row['collab_type'] . "</td>";
+                    echo "<td>" . $row['website_url'] . "</td>";
+                    echo "<td>" . $row['message_content'] . "</td>";
+                    echo "</tr>";
+                }
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
             }
-
-        } else {
-            echo "Error: Please fill in all required fields.";
-        }
-    }
-
-
-?>
-
+            ?>
             </tbody>
         </table>
     </div>
 </div>
-
-
-
 
 
 <?php
