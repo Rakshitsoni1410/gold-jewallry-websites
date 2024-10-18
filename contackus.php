@@ -119,7 +119,7 @@ try {
         if (isset($_POST['collab-name'], $_POST['company'], $_POST['collab-email'], $_POST['collab-type'], $_POST['collab-website'], $_POST['collab-message'])) {
             
             // Get form data
-            $collabName = $_POST['collab-name']; // Ensure this corresponds with your form
+            $collabName = $_POST['collab-name']; // Corresponds to collab_name in the database
             $company = $_POST['company'];
             $email = $_POST['collab-email'];
             $phone = isset($_POST['collab-phone']) ? $_POST['collab-phone'] : ''; // Optional
@@ -128,7 +128,7 @@ try {
             $message = $_POST['collab-message'];
 
             // Prepare SQL insert query with the correct column names
-            $stmt = $conn->prepare("INSERT INTO collaborations (name, company, email_address, phone_number, collab_type, website_url, message_content) 
+            $stmt = $conn->prepare("INSERT INTO collaborations (collab_name, company, email_address, phone_number, collab_type, website_url, message_content) 
                                     VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             // Execute the statement with values directly passed as an array
