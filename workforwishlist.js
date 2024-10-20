@@ -5,14 +5,15 @@ const wishlistContainer = document.getElementById('wishlist-container');
 // Function to check if the user is logged in (returns a promise)
 async function isLoggedIn() {
   try {
-    const response = await fetch('login.php'); // Assuming 'login.php' returns JSON with login status
-    const data = await response.json();
-    return data.loggedIn; // This should return true or false based on login status
+   var data = localStorage.getItem('isLogged');
+    return data; // This should return true or false
   } catch (error) {
+    debugger;
     console.error('Error checking login status:', error);
     return false; // Default to false if there's an error
   }
 }
+
 
 // Function to display login and signup message
 function displayLoginSignupMessage() {

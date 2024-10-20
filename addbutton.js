@@ -1,10 +1,10 @@
 // Function to check if the user is logged in (returns a promise)
 async function isLoggedIn() {
   try {
-    const response = await fetch('login.php');
-    const data = await response.json();
-    return data.loggedIn; // This should return true or false
+   var data = localStorage.getItem('isLogged');
+    return data; // This should return true or false
   } catch (error) {
+    debugger;
     console.error('Error checking login status:', error);
     return false; // Default to false if there's an error
   }

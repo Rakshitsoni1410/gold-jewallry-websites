@@ -1,122 +1,112 @@
-let isAuthenticated = false;
-let username = '';
-let password = '';
-
 // Function to handle login
-function login(usernameInput, passwordInput) {
-    // Simulated login logic (replace with actual API call)
-    if (usernameInput === 'admin' && passwordInput === 'password') {
-        isAuthenticated = true;
-        username = usernameInput;
-        return true;
-    } else {
-        return false;
-    }
+async function login(usernameInput, passwordInput) {
+  const response = await fetch('login.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      login: true,
+      username: usernameInput,
+      password: passwordInput
+    })
+  });
+
+  const data = await response.json();
+
+  if (data.loggedIn) {
+    window.location.href = data.redirect; // Redirect to index.html
+  } else {
+    alert(data.error || 'Login failed. Please try again.');
+  }
 }
 
 // Function to handle signup
-function signup(usernameInput, passwordInput) {
-    // Simulated signup logic (replace with actual API call)
-    if (usernameInput !== '' && passwordInput !== '') {
-        isAuthenticated = true;
-        username = usernameInput;
-        return true;
-    } else {
-        return false;
-    }
+async function signup(usernameInput, emailInput, passwordInput) {
+  const response = await fetch('login.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      signup: true,
+      username: usernameInput,
+      email: emailInput,
+      password: passwordInput
+    })
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
+    window.location.href = data.redirect; // Redirect to index.html on successful signup
+  } else {
+    alert(data.error || 'Signup failed. Please try again.');
+  }
 }
-
-// Function to check if user is authenticated
-function isAuthenticatedUser () {
-    return isAuthenticated;
-}
-
-// Function to check if the user is logged in via AJAX call
-async function isLoggedIn() {
-    try {
-        const response = await fetch('login.php'); // Adjust this as needed
-        const data = await response.json();
-        return data.loggedIn; // This should return true or false based on login status
-    } catch (error) {
-        console.error('Error checking login status:', error);
-        return false; // Default to false if there's an error
-    }
-}
-
-// Function to display login and signup message
-function displayLoginSignupMessage() {
-    const message = 'You must login or signup to add to wishlist';
-    alert(message);
-    // Optionally show login and signup buttons or redirect to login/signup page
-}
-
-// DOM Elements
-const loginBtn = document.getElementById('login-btn');
-const registerBtn = document.getElementById('register-btn');
-const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
-const registerLink = document.getElementById('register-link');
-const forgotPasswordLink = document.getElementById('forgot-password');
-
-// Show login form
-loginBtn.addEventListener('click', () => {
-    loginForm.style.display = 'block';
-    registerForm.style.display = 'none';
-    loginBtn.classList.add('active');
-    registerBtn.classList.remove('active');
-});
-
-// Show registration form
-registerBtn.addEventListener('click', () => {
-    registerForm.style.display = 'block';
-    loginForm.style.display = 'none';
-    registerBtn.classList.add('active');
-    loginBtn.classList.remove('active');
-});
-
-// Show registration form when clicking register link
-registerLink.addEventListener('click', () => {
-    registerForm.style.display = 'block';
-    loginForm.style.display = 'none';
-    registerBtn.classList.add('active');
-    loginBtn.classList.remove('active');
-});
-
-// Forgot password functionality (placeholder)
-forgotPasswordLink.addEventListener('click', () => {
-    alert('Forgot password functionality not implemented yet!');
-});
 
 // Handle login form submission
-document.getElementById('login-form').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent form submission
-    const usernameInput = document.getElementById('username').value;
-    const passwordInput = document.getElementById('password').value;
-    if (await isLoggedIn()) {
-        // If already logged in
-        window.location.href = 'index.html'; // Redirect to home page
-    } else {
-        if (login(usernameInput, passwordInput)) {
-            window.location.href = 'index.html'; // Redirect on successful login
-        } else {
-            alert('Invalid username or password');
-        }
-    }
-});
+// document.getElementById('loginForm').addEventListener('submit', async function(event) {
+//   event.preventDefault(); // Prevent default form submission
+//   const usernameInput = document.getElementById('login-username').value;
+//   const passwordInput = document.getElementById('login-password').value;
+
+//   // Attempt to log in
+//   await login(usernameInput, passwordInput);
+// });
 
 // Handle signup form submission
-document.getElementById('register-form').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent form submission
-    const usernameInput = document.getElementById('username').value;
-    const passwordInput = document.getElementById('password').value;
-    if (await isLoggedIn()) {
-        // If already logged in
-        window.location.href = 'index.html'; // Redirect to home page
-    } else {
-        if (signup(usernameInput, passwordInput)) {
-            window.location.href = 'index.html'; // Redirect on successful signup
-        } else {
-            alert('Invalid username or password');
+// document.getElementById('registerForm').addEventListener('submit', async function(event) {
+//   event.preventDefault(); // Prevent default form submission
+//   const usernameInput = document.getElementById('register-username').value;
+//   const emailInput = document.getElementById('register-email').value;
+//   const passwordInput = document.getElementById('register-password').value;
+
+//   // Attempt to sign up
+//   await signup(usernameInput, emailInput, passwordInput);
+// });
+$(document).ready(function () {
+  $('#registerForm').on('submit', function (e) {
+    $.ajax({
+      url: 'signup.php',
+      type: 'POST',
+      async: false,
+      data: $(this).serialize(),
+      success: function (response) {
+        if (response.success == false) {
+          $('#result').html(response.error); // Update the result div with the server's response  
+          alert(response.error);
         }
-    }
+        else {
+          console.log("AJAX Success"); // Confirm success handler is called
+          console.log(response); // Log the response for debugging
+          $('#result').html(response); // Update the result div with the server's response
+        }
+
+      },
+      error: function (xhr, status, error) {
+        console.log("AJAX Error:", error); // Log the error for debugging
+        $('#result').html('<p>An error occurred: ' + error + '</p>');
+      }
+    });
+
+  });
+  $('#loginForm').on('submit', function (e) {
+    $.ajax({
+      url: 'login.php',
+      type: 'POST',
+      async: false,
+      data: $(this).serialize(),
+      success: function (response) {
+        localStorage.setItem('isLogged',true);
+        window.location.href = response.redirect;
+
+      },
+      error: function (xhr, status, error) {
+        console.log("AJAX Error:", error); // Log the error for debugging
+        $('#result').html('<p>An error occurred: ' + error + '</p>');
+      }
+    });
+
+  });
 });
