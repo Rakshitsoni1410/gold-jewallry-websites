@@ -1,459 +1,1251 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.C. Soni Jewelry</title>   
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.C. Soni Jewelry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="try.css">
-    <!-- <script type="text/javascript" src="workforwishlist.js" async></script>
-    <script src="addbutton.js" async></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="login.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+/* ── SCREENSHOT PROTECTION ── */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body {
+  -webkit-touch-callout: none;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Panel Styles */
-        .panel {
-            max-width: 400px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+:root {
+  --gold: #d4af37;
+  --gold-light: #e6c84a;
+  --gold-dim: rgba(212,175,55,0.25);
+  --dark: #0d0b08;
+  --dark2: #13100a;
+  --dark3: #1a1509;
+  --cream: #f0e8d8;
+  --muted: #b8a882;
+  --dim: #7a6e58;
+  --faint: #5a5040;
+  --veryfaint: #3a3020;
+}
 
-        .panel-header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
+html { scroll-behavior: smooth; }
 
-        .panel-header h2 {
-            margin: 0;
-        }
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  background: var(--dark);
+  color: var(--cream);
+  overflow-x: hidden;
+}
 
-        /* Button Styles */
-        .toggle-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #337ab7;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+img { -webkit-user-drag: none; pointer-events: none; }
 
-        .toggle-button:hover {
-            background-color: #23527c;
-        }
+/* ── MARQUEE ── */
+.marquee-bar {
+  background: var(--gold);
+  padding: 9px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 48px;
+  animation: marquee 22s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-item {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dark);
+  flex-shrink: 0;
+}
+.marquee-dot { color: rgba(13,11,8,0.35); }
 
-        .toggle-button.active {
-            background-color: #23527c;
-        }
+/* ── NAVBAR ── */
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(13,11,8,0.97);
+  border-bottom: 0.5px solid var(--gold-dim);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  gap: 24px;
+}
 
-        /* Form Styles */
-        .login,
-        .register {
-            display: none;
-            padding: 20px;
-        }
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.nav-logo span { font-style: italic; color: var(--cream); }
 
-        .login.show-login,
-        .register.show-register {
-            display: block;
-        }
+/* Search */
+.nav-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0.5px solid var(--gold-dim);
+  padding: 7px 14px;
+  flex: 1;
+  max-width: 340px;
+}
+.nav-search-wrap i { color: var(--dim); font-size: 16px; }
+.nav-search-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--cream);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  width: 100%;
+}
+.nav-search-wrap input::placeholder { color: var(--faint); }
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
+/* Nav links with dropdowns */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 0;
+}
+.nav-menu > li {
+  position: relative;
+}
+.nav-menu > li > a {
+  display: block;
+  padding: 8px 14px;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+.nav-menu > li:hover > a { color: var(--gold); }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-        }
+/* Dropdown */
+.dropdown-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #111009;
+  border: 0.5px solid var(--gold-dim);
+  min-width: 200px;
+  padding: 20px;
+  z-index: 999;
+}
+.nav-menu > li:hover .dropdown-panel { display: block; }
 
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #337ab7;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.dropdown-panel h6 {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.dropdown-panel a {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 5px 0;
+  transition: color 0.25s, padding-left 0.25s;
+}
+.dropdown-panel a:hover {
+  color: var(--gold);
+  padding-left: 8px;
+}
 
-        input[type="submit"]:hover {
-            background-color: #23527c;
-        }
-    </style>
+/* New arrivals dropdown with images */
+.dropdown-panel.arrivals { min-width: 260px; }
+.arrivals-imgs { display: flex; gap: 10px; }
+.arrivals-imgs img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 0.5px solid var(--gold-dim);
+  pointer-events: none;
+}
+
+/* Nav icons */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.nav-icons i {
+  font-size: 20px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.25s;
+}
+.nav-icons i:hover { color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 580px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(212,175,55,0.07) 0%, transparent 55%),
+    radial-gradient(circle at 85% 20%, rgba(212,175,55,0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hero-accent-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 0.5px;
+  background: var(--gold-dim);
+}
+.hero-accent-line.t { top: 64px; }
+.hero-accent-line.b { bottom: 64px; }
+
+.hero-content {
+  padding: 80px 48px 80px 80px;
+  animation: fadeUp 0.9s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 36px;
+  height: 0.5px;
+  background: var(--gold);
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 66px;
+  font-weight: 300;
+  line-height: 1.08;
+  color: var(--cream);
+  margin-bottom: 10px;
+}
+.hero h1 em { font-style: italic; color: var(--gold); }
+
+.hero-sub {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 28px;
+}
+
+.hero-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 400px;
+  margin-bottom: 40px;
+}
+
+.hero-btns { display: flex; gap: 14px; }
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--dark);
+  border: none;
+  padding: 14px 38px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s, transform 0.3s;
+}
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); color: var(--dark); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--gold);
+  border: 0.5px solid rgba(212,175,55,0.45);
+  padding: 14px 38px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s;
+}
+.btn-ghost:hover { border-color: var(--gold); background: rgba(212,175,55,0.06); color: var(--gold); }
+
+/* Hero image side */
+.hero-img-side {
+  position: relative;
+  height: 580px;
+  overflow: hidden;
+  animation: fadeUp 1s ease 0.15s both;
+}
+.hero-img-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+.hero-img-side::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--dark) 0%, transparent 30%, transparent 80%, var(--dark) 100%),
+              linear-gradient(to bottom, transparent 60%, rgba(13,11,8,0.5));
+}
+.hero-img-badge {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  z-index: 2;
+  border: 0.5px solid var(--gold-dim);
+  padding: 14px 22px;
+  background: rgba(13,11,8,0.8);
+  text-align: center;
+}
+.hero-img-badge .badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--gold);
+  display: block;
+}
+.hero-img-badge .badge-txt {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* ── SECTION HEADER ── */
+.sec-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.sec-tag {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.sec-title em { font-style: italic; color: var(--gold); }
+.sec-line {
+  width: 56px;
+  height: 0.5px;
+  background: var(--gold-dim);
+  margin: 0 auto;
+}
+
+/* ── CATEGORIES ── */
+.categories { padding: 88px 48px; }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--gold-dim);
+  border: 0.5px solid var(--gold-dim);
+}
+.cat-item {
+  background: var(--dark);
+  padding: 40px 32px 36px;
+  cursor: pointer;
+  transition: background 0.4s;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cat-item:hover { background: var(--dark2); }
+.cat-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 0.5px;
+  background: var(--gold);
+  transition: width 0.45s;
+}
+.cat-item:hover::after { width: 100%; }
+.cat-icon { font-size: 30px; color: rgba(212,175,55,0.4); margin-bottom: 4px; }
+.cat-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--cream);
+}
+.cat-sub {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+.cat-arrow {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.cat-item:hover .cat-arrow { opacity: 1; transform: translateX(4px); }
+
+/* ── FEATURED PRODUCTS ── */
+.featured { padding: 80px 48px; border-top: 0.5px solid rgba(212,175,55,0.1); }
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+.filter-btn {
+  background: transparent;
+  border: 0.5px solid rgba(212,175,55,0.18);
+  color: var(--faint);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 8px 22px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(212,175,55,0.06);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.product-card {
+  background: #111009;
+  border: 0.5px solid rgba(212,175,55,0.1);
+  transition: border-color 0.4s, transform 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.product-card:hover {
+  border-color: rgba(212,175,55,0.38);
+  transform: translateY(-5px);
+}
+.product-card[data-cat] { transition: all 0.4s; }
+
+.product-img {
+  height: 210px;
+  overflow: hidden;
+  position: relative;
+  background: var(--dark3);
+}
+.product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+  opacity: 0.85;
+}
+.product-card:hover .product-img img { transform: scale(1.05); opacity: 1; }
+.product-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 55%, rgba(13,11,8,0.55));
+  pointer-events: none;
+}
+
+.product-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.product-wish {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 2;
+  font-size: 20px;
+  color: rgba(212,175,55,0.3);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.product-wish:hover { color: var(--gold); }
+
+.product-info { padding: 18px 20px 20px; }
+.product-mat {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--cream);
+  margin-bottom: 14px;
+}
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-price {
+  font-size: 15px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.product-link {
+  background: transparent;
+  border: 0.5px solid rgba(212,175,55,0.3);
+  color: var(--gold);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.product-link:hover {
+  background: var(--gold);
+  color: var(--dark);
+}
+
+/* ── TRUST STRIP ── */
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(212,175,55,0.08);
+  border-top: 0.5px solid rgba(212,175,55,0.1);
+  border-bottom: 0.5px solid rgba(212,175,55,0.1);
+}
+.trust-item {
+  background: var(--dark);
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.trust-item i { font-size: 28px; color: rgba(212,175,55,0.45); }
+.trust-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.trust-desc { font-size: 12px; color: var(--faint); line-height: 1.55; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 64px 48px 32px;
+  border-top: 0.5px solid rgba(212,175,55,0.1);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 52px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  letter-spacing: 5px;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.footer-about {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--faint);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.footer-socials { display: flex; gap: 12px; }
+.footer-socials a {
+  width: 36px;
+  height: 36px;
+  border: 0.5px solid rgba(212,175,55,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dim);
+  font-size: 17px;
+  transition: all 0.3s;
+}
+.footer-socials a:hover { border-color: var(--gold); color: var(--gold); }
+
+.footer-col-title {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--faint);
+  text-decoration: none;
+  transition: color 0.3s, padding-left 0.3s;
+}
+.footer-links a:hover { color: var(--gold); padding-left: 6px; }
+
+.footer-bottom {
+  border-top: 0.5px solid rgba(212,175,55,0.1);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-copy { font-size: 11px; letter-spacing: 1px; color: var(--veryfaint); }
+.payment-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.pay-pill {
+  border: 0.5px solid rgba(212,175,55,0.14);
+  padding: 4px 10px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--faint);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pay-pill img { height: 20px; width: auto; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .site-nav { padding: 14px 20px; }
+  .nav-menu { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-img-side { height: 280px; }
+  .hero-content { padding: 48px 24px; }
+  .hero h1 { font-size: 42px; }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-strip { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .categories, .featured { padding: 60px 20px; }
+}
+@media (max-width: 540px) {
+  .cat-grid, .products-grid, .trust-strip { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
-
 <body>
-    <nav class="navbar">
-        <div class="logo"><img src="logo1.png" width="100px" height="290px" alt="Logo"></div>
-        <div class="icon-containers"> <img src="./magnifying-glass-solid.svg" alt="Search" class="nav-icon"
-                onclick="toggleSearchBox()">
-            <div id="search-container" style="display: none;">
-                <input type="text" id="search-input" list="detail"
-                    onkeypress="if(event.key === 'Enter') redirectPage()">
-                <datalist id="detail">
-                    <script type="text/javascript" src="workforwishlist.js" async></script>
-                    <script src="addbutton.js" async></script>
-                    <option value="RINGman.html">Ring Gold</option>
-                    <option value="kadaformang.html">Kada for Man in Gold</option>
-                    <option value="silvermenring.html">Silver ring</option>
-                    <option value="ringsmanp.html">platinum ring man</option>
-                    <option value="ringswoman.html">gold ring woman</option>
-                    <option value="ringwomans.html">Silver ring woman</option>
-                    <option value="silvermenring.html">Silver ring</option>
-                    <option value="ringwomanp.html">platinum ring woman</option>
-                    <option value="couplegold.htm">couples gold ring</option>
-                    <option value="couplesilver.html">coupl Silver ring</option>
-                    <option value="silvermenring.html">Silver ring</option>
-                    <option value="Couples platinum.html">couples platinum rings</option>
-                    <option value="manchaing.html">man Gold chain</option>
-                    <option value="manchaings.html">man Silver chain</option>
-                    <option value="womanchaing.html">woman chain gold</option>
-                    <option value="womanchains.html">woman chaing Silver</option>
-                    <option value="earrings.html">gold earrings for man</option>
-                    <option value="earringss.html">Silver earrings for man</option>
-                    <option value="earringswomang.html">gold earrings for woman</option>
-                    <option value="earringswomans.html">Silver earrings for woman</option>
-                    <option value="earringswomand.html">Diamond earrings for woman</option>
-                    <option value="neklesgoldwoman.html">gold necklace </option>
-                    <option value="neklessilverwoman.html">silver necklace</option>
-                    <option value="neklesdiamondwoman.html">Diamond necklace</option>
-                    <option value="kadaformans.html">kada for silver</option>
-                    <option value="bangelswomang.html">bangels for woman in gold </option>
-                    <option value="bangelswomans.html">bangels for woman in silver </option>
-                </datalist>
-            </div>
 
-            <script>
-                function toggleSearchBox() {
-                    const searchContainer = document.getElementById('search-container');
-                    searchContainer.style.display = searchContainer.style.display === 'none' ? 'block' : 'none';
-                }
+<!-- SCREENSHOT PROTECTION SCRIPT -->
+<script>
+  // Block keyboard screenshot shortcuts
+  document.addEventListener('keydown', function(e) {
+    // PrintScreen
+    if (e.key === 'PrintScreen' || e.keyCode === 44) {
+      e.preventDefault();
+      navigator.clipboard.writeText('');
+      return false;
+    }
+    // Ctrl+Shift+S / Ctrl+P / Windows Snipping Tool combos
+    if ((e.ctrlKey && e.shiftKey && (e.key === 's' || e.key === 'S')) ||
+        (e.ctrlKey && e.key === 'p') ||
+        (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5'))) {
+      e.preventDefault();
+      return false;
+    }
+  });
 
-                function redirectPage() {
-                    const searchTerm = document.getElementById('search-input').value.trim();
-                    if (searchTerm !== '') {
-                        const selectedOption = document.querySelector(`#detail option[value="${searchTerm}"]`);
-                        if (selectedOption) {
-                            window.location.href = searchTerm;
-                        } else {
-                            console.log("Invalid search term!");
-                        }
-                    }
-                }
-            </script>
-        </div>
-        </div>
-        <ul class="nav-links">
-            <li class="dropdown">
-                <a href="#">Rings</a>
-                <div class="dropdown-content">
-                    <div class="dropdown-section">
-                        <h5>Shop by Material</h5>
-                        <a href="RINGman.html">Gold Man</a>
-                        <a href="silvermenring.html">Silver Man</a>
-                        <a href="ringsmanp.html">Platinum Man</a>
-                        <a href="ringswoman.html">Gold Women</a>
-                        <a href="ringwomans.html">Silver Women</a>
-                        <a href="ringwomanp.html">Platinum Women</a>
-                        <a href="couplegold.html">Couples Gold</a>
-                        <a href="couplesilver.html">Couples Silver</a>
-                        <a href="Couples platinum.html">Couples Platinum</a>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Chains</a>
-                <div class="dropdown-content">
-                    <div class="dropdown-section">
-                        <h4>Shop by Material</h4>
-                        <a href="manchaing.html">Man Gold</a>
-                        <a href="manchaings.html">Man Silver</a>
-                        <a href="womanchaing.html">Gold Women</a>
-                        <a href="womanchains.html">Silver Women</a>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Earrings</a>
-                <div class="dropdown-content">
-                    <div class="dropdown-section">
-                        <h4>Shop by Material</h4>
-                        <a href="earrings.html">Gold Man</a>
-                        <a href="earringss.html">Silver Man</a>
-                        <a href="earringswomang.html"> Gold Women</a>
-                        <a href="earringswomans.html">Silver Women</a>
-                        <a href="earringswomand.html">Diamond Women</a>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Necklaces</a>
-                <div class="dropdown-content">
-                    <div class="dropdown-section">
-                        <h4>Shop by Material</h4>
-                        <a href="neklesgoldwoman.html">Gold Women</a>
-                        <a href="neklessilverwoman.html">Silver Women</a>
-                        <a href="neklesdiamondwoman.html">Diamond Women</a>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">Bangles/Kada</a>
-                <div class="dropdown-content">
-                    <div class="dropdown-section">
-                        <h4>Shop by Material</h4>
-                        <a href="kadaformang.html">Gold Man (Kada)</a>
-                        <a href="kadaformans.html">Silver Man</a>
-                        <a href="bangelswomang.html">Gold Women</a>
-                        <a href="bangelswomans.html">Silver Women</a>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">PENDALS </a>
-                
-                  
-                <div class="dropdown-content">
-                    <div class="dropdown-section">
-                        <a href="pedalsforman.php">Gold Man</a>
-                        <a href="pendals for woman.php">Gold Women</a>
-                        <a href="pedalsforcoulpe.php">COUPLE</a></div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">newarrivals</a>
-                <div class="dropdown-contents">
-                    <div class="dropdown-section">
-                        <div style="display: flex; gap: 10px;">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp68IMHfTzFZUPz_uA1DpnVqrhIqHfaiwhOg&s" style="height: 90px; width: 90px;"> 
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgGNOAtFMUMpDDXCo7pYPJ4UJsjGN3UNl-9A&s" style="height: 90px; width: 90px;">
+  // Block right-click context menu (prevents Save Image As)
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+  });
 
+  // Block drag-and-drop of images
+  document.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+    return false;
+  });
 
-                        </div>
-                    </div>
-                </div>
-            </li>
-           
-            <li class="nav-links">
-            <li class="dropdown">
-                <div class="icon-container">
-                    <img src="./heart-solid.svg" alt="Whitelist" class="nav-icon">
-                    <img src="./cart-shopping-solid (1).svg" class="nav-icon">
-                    <a href="#"> <img src="./user-solid.svg" alt="Account" data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-icon"></a><br><br>
- </li>
-            </li>
+  // Visibility API: blur page when user switches tabs (reduces screen recording risk)
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      document.body.style.filter = 'blur(12px)';
+    } else {
+      document.body.style.filter = 'none';
+    }
+  });
+</script>
 
-        </ul>
+<!-- MARQUEE -->
+<div class="marquee-bar" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Free Shipping on Orders Above ₹999</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">BIS Hallmarked Jewellery</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">Cash on Delivery Available</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">New Arrivals Every Week</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">Easy Returns &amp; Exchange</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Free Shipping on Orders Above ₹999</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">BIS Hallmarked Jewellery</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">Cash on Delivery Available</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">New Arrivals Every Week</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+    <span class="marquee-item">Easy Returns &amp; Exchange</span>
+    <span class="marquee-dot"> &nbsp;✦&nbsp; </span>
+  </div>
+</div>
 
-    </nav>
-    <main>
-        <div>
-            <img src="skin.png" style="height: 100%; width: 100%;" alt="Background Image">
-        </div>
+<!-- NAVBAR -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo">R.C. <span>Soni</span></a>
 
-        <section id="featured-products">
-            <div class="container">
-                <h2>Featured Products for Women</h2>
-                <div class="product-grid">
-                    <div class="product-item">
-                        <a href="neklesgoldwoman.html">
-                            <img src="https://th.bing.com/th/id/OIP.Die_pcQqzJ99hHwLxtl1IgHaHa?rs=1&pid=ImgDetMain"
-                                alt="Gold Necklace">
-                            <h3 >Gold Necklace</h3>
-                            <p>₹4999</p>
-                        </a>
-                    </div>
-                    <div class="product-item">
-                        <a href="ringswoman.html">
-                            <img src="https://th.bing.com/th/id/OIP.oAwpwHUywVmflmRGrsYeRwHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                alt="Gold Ring">
-                            <h3>Gold Ring</h3>
-                            <p>₹9999</p>
-                        </a>
-                    </div>
-                    <div class="product-item">
-                        <a href="bangelswomans.html">
-                            <img src="https://th.bing.com/th/id/OIP.YQbrykEQYPm1kvjfklWhrwHaHa?w=206&h=205&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                alt="Silver Bracelet">
-                            <h3>Silver Bracelet</h3>
-                            <p>₹2999</p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-         <section id="featured-products">
-            <div class="container">
-                <h2>Featured Products for Men</h2>
-                <div class="product-grid">
-                    <div class="product-item">
-                        <a href="manchaing.html">
-                            <img src="https://th.bing.com/th/id/OIP.1u914n2FUl35suFK8ygtGAHaHa?w=175&h=189&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                                alt="Gold Chain">
-                            <h3>Gold Chain</h3>
-                            <p>₹4999</p>
-                        </a>
-                    </div>
-                    <div class="product-item">
-                        <a href="RINGman.html">
-                            <img src="https://th.bing.com/th/id/OIP.yLFozshG6mIqnF8utatc2gHaHa?rs=1&pid=ImgDetMain"
-                                alt="Gold Ring">
-                            <h3>Gold Ring</h3>
-                            <p>₹9999</p>
-                        </a>
-                    </div>
-                    <div class="product-item">
-                        <a href="kadaformans.html">
-                            <img src="https://images-na.ssl-images-amazon.com/images/I/51jQcR5RbSL._UY395_.jpg"
-                                alt="Silver Bracelet">
-                            <h3>Silver Bracelet</h3>
-                            <p>₹2999</p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <div class="footer-content">
+  <!-- Search -->
+  <div class="nav-search-wrap">
+    <i class="ti ti-search"></i>
+    <input type="text" id="search-input" list="search-list" placeholder="Search jewellery…" onkeydown="if(event.key==='Enter') doSearch()">
+    <datalist id="search-list">
+      <option value="RINGman.html">Ring Gold</option>
+      <option value="kadaformang.html">Kada for Man in Gold</option>
+      <option value="silvermenring.html">Silver ring</option>
+      <option value="ringsmanp.html">Platinum ring man</option>
+      <option value="ringswoman.html">Gold ring woman</option>
+      <option value="ringwomans.html">Silver ring woman</option>
+      <option value="ringwomanp.html">Platinum ring woman</option>
+      <option value="couplegold.html">Couples gold ring</option>
+      <option value="couplesilver.html">Couples silver ring</option>
+      <option value="Couples platinum.html">Couples platinum rings</option>
+      <option value="manchaing.html">Man Gold chain</option>
+      <option value="manchaings.html">Man Silver chain</option>
+      <option value="womanchaing.html">Woman chain gold</option>
+      <option value="womanchains.html">Woman chain silver</option>
+      <option value="earrings.html">Gold earrings for man</option>
+      <option value="earringss.html">Silver earrings for man</option>
+      <option value="earringswomang.html">Gold earrings for woman</option>
+      <option value="earringswomans.html">Silver earrings for woman</option>
+      <option value="earringswomand.html">Diamond earrings for woman</option>
+      <option value="neklesgoldwoman.html">Gold necklace</option>
+      <option value="neklessilverwoman.html">Silver necklace</option>
+      <option value="neklesdiamondwoman.html">Diamond necklace</option>
+      <option value="kadaformans.html">Kada for silver</option>
+      <option value="bangelswomang.html">Bangles for woman in gold</option>
+      <option value="bangelswomans.html">Bangles for woman in silver</option>
+    </datalist>
+  </div>
 
-            <div class="footer-links">
-                <a href="about us.html" style="text-decoration: black;">About Us</a>
-                <a href="POLICY.html" style="text-decoration: black;"> Policy</a>
-                <a href="service.html" style="text-decoration: black;">Our Service</a>
-                <a href="contackus.html" style="text-decoration: black;">Contact Us</a>
-                <a href="feedbackfrom.html" style="text-decoration: black;">Review</a>
-                <a href=https://www.instagram.com/r.c.sonijewellry?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img src="./instagram-brands-solid.svg" height="30px" width="30px"></a>
-                <a href="#"><img src="./facebook-brands-solid.svg" height="30px" width="30px"></a>
-                <a href="#"><img src="./square-whatsapp-brands-solid.svg" height="30px" width="30px"></a>
-                <a href="#"><img src="./youtube-brands-solid.svg" height="30px" width="30px"></a>
-            </div>
-    
-        </div>
-    <div class="paymenu">
-            <ul>
-                <li style="display: inline-block;list-style-type: style none;;"><b>we accept</b> </li>
-                <li style="display: inline-block;list-style-type: style none;;"><img
-                            src="./cc-visa-brands-solid.svg" height="50px" width="50px"></li>
-                <li style="display: inline-block;list-style-type: style none;;"><img
-                            src="./cc-mastercard-brands-solid.svg" height="50px" width="50px"></li>
-                <li style="display: inline-block;list-style-type: style none;;"><img
-                            src="cash-on-delivery.png" height="50px" width="50px"></li>
-                <li style="display: inline-block;list-style-type: style none;;"><img
-                            src="google-pay-brands-solid.svg" alt="" height="50px" width="50px"></li>
-                <li style="display: inline-block;list-style-type: style none;;"><img
-                            src="paypal-brands-solid.svg" alt="" height="50px" width="50px"></li>
-                <li style="display: inline-block;list-style-type: style none;;"><img
-                            src="building-columns-solid.svg" alt="" height="50px" width="50px"></li>
-            </ul>
-        </div>
-        </div>
-        </div>
-        </div>
-
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="panel">
-                <div class="panel-header">
-                  <h2>Login/Register Panel</h2>
-                </div>
-                <div class="panel-body">
-                  <button class="toggle-button" id="login-btn">Login</button>
-                  <button class="toggle-button" id="register-btn">Register</button>
-                  
-                  <!-- Login Form -->
-                  <div class="login" id="login-form" style="display: none;">
-                    <form id="loginForm" >
-                      <label for="login-username">Username:</label>
-                      <input type="text" id="login-username" name="username" required><br><br>
-                      <label for="login-password">Password:</label>
-                      <input type="password" id="login-password" name="password" required><br><br>
-                      <input type="submit" value="Login" name="login">
-                      <p>
-                        <a href="#" id="forgot-password">Forgot Password?</a>
-                      </p>
-      
-                    
-                    </form>
-                       <div id="forgot-password-modal" style="display: none;">
-                        <form action="forgotpassword.php" method="post">
-                          <label for="email">Email:</label>
-                          <input type="email" id="email" name="email" required>
-                          <input type="submit" value="submit" name="submit">
-                        </form>
-                      </div>
-                  </div>
-                  
-                  <!-- Register Form -->
-                  <div class="register" id="register-form" style="display: none;">
-                    <form id="registerForm">
-                      <label for="register-username">Username:</label>
-                      <input type="text" id="register-username" name="username" required><br><br>
-                      <label for="register-email">Email:</label>
-                      <input type="email" id="register-email" name="email" required><br><br>
-                      <label for="register-password">Password:</label>
-                      <input type="password" id="register-password" name="password" required><br><br>
-                      <input type="submit" id="form-submit-register" value="Submit" name="submit">
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <!-- Nav links -->
+  <ul class="nav-menu">
+    <li class="dropdown">
+      <a href="#">Rings</a>
+      <div class="dropdown-panel">
+        <h6>Shop by Material</h6>
+        <a href="RINGman.html">Gold Man</a>
+        <a href="silvermenring.html">Silver Man</a>
+        <a href="ringsmanp.html">Platinum Man</a>
+        <a href="ringswoman.html">Gold Women</a>
+        <a href="ringwomans.html">Silver Women</a>
+        <a href="ringwomanp.html">Platinum Women</a>
+        <a href="couplegold.html">Couples Gold</a>
+        <a href="couplesilver.html">Couples Silver</a>
+        <a href="Couples platinum.html">Couples Platinum</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Chains</a>
+      <div class="dropdown-panel">
+        <h6>Shop by Material</h6>
+        <a href="manchaing.html">Man Gold</a>
+        <a href="manchaings.html">Man Silver</a>
+        <a href="womanchaing.html">Women Gold</a>
+        <a href="womanchains.html">Women Silver</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Earrings</a>
+      <div class="dropdown-panel">
+        <h6>Shop by Material</h6>
+        <a href="earrings.html">Gold Man</a>
+        <a href="earringss.html">Silver Man</a>
+        <a href="earringswomang.html">Gold Women</a>
+        <a href="earringswomans.html">Silver Women</a>
+        <a href="earringswomand.html">Diamond Women</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Necklaces</a>
+      <div class="dropdown-panel">
+        <h6>Shop by Material</h6>
+        <a href="neklesgoldwoman.html">Gold Women</a>
+        <a href="neklessilverwoman.html">Silver Women</a>
+        <a href="neklesdiamondwoman.html">Diamond Women</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Bangles</a>
+      <div class="dropdown-panel">
+        <h6>Shop by Material</h6>
+        <a href="kadaformang.html">Gold Man (Kada)</a>
+        <a href="kadaformans.html">Silver Man</a>
+        <a href="bangelswomang.html">Gold Women</a>
+        <a href="bangelswomans.html">Silver Women</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Pendants</a>
+      <div class="dropdown-panel">
+        <h6>Shop by Material</h6>
+        <a href="pedalsforman.php">Gold Man</a>
+        <a href="pendals for woman.php">Gold Women</a>
+        <a href="pedalsforcoulpe.php">Couples</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">New Arrivals</a>
+      <div class="dropdown-panel arrivals">
+        <h6>Latest Pieces</h6>
+        <div class="arrivals-imgs">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp68IMHfTzFZUPz_uA1DpnVqrhIqHfaiwhOg&s" alt="New arrival 1">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgGNOAtFMUMpDDXCo7pYPJ4UJsjGN3UNl-9A&s" alt="New arrival 2">
         </div>
       </div>
-      <script>
-        document.getElementById('login-btn').addEventListener('click', function() {
-          document.getElementById('login-form').style.display = 'block';
-          document.getElementById('register-form').style.display = 'none';
-        });
-        
-        document.getElementById('register-btn').addEventListener('click', function() {
-          document.getElementById('login-form').style.display = 'none';
-          document.getElementById('register-form').style.display = 'block';
-        });
-      </script>
+    </li>
+  </ul>
+
+  <!-- Icons -->
+  <div class="nav-icons">
+    <i class="ti ti-heart" title="Wishlist"></i>
+    <i class="ti ti-shopping-bag" title="Cart"></i>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-accent-line t"></div>
+  <div class="hero-accent-line b"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">New Collection 2025</div>
+    <h1>Crafted in<br><em>Pure Gold</em></h1>
+    <p class="hero-sub">Ahmedabad · Gujarat · Since 1998</p>
+    <p class="hero-desc">Every piece tells a story of heritage, craftsmanship, and timeless elegance — from the heart of Gujarat to your hands.</p>
+    <div class="hero-btns">
+      <a href="ringswoman.html" class="btn-gold">Shop Now</a>
+      <a href="manchaing.html" class="btn-ghost">For Men</a>
+    </div>
+  </div>
+
+  <div class="hero-img-side">
+    <img src="skin.png" alt="R.C. Soni Jewellery">
+    <div class="hero-img-badge">
+      <span class="badge-num">22K</span>
+      <span class="badge-txt">Pure Gold</span>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="sec-header">
+    <p class="sec-tag">Browse by Category</p>
+    <h2 class="sec-title">Our <em>Collections</em></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="cat-grid">
+    <a href="ringswoman.html" class="cat-item">
+      <i class="ti ti-circle-dashed cat-icon" aria-hidden="true"></i>
+      <div class="cat-name">Rings</div>
+      <div class="cat-sub">Gold · Silver · Platinum · Couples</div>
+      <i class="ti ti-arrow-right cat-arrow" aria-hidden="true"></i>
+    </a>
+    <a href="manchaing.html" class="cat-item">
+      <i class="ti ti-link cat-icon" aria-hidden="true"></i>
+      <div class="cat-name">Chains</div>
+      <div class="cat-sub">Men &amp; Women</div>
+      <i class="ti ti-arrow-right cat-arrow" aria-hidden="true"></i>
+    </a>
+    <a href="earringswomang.html" class="cat-item">
+      <i class="ti ti-diamond cat-icon" aria-hidden="true"></i>
+      <div class="cat-name">Earrings</div>
+      <div class="cat-sub">Gold · Silver · Diamond</div>
+      <i class="ti ti-arrow-right cat-arrow" aria-hidden="true"></i>
+    </a>
+    <a href="neklesgoldwoman.html" class="cat-item">
+      <i class="ti ti-hexagon cat-icon" aria-hidden="true"></i>
+      <div class="cat-name">Necklaces</div>
+      <div class="cat-sub">Gold · Silver · Diamond</div>
+      <i class="ti ti-arrow-right cat-arrow" aria-hidden="true"></i>
+    </a>
+    <a href="bangelswomang.html" class="cat-item">
+      <i class="ti ti-circle cat-icon" aria-hidden="true"></i>
+      <div class="cat-name">Bangles &amp; Kada</div>
+      <div class="cat-sub">Men &amp; Women</div>
+      <i class="ti ti-arrow-right cat-arrow" aria-hidden="true"></i>
+    </a>
+    <a href="pedalsforman.php" class="cat-item">
+      <i class="ti ti-medal cat-icon" aria-hidden="true"></i>
+      <div class="cat-name">Pendants</div>
+      <div class="cat-sub">Gold · Couples · Women</div>
+      <i class="ti ti-arrow-right cat-arrow" aria-hidden="true"></i>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="featured">
+  <div class="sec-header">
+    <p class="sec-tag">Handpicked For You</p>
+    <h2 class="sec-title"><em>Featured</em> Products</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="women">For Women</button>
+    <button class="filter-btn" data-filter="men">For Men</button>
+    <button class="filter-btn" data-filter="couples">Couples</button>
+  </div>
+
+  <div class="products-grid" id="products-grid">
+
+    <!-- Women -->
+    <div class="product-card" data-cat="women">
+      <div class="product-img">
+        <span class="product-badge">Bestseller</span>
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.Die_pcQqzJ99hHwLxtl1IgHaHa?rs=1&pid=ImgDetMain" alt="Gold Necklace">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Gold · 22K</div>
+        <div class="product-name">Gold Necklace</div>
+        <div class="product-footer">
+          <div class="product-price">₹4,999</div>
+          <a href="neklesgoldwoman.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="women">
+      <div class="product-img">
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.oAwpwHUywVmflmRGrsYeRwHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Gold Ring">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Gold · 18K</div>
+        <div class="product-name">Gold Ring</div>
+        <div class="product-footer">
+          <div class="product-price">₹9,999</div>
+          <a href="ringswoman.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="women">
+      <div class="product-img">
+        <span class="product-badge">New</span>
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.YQbrykEQYPm1kvjfklWhrwHaHa?w=206&h=205&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Silver Bracelet">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Silver · 925</div>
+        <div class="product-name">Silver Bracelet</div>
+        <div class="product-footer">
+          <div class="product-price">₹2,999</div>
+          <a href="bangelswomans.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Men -->
+    <div class="product-card" data-cat="men">
+      <div class="product-img">
+        <span class="product-badge">Bestseller</span>
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.1u914n2FUl35suFK8ygtGAHaHa?w=175&h=189&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Gold Chain">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Gold · 22K</div>
+        <div class="product-name">Gold Chain</div>
+        <div class="product-footer">
+          <div class="product-price">₹4,999</div>
+          <a href="manchaing.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="men">
+      <div class="product-img">
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.yLFozshG6mIqnF8utatc2gHaHa?rs=1&pid=ImgDetMain" alt="Gold Ring Men">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Gold · 18K</div>
+        <div class="product-name">Gold Ring</div>
+        <div class="product-footer">
+          <div class="product-price">₹9,999</div>
+          <a href="RINGman.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="men">
+      <div class="product-img">
+        <span class="product-badge">New</span>
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://images-na.ssl-images-amazon.com/images/I/51jQcR5RbSL._UY395_.jpg" alt="Silver Kada">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Silver · 925</div>
+        <div class="product-name">Silver Kada</div>
+        <div class="product-footer">
+          <div class="product-price">₹2,999</div>
+          <a href="kadaformans.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Couples -->
+    <div class="product-card" data-cat="couples">
+      <div class="product-img">
+        <span class="product-badge">New</span>
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.oAwpwHUywVmflmRGrsYeRwHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Couple Gold Ring">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Gold · Couple Set</div>
+        <div class="product-name">Couple Gold Rings</div>
+        <div class="product-footer">
+          <div class="product-price">₹17,999</div>
+          <a href="couplegold.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="couples">
+      <div class="product-img">
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.1u914n2FUl35suFK8ygtGAHaHa?w=175&h=189&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Couple Silver Ring">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Silver · Couple Set</div>
+        <div class="product-name">Couple Silver Rings</div>
+        <div class="product-footer">
+          <div class="product-price">₹8,999</div>
+          <a href="couplesilver.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="couples">
+      <div class="product-img">
+        <span class="product-badge">Luxury</span>
+        <i class="ti ti-heart product-wish" aria-label="Add to wishlist"></i>
+        <img src="https://th.bing.com/th/id/OIP.oAwpwHUywVmflmRGrsYeRwHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Couple Platinum Ring">
+      </div>
+      <div class="product-info">
+        <div class="product-mat">Platinum · Couple Set</div>
+        <div class="product-name">Platinum Rings</div>
+        <div class="product-footer">
+          <div class="product-price">₹24,999</div>
+          <a href="Couples platinum.html" class="product-link">View</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-item">
+    <i class="ti ti-shield-check"></i>
+    <div class="trust-title">BIS Hallmarked</div>
+    <div class="trust-desc">Certified purity on every single piece</div>
+  </div>
+  <div class="trust-item">
+    <i class="ti ti-truck-delivery"></i>
+    <div class="trust-title">Free Delivery</div>
+    <div class="trust-desc">On all orders above ₹999 across India</div>
+  </div>
+  <div class="trust-item">
+    <i class="ti ti-refresh"></i>
+    <div class="trust-title">Easy Returns</div>
+    <div class="trust-desc">Hassle-free 15-day return policy</div>
+  </div>
+  <div class="trust-item">
+    <i class="ti ti-headset"></i>
+    <div class="trust-title">24/7 Support</div>
+    <div class="trust-desc">Always here for your queries</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">R.C. Soni</div>
+      <p class="footer-about">Crafting timeless jewellery since 1998. Each piece is a symbol of tradition, love, and pure craftsmanship from the heart of Gujarat.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/r.c.sonijewellry?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="ti ti-brand-whatsapp"></i></a>
+        <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+        <a href="#" aria-label="Twitter/X"><i class="ti ti-brand-x"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="ringswoman.html">Rings</a></li>
+        <li><a href="manchaing.html">Chains</a></li>
+        <li><a href="earringswomang.html">Earrings</a></li>
+        <li><a href="neklesgoldwoman.html">Necklaces</a></li>
+        <li><a href="bangelswomang.html">Bangles</a></li>
+        <li><a href="pedalsforman.php">Pendants</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="about us.html">About Us</a></li>
+        <li><a href="service.html">Our Service</a></li>
+        <li><a href="contackus.html">Contact Us</a></li>
+        <li><a href="feedbackfrom.html">Reviews</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Support</div>
+      <ul class="footer-links">
+        <li><a href="POLICY.html">Privacy Policy</a></li>
+        <li><a href="POLICY.html">Return Policy</a></li>
+        <li><a href="contackus.html">Track Order</a></li>
+        <li><a href="feedbackfrom.html">Leave a Review</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 R.C. Soni Jewelry · Ahmedabad, Gujarat</div>
+    <div class="payment-row">
+      <span class="pay-pill"><img src="cc-visa-brands-solid.svg" alt="Visa"> Visa</span>
+      <span class="pay-pill"><img src="cc-mastercard-brands-solid.svg" alt="Mastercard"> Mastercard</span>
+      <span class="pay-pill"><img src="google-pay-brands-solid.svg" alt="GPay"> GPay</span>
+      <span class="pay-pill"><img src="paypal-brands-solid.svg" alt="PayPal"> PayPal</span>
+      <span class="pay-pill"><img src="cash-on-delivery.png" alt="COD"> COD</span>
+      <span class="pay-pill"><img src="building-columns-solid.svg" alt="Bank"> Bank</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Search redirect
+  function doSearch() {
+    const val = document.getElementById('search-input').value.trim();
+    const opt = document.querySelector('#search-list option[value="' + val + '"]');
+    if (opt) window.location.href = val;
+  }
+
+  // Product filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.product-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(c => {
+        c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+      });
+    });
+  });
+</script>
 </body>
-
-
-
 </html>
